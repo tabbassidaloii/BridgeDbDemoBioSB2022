@@ -4,4 +4,4 @@
 
 To see the planning for the BioSB demo click [here](https://docs.google.com/document/d/1oM4arC9J5fNvg_50x3-unjuJ0c6U4WX-54FW3ZNKdRg/edit?usp=sharing).
 
-The handsout and the tutorials for the conferences can be in this repository.
+The handouts and the tutorials for the BioSB demo can be in this repository.
