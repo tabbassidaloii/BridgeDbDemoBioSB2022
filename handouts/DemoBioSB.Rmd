@@ -1,0 +1,272 @@
+---
+title: "BridgeDb demo in BioSB 2022"
+output: html_notebook
+editor_options: 
+  chunk_output_type: console
+---
+
+The scripts below walks you thorough an example of mapping identifiers with BridgeDb to improve data interoperability:
+
+# Loading packages required
+```{r setup, include=FALSE}
+suppressPackageStartupMessages({
+  if(!"rmarkdown" %in% installed.packages()){install.packages("rmarkdown")}; library(rmarkdown)
+  if(!"dplyr" %in% installed.packages()){install.packages("dplyr")}; library(dplyr)
+  if(!"data.table" %in% installed.packages()){install.packages("data.table")}; library(data.table)
+  if(!require("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+  if(!"BridgeDbR" %in% installed.packages()){BiocManager::install("BridgeDbR")}; library(BridgeDbR)
+})
+
+knitr::opts_chunk$set(echo = TRUE)
+
+##Setting working directory to local github file
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+```
+
+### description about the dataset
+A short overview about the input tables used here (the preprocessing filtering steps or a link to the github page with the steps taken to generate the files used here)
+
+# 1. Loading the transcriptomic data 
+```{r loadingTranscriptomics}
+(dataset <- read.csv("inputData/table_UC.txt", as.is = T)) %>% head(3)
+rm(list = setdiff(ls(), "dataset"))
+```
+
+### Secondary to primary mapping for HGNC symbols
+
+### a. mapping the HGNC symbols to HGNC ids
+HGNC recycles the symbols (meaning there are identifiers (symbols) that are secondary for a certain entity -e.g the primary symbol is FYN and the secondary symbol is SLK- while the same identifiers are used as a primary symbol for another entity -SLK is a primary symbol. 
+This makes the mapping based on gene symbols challenging. 
+`Here We assumed when a symbol has a hgnc ID, it is primary and we only map those without a hgnc ID.`
+
+loading the HGNC derby database and adding the HGNC id to the dataset
+```{r HGNC-symbolToId}
+dbLocation = "derbyDatabase/hgnc_all.bridge"
+mapper <- loadDatabase(dbLocation)
+input <- data.frame(source= rep("H", length(dataset$GeneSymbol)),
+                     identifier = dataset$GeneSymbol)
+(hgnc <- maps(mapper, input, "Hac") %>% 
+    filter(isPrimary == "T")) %>% head(3)
+
+# checking the one-to-multiple mappings
+all(table(hgnc$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+
+# Adding HGNC id as a new column
+dataset$HGNC_Id <- hgnc$mapping[match(dataset$GeneSymbol, hgnc$identifier)]
+rm(list = setdiff(ls(), "dataset"))
+```
+
+```{r dataset1}
+head(dataset, 3)
+```
+
+### b. mapping secondary to primary symbols
+Mapping symbols without a HGNC id mapped
+
+```{r HGNC-secToPriSymbol.1}
+# loading the HGNC secondary id derby database
+dbLocation = "derbyDatabase/hgnc_all_secIds.bridge"
+mapper <- loadDatabase(dbLocation)
+input <- dataset$GeneSymbol [is.na(dataset$HGNC_Id)] 
+input <- data.frame(source = rep("H", length(input)),
+                    identifier = input)
+
+(hgnc <- maps(mapper, input, "H") %>% 
+    filter(isPrimary == "T")) %>% # Get only the ids that are annotated as primary (defined in BridgeDb java library)
+  head(3)
+
+# checking the one-to-multiple mappings
+all(table(hgnc$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+```
+
+Checking the reason that the secondary symbol mapped to multiple primary symbols
+
+```{r HGNC-1toM.1}
+table(hgnc$identifier)[table(hgnc$identifier)>1]
+hgnc [hgnc$identifier == "AGPAT9", ]
+#            source identifier target mapping isPrimary
+# H:GPAT3:T       H     AGPAT9      H   GPAT3         T
+# H:LPCAT1:T      H     AGPAT9      H  LPCAT1         T
+```
+
+In this example where we manually checked:
+GPAT3 is the Previous symbol (this field displays any symbols that were previously HGNC-approved nomenclature.)
+LPCAT1 is the Alias symbol (Alternative symbols that have been used to refer to the gene. Aliases may be from literature, from other databases or may be added to represent membership of a gene group.)
+
+```{r HGNC-1toM.2}
+hgnc [hgnc$identifier == "U3", ]
+```
+
+This is an example of using the same alias for 4 different HGNC genes
+
+The issue of one-to-multiple mappings could not be easily fixed (needs manual check) and emphasizes on the importance of using unique, persistent, resolvable identifiers. 
+
+We then checked whether the primary symbols mapped are already present in the gene expression data 
+
+```{r HGNC-secToPriSymbol.2}
+all(!hgnc$mapping %in% dataset$GeneSymbol)#True if the mapped id doesn't annotate another gene and is not present in the dataset, otherwise FALSE
+```
+
+Some of the primary symbols are already presented in the dataset (used as primary symbol for another gene). This shows another limitation of using gene symbols as identifiers, and to avoid the duplicated gene symbols we only mapped those symbols that are not presented in the dataset. 
+
+```{r HGNC-secToPriSymbol.3}
+hgnc <- hgnc [!hgnc$mapping %in% dataset$GeneSymbol,] 
+dataset$Current_GeneSymbol <- hgnc$mapping[match(dataset$GeneSymbol, hgnc$identifier)]
+dataset$Current_GeneSymbol [is.na(dataset$Current_GeneSymbol)] = dataset$GeneSymbol [is.na(dataset$Current_GeneSymbol)]
+```
+
+Checking the proportion of genes with new gene symbol
+
+```{r HGNC-secToPriSymbol.4}
+table(dataset$Current_GeneSymbol == dataset$GeneSymbol)/length(dataset$Current_GeneSymbol) # No of genes with new gene symbol
+rm(list = setdiff(ls(), "dataset"))
+```
+
+around %6 of genes are annotated with a primary id
+
+```{r dataset2}
+head(dataset, 3)
+```
+
+### c. mapping HGNC symbols to entrez IDs
+We use the derby gene protein database created using Ensembl BioMart.
+
+```{r SymbolToEntrez.1}
+# Loading the derby database to map HGNC symbols to entrez IDs
+dbLocation = "derbyDatabases/Hs_Derby_Ensembl_105.bridge"
+mapper <- loadDatabase(dbLocation)
+# Without secondary to primary mapping
+input <- data.frame(source= rep("H", length(dataset$GeneSymbol)),
+                    identifier = dataset$GeneSymbol)
+(hgnc1 <- maps(mapper, input, "L")) %>% head(3)
+# With secondary to primary mapping
+input <- data.frame(source= rep("H", length(dataset$Current_GeneSymbol)),
+                    identifier = dataset$Current_GeneSymbol)
+(hgnc2 <- maps(mapper, input, "L")) %>% head(3)
+# checking the one-to-multiple mappings
+all(table(hgnc1$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+all(table(hgnc2$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+```
+
+Checking the reason that the gene symbol mapped to multiple entrez IDs
+
+```{r entrez-1toM.1}
+table(hgnc1$identifier)[table(hgnc1$identifier)>1]
+hgnc1 [hgnc1$identifier == "ACBD6", ]
+#               source identifier target   mapping isPrimary
+# L:100527964:T      H      ACBD6      L 100527964         T
+# L:84320:T          H      ACBD6      L     84320         T
+```
+
+LHX4-AS1 (entrez ID = 100527964) is NCBI gene (formerly Entrezgene)	for ACBD6 (entrez ID = 84320)  
+
+`note`: Ensembl BioMart gives 100527964 as entrez ID for ACBD6, which is an example of incorrect mapping in Ensembl database
+
+Adding entrez ID based on both GeneSymbol and Current_GeneSymbol columns to compare the impact of secondary id mapping on the pathway analysis
+```{r SymbolToEntrez.2}
+dataset$ENTREZ.ID <- hgnc1$mapping[match(dataset$GeneSymbol, hgnc1$identifier)]
+dataset$ENTREZ.ID_secMapping <- hgnc2$mapping[match(dataset$Current_GeneSymbol, hgnc2$identifier)]
+
+# Check the entrez ID mapped to multiple gene
+table(dataset$ENTREZ.ID_secMapping)[table(dataset$ENTREZ.ID_secMapping)>1]
+dataset[dataset$ENTREZ.ID_secMapping %in% c ("387680", "6606", "728340"),]
+```
+The current (primary id) for both FAM21A and FAM21B is WASHC2A.
+
+The incorrect mapping problem for 4 other genes is coming from ensembl.
+Output from Ensembl BioMart
+
+Gene stable ID|Gene name|NCBI gene (formerly Entrezgene) ID
+--- | --- | --- 
+ENSG00000183474|GTF2H2C|728340
+ENSG00000276910|GTF2H2|2966
+ENSG00000276910|GTF2H2|728340
+ENSG00000275045|GTF2H2|2966
+ENSG00000275045|GTF2H2|728340
+ENSG00000145736|GTF2H2|2966
+ENSG00000145736|GTF2H2|728340
+ENSG00000275349|SMN1|6606
+ENSG00000172062|SMN1|6606
+ENSG00000273772|SMN2|6606
+ENSG00000273772|SMN2|6607
+ENSG00000277773|SMN2|6606
+ENSG00000277773|SMN2|6607
+ENSG00000205571|SMN2|6606
+ENSG00000205571|SMN2|6607
+
+
+Checking the proportion of genes with entrez ID with and without secondary mapping
+```{r SymbolToEntrez.2}
+length(unique(dataset$ENTREZ.ID_secMapping))/length(dataset$GeneSymbol)
+length(unique(dataset$ENTREZ.ID))/length(dataset$GeneSymbol)
+```
+
+around %5 more genes (879 genes) have entrez ID after primary to secondary mapping.
+
+# 2. Loading the metabolomic data 
+
+```{r loadingMetabolomics}
+mbxData <- fread("inputData/mbxData.txt")
+mbxData[1:4, 1:7]
+```
+
+### Secondary to primary mapping for HMDB IDs
+
+### a. mapping the HMDB IDs in the table (secondary ids) to primary HMDB IDs
+
+loading the HMDB derby database and adding the primary HMDB IDs to the mbxData
+
+```{r hmdb-secToPriID.1}
+dbLocation = "derbyDatabase/hmdb.bridge"
+mapper <- loadDatabase(dbLocation)
+
+input <- data.frame(source= rep("Ch", length(unique(mbxData$HMDB.ID))),
+                    identifier = gsub("\\*", "", unique(mbxData$HMDB.ID)))
+
+(hmdb <- maps(mapper, input, "Ch") %>% 
+    filter(identifier != mapping) %>%
+    filter(isPrimary == "T")) %>%
+  head(3)
+
+# checking the one-to-multiple mappings
+all(table(hmdb$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+
+# Adding current HMDB ID as a new column
+mbxData$Current_HMDB.ID <- hmdb$mapping[match(mbxData$HMDB.ID, hmdb$identifier)]
+rm(list = setdiff(ls(), c ("mbxData", "hmdb", "mapper")))
+```
+
+Checking if all the secondary HMDB ids are mapped to a primary ID
+
+```{r hmdb-secToPriID.2}
+mbxData[is.na(mbxData$Current_HMDB.ID), c("HMDB.ID", "Compound.Name", "Current_HMDB.ID")]
+```
+
+There is only one metabolite with no primary ID.
+Trying to map it using the Compound.Name
+
+```{r hmdb-secToPriID.3}
+input <- c (mbxData$Compound.Name[is.na(mbxData$Current_HMDB.ID)], sub("(.)", "\\U\\1", mbxData$Compound.Name[is.na(mbxData$Current_HMDB.ID)], perl=TRUE)) #making sure that the metabolite would be mapped if in the database it starts with a capital letter
+
+input <- data.frame(source = rep("O", length(input)), # we used O as system code for compound names when we create the derby database
+                    identifier = input)
+
+(hmdb = maps(mapper, input, "O") %>%
+    filter(identifier != mapping) %>%
+    filter(isPrimary == "T"))
+```
+
+The current name for Diacetylspermine in HMDB is N1,N12-Diacetylspermine
+
+```{r hmdb-secToPriID.4}
+(hmdb = maps(mapper, input, "Ch") %>%
+    filter(identifier != mapping) %>%
+    filter(isPrimary == "T"))
+```
+
+And the current id is HMDB0002172. Adding the current id to the mbxData
+
+```{r hmdb-secToPriID.4}
+mbxData$Current_HMDB.ID[mbxData$Compound.Name == "diacetylspermine"] = hmdb$mapping
+```
+
