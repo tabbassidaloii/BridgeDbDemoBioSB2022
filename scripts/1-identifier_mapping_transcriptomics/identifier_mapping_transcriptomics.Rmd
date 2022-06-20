@@ -1,7 +1,8 @@
 ---
-title: "identifier_mapping_transcriptomics"
+title: "Identifier mapping (transcriptomics)"
 author: 
 - "DeniseSl22"
+- "tabbassidaloii"
 - "ddedesener"
 date: "20/06/2022"
 output:
@@ -18,14 +19,14 @@ We use two tools for this mapping; first we use org.Hs.eg.db [doi:10.18129/B9.bi
 
 ## R environment setup
 ```{r setup, warning=FALSE, message=FALSE}
-# check if libraries are already installed > otherwise install it
-if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+# check if libraries are already installed, otherwise install it
+if(!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"org.Hs.eg.db" %in% installed.packages()) BiocManager::install("org.Hs.eg.db")  
 if(!"AnnotationDbi" %in% installed.packages()) BiocManager::install("AnnotationDbi")
-if(!"dplyr" %in% installed.packages()){install.packages("dplyr")}
+if(!"dplyr" %in% installed.packages()) install.packages("dplyr")
 
-#loading installed libraries
+#load installed libraries
 library(rstudioapi) # interface for interacting with RStudio IDE with R code.
 library(org.Hs.eg.db) #This is the organism annotation package ("org") for Homo sapiens ("Hs"), organized as an AnnotationDbi   package ("db"), using Entrez Gene IDs ("eg") as primary key.
 library(AnnotationDbi) # for connecting and querying annotation databases
@@ -39,25 +40,30 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 The data will be read for the disease on two biopsy locations
 ```{r dataset, warning=FALSE, message=FALSE}
 #we have four datasets, two different disorders and two different biopsy locations
-dataset1 <- read.delim("data/table_UC_Ileum_vs_nonIBD_Ileum.tab")
-dataset2 <- read.delim("data/table_UC_Rectum_vs_nonIBD_Rectum.tab")
-dataset3 <- read.delim("data/table_CD_Ileum_vs_nonIBD_Ileum.tab")
-dataset4 <- read.delim("data/table_CD_Rectum_vs_nonIBD_Rectum.tab")
+#Reading the files for UC disorder
+(filenames <- list.files("data", pattern = "UC", full.names = TRUE)) #Printing the file names
+dataset_UC <- lapply(filenames, read.delim) #Reading the files
 
-#filter out  unused columns, we select geneSymbol, log2FC and pvalue
-dataset_ileum_CD <- subset( dataset3, select = c(1,3,7))
-dataset_rectum_CD <- subset( dataset4, select = c(1,3,7))
+#filter out  unused columns, we select geneSymbol, log2FC and pvalue and
+#merge two dataset of two locations into one datafile per disorder
+dataset_UC <- merge(dataset_UC[[1]] %>% select ("X", "FoldChange", "padj"), #Merging and sub-setting the columns required
+                    dataset_UC[[2]] %>% select ("X", "FoldChange", "padj"),
+                    by = "X", all = TRUE)
 
-dataset_ileum_UC<- subset( dataset1, select = c(1,3,7))
-dataset_rectum_UC<- subset( dataset2, select = c(1,3,7))
+#Reading the files for CD disorder
+(filenames <- list.files("data", pattern = "CD", full.names = TRUE)) #Printing the file names
+dataset_CD <- lapply(filenames, read.delim) #Reading the files
 
-#merge two dataset of two locations into one datafile per disorder 
-dataset_CD <- merge(dataset_ileum_CD, dataset_rectum_CD ,by.x="X", by.y="X",sort = TRUE, all.x = TRUE, all.y = TRUE)
-dataset_UC <- merge(dataset_ileum_UC, dataset_rectum_UC ,by.x="X", by.y="X",sort = TRUE, all.x = TRUE, all.y = TRUE)
+#filter out  unused columns, we select geneSymbol, log2FC and pvalue and
+#merge two dataset of two locations into one datafile
+dataset_CD <- merge(dataset_CD[[1]] %>% select ("X", "FoldChange", "padj"), #Merging and sub-setting the columns required
+                    dataset_CD[[2]] %>% select ("X", "FoldChange", "padj"),
+                    by = "X", all = TRUE)
 
 #change column names
-colnames(dataset_CD) <- c("GeneSymbol","log2FC_ileum","pvalue_ileum","log2FC_rectum","pvalue_rectum")
-colnames(dataset_UC) <- c("GeneSymbol","log2FC_ileum","pvalue_ileum","log2FC_rectum","pvalue_rectum")
+colnames(dataset_CD) <- colnames(dataset_UC) <- c("GeneSymbol","log2FC_ileum","pvalue_ileum","log2FC_rectum","pvalue_rectum")
+
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD"))) # removing variables that are not required
 ```
 
 ## Converting hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs
@@ -65,25 +71,26 @@ colnames(dataset_UC) <- c("GeneSymbol","log2FC_ileum","pvalue_ileum","log2FC_rec
 #converting gene symbols to entrez ID since these are required for the enrichR function
 hs <- org.Hs.eg.db #This object is a simple mapping of Entrez Gene identifier
 
+# check if all the gene symbols are the same in both datasets
+all(dataset_CD$GeneSymbol == dataset_UC$GeneSymbol) 
+##same gene symbols, so mapping based on one of the files 
 entrezID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol,
             columns = c("ENTREZID", "SYMBOL"),
             keytype = "SYMBOL")
+
 #store double mapping info
 entrezID_doubles <- (length((na.omit(entrezID$SYMBOL))) - length(unique(na.omit(entrezID$SYMBOL))))
+# entrezID_doubles <- names (table(entrezID$SYMBOL)[table(entrezID$SYMBOL) > 1])
+# entrezID [entrezID$SYMBOL %in% entrezID_doubles,] # If you want to see which genes have duplicated Entrez Gene identifier
+
 #filter out double gene symbols
 entrezID <- entrezID %>% distinct (entrezID$SYMBOL, .keep_all = TRUE)
 
-##CD
 # add entrezIDs for each gene symbol in the dataset
-dataset_CD <- cbind(entrezID$ENTREZID,dataset_CD)
-#change column name
-colnames(dataset_CD)[1] = "ENTREZ.ID_org.Hs"
-##UC
-# add entrezIDs for each gene symbol in the dataset
-dataset_UC <- cbind(entrezID$ENTREZID,dataset_UC)
-#change column name
-colnames(dataset_UC)[1] = "ENTREZ.ID_org.Hs"
+dataset_CD$ENTREZ.ID_org.Hs <- entrezID$ENTREZID [match (dataset_CD$GeneSymbol, entrezID$SYMBOL)] 
+dataset_UC$ENTREZ.ID_org.Hs <- entrezID$ENTREZID [match (dataset_UC$GeneSymbol, entrezID$SYMBOL)] 
 
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles", "hs"))) # removing variables that are not required
 ```
 
 ## Converting hgnc gene symbols to the corresponding Ensembl IDs
