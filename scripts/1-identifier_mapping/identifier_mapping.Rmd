@@ -114,11 +114,15 @@ colnames(dataset_UC)[1] = "Ensembl.ID_org.Hs"
 ##HGNC_originalData
 paste0("The total number of datapoints for the transcriptomics dataset is: ", nrow(dataset_CD))
 paste0("The total number of unique HGNC Symbol IDs for the transcriptomics dataset is: ", length(unique(na.omit(dataset_CD$GeneSymbol))))
+paste0("~~~~~")
 ##Entrez_org.Hs
+paste0("The total number of missing mappings for HGNC Symbol to Entrez IDs from the org.Hs mapping is: ", sum(is.na(dataset_CD$ENTREZ.ID_org.Hs)))
 paste0("The total number of Entrez IDs from the org.Hs mapping is: ", (nrow(dataset_CD)-sum(is.na(dataset_CD$ENTREZ.ID_org.Hs))))
 paste0("The total number of unique Entrez IDs from the org.Hs mapping is: ", length(unique(na.omit(dataset_CD$ENTREZ.ID_org.Hs))))
 paste0("The total number of double (one to many) mappings for Entrez IDs from the org.Hs mapping is: ", entrezID_doubles)
+paste0("~~~~~")
 ##Ensembl_org.Hs
+paste0("The total number of missing mappings for HGNC Symbol to Ensembl IDs from the org.Hs mapping is: ", sum(is.na(dataset_CD$Ensembl.ID_org.Hs)))
 paste0("The total number of Ensembl IDs from the org.Hs mapping is: ", (nrow(dataset_CD)-sum(is.na(dataset_CD$Ensembl.ID_org.Hs))))
 paste0("The total number of unique Ensembl IDs from the org.Hs mapping is: ", length(unique(na.omit(dataset_CD$Ensembl.ID_org.Hs))))
 paste0("The total number of double (one to many) mappings for Ensembl IDs from the org.Hs mapping is: ", ensemblID_doubles)
