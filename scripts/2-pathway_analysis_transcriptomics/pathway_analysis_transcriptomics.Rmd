@@ -147,9 +147,7 @@ select distinct ?pathwayRes (str(?wpid) as ?pathway) (str(?title) as ?pathwayTit
 where {
 VALUES ?geneId {"
 item2 = "}
-  ?gene a wp:GeneProduct ;
-    dcterms:identifier ?id ;
-    dcterms:isPartOf ?pathwayRes ;"
+  ?gene dcterms:isPartOf ?pathwayRes ;"
 item3_HGNC= "
     wp:bdbHgncSymbol ?geneId ."
 item3_ENTREZ= "
