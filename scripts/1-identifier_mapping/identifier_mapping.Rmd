@@ -114,11 +114,23 @@ ensemblID <- ensemblID %>% distinct (ensemblID$SYMBOL, .keep_all = TRUE)
 dataset_UC <- cbind(ensemblID$ENSEMBL,dataset_UC)
 #change column name
 colnames(dataset_UC)[1] = "Ensembl.ID_org.Hs"
-
-
-##TODO: add NA removal before PW analysis (and network analysis?)
-##TODO: print some stats on mapping (issues)
 ```
+
+##Mapping stats:
+```{r mapping stats,warning=FALSE, message=FALSE}
+##HGNC_originalData
+paste0("The total number of datapoints for the transcriptomics dataset is: ", nrow(dataset_CD))
+paste0("The total number of unique HGNC Symbol IDs for the transcriptomics dataset is: ", length(unique(na.omit(dataset_CD$GeneSymbol))))
+##Entrez_org.Hs
+paste0("The total number of Entrez IDs from the org.Hs mapping is: ", (nrow(dataset_CD)-sum(is.na(dataset_CD$ENTREZ.ID_org.Hs))))
+paste0("The total number of unique Entrez IDs from the org.Hs mapping is: ", length(unique(na.omit(dataset_CD$ENTREZ.ID_org.Hs))))
+##Ensembl_org.Hs
+paste0("The total number of Ensembl IDs from the org.Hs mapping is: ", (nrow(dataset_CD)-sum(is.na(dataset_CD$Ensembl.ID_org.Hs))))
+paste0("The total number of unique Ensembl IDs from the org.Hs mapping is: ", length(unique(na.omit(dataset_CD$Ensembl.ID_org.Hs))))
+
+```
+
+
 
 ##Save data, print session info and remove large datasets:
 ```{r print_session_info}
