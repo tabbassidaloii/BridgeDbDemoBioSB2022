@@ -14,7 +14,7 @@ In this section, identifier (IDs) mapping is performed on an example transcripto
 The dataset has been preprocessed already, for details see step 1 and 2 of the multi-omics workflow at: https://github.com/BiGCAT-UM/Transcriptomics_Metabolomics_Analysis/tree/master/transcriptomics_analysis .
 We map the HGNC symbols to Entrez Gene and Ensembl IDs, since tools downstream of this step require different input formats for the IDs.
 
-We use two tools for this mapping; first we use org.Hs.eg.db and AnnotationDbi; second we use BridgeDb
+We use two tools for this mapping; first we use org.Hs.eg.db [doi:10.18129/B9.bioc.org.Hs.eg.db] and AnnotationDbi; second we use BridgeDb [doi:10.18129/B9.bioc.BridgeDbR].
 
 ## R environment setup
 ```{r setup, warning=FALSE, message=FALSE}
@@ -127,6 +127,12 @@ paste0("The total number of unique Entrez IDs from the org.Hs mapping is: ", len
 ##Ensembl_org.Hs
 paste0("The total number of Ensembl IDs from the org.Hs mapping is: ", (nrow(dataset_CD)-sum(is.na(dataset_CD$Ensembl.ID_org.Hs))))
 paste0("The total number of unique Ensembl IDs from the org.Hs mapping is: ", length(unique(na.omit(dataset_CD$Ensembl.ID_org.Hs))))
+
+##Citation org.Hs:
+citation("org.Hs.eg.db")
+
+##Citation BridgeDb:
+citation("BridgeDbR")
 
 ```
 
