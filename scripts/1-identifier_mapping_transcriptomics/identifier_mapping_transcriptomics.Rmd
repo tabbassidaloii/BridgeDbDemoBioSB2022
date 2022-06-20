@@ -142,7 +142,7 @@ write.table(dataset_CD, file="results/IDMapping_CD",
             sep = "\t" ,quote = FALSE, row.names = FALSE)
 
 #UC
-write.table(dataset_CD, file="results/IDMapping_UC",
+write.table(dataset_UC, file="results/IDMapping_UC",
             sep = "\t" ,quote = FALSE, row.names = FALSE)
 
 ##Print session info:
