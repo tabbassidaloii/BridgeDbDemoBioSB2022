@@ -1,0 +1,139 @@
+---
+title: "identifier_mapping_transcriptomics"
+author: 
+- "DeniseSl22"
+- "ddedesener"
+date: "20/06/2022"
+output:
+ md_document:
+    variant: markdown_github
+always_allow_html: true
+---
+## Introduction
+In this section, identifier (IDs) mapping is performed on an example transcriptomics data set, which was original annotated using HGNC symbols.
+The dataset has been preprocessed already, for details see step 1 and 2 of the multi-omics workflow at: https://github.com/BiGCAT-UM/Transcriptomics_Metabolomics_Analysis/tree/master/transcriptomics_analysis .
+We map the HGNC symbols to Entrez Gene and Ensembl IDs, since tools downstream of this step require different input formats for the IDs.
+
+We use two tools for this mapping; first we use org.Hs.eg.db and AnnotationDbi; second we use BridgeDb
+
+## R environment setup
+```{r setup, warning=FALSE, message=FALSE}
+# check if libraries are already installed > otherwise install it
+if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
+if(!"org.Hs.eg.db" %in% installed.packages()) BiocManager::install("org.Hs.eg.db")  
+if(!"AnnotationDbi" %in% installed.packages()) BiocManager::install("AnnotationDbi")
+if(!"dplyr" %in% installed.packages()){install.packages("dplyr")}
+
+#loading installed libraries
+library(rstudioapi) # interface for interacting with RStudio IDE with R code.
+library(org.Hs.eg.db) #This is the organism annotation package ("org") for Homo sapiens ("Hs"), organized as an AnnotationDbi   package ("db"), using Entrez Gene IDs ("eg") as primary key.
+library(AnnotationDbi) # for connecting and querying annotation databases
+library(dplyr)
+
+# set your working environment to the location where your current source file is saved into.
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+```
+
+## Importing dataset
+The data will be read for the disease on two biopsy locations
+```{r dataset, warning=FALSE, message=FALSE}
+#we have four datasets, two different disorders and two different biopsy locations
+dataset1 <- read.delim("data/table_UC_Ileum_vs_nonIBD_Ileum.tab")
+dataset2 <- read.delim("data/table_UC_Rectum_vs_nonIBD_Rectum.tab")
+dataset3 <- read.delim("data/table_CD_Ileum_vs_nonIBD_Ileum.tab")
+dataset4 <- read.delim("data/table_CD_Rectum_vs_nonIBD_Rectum.tab")
+
+#filter out  unused columns, we select geneSymbol, log2FC and pvalue
+dataset_ileum_CD <- subset( dataset3, select = c(1,3,7))
+dataset_rectum_CD <- subset( dataset4, select = c(1,3,7))
+
+dataset_ileum_UC<- subset( dataset1, select = c(1,3,7))
+dataset_rectum_UC<- subset( dataset2, select = c(1,3,7))
+
+#merge two dataset of two locations into one datafile per disorder 
+dataset_CD <- merge(dataset_ileum_CD, dataset_rectum_CD ,by.x="X", by.y="X",sort = TRUE, all.x = TRUE, all.y = TRUE)
+dataset_UC <- merge(dataset_ileum_UC, dataset_rectum_UC ,by.x="X", by.y="X",sort = TRUE, all.x = TRUE, all.y = TRUE)
+
+#change column names
+colnames(dataset_CD) <- c("GeneSymbol","log2FC_ileum","pvalue_ileum","log2FC_rectum","pvalue_rectum")
+colnames(dataset_UC) <- c("GeneSymbol","log2FC_ileum","pvalue_ileum","log2FC_rectum","pvalue_rectum")
+```
+
+## Converting hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs
+```{r converting_entrez,warning=FALSE, message=FALSE}
+#converting gene symbols to entrez ID since these are required for the enrichR function
+hs <- org.Hs.eg.db #This object is a simple mapping of Entrez Gene identifier
+
+##CD
+entrezID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol,
+            columns = c("ENTREZID", "SYMBOL"),
+            keytype = "SYMBOL")
+#filter out double gene symbols
+entrezID <- entrezID %>% distinct (entrezID$SYMBOL, .keep_all = TRUE)
+# add entrezIDs for each gene symbol in the dataset
+dataset_CD <- cbind(entrezID$ENTREZID,dataset_CD)
+#change column name
+colnames(dataset_CD)[1] = "ENTREZ.ID_org.Hs"
+
+##UC
+entrezID <- AnnotationDbi::select(hs, keys = dataset_UC$GeneSymbol,
+            columns = c("ENTREZID", "SYMBOL"),
+            keytype = "SYMBOL")
+#filter out double gene symbols
+entrezID <- entrezID %>% distinct (entrezID$SYMBOL, .keep_all = TRUE)
+# add entrezIDs for each gene symbol in the dataset
+dataset_UC <- cbind(entrezID$ENTREZID,dataset_UC)
+#change column name
+colnames(dataset_UC)[1] = "ENTREZ.ID_org.Hs"
+
+```
+
+## Converting hgnc gene symbols to the corresponding Ensembl IDs
+```{r converting_ensembl,warning=FALSE, message=FALSE}
+#converting gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
+
+#CD
+ensemblID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol,
+            columns = c("ENSEMBL", "SYMBOL"),
+            keytype = "SYMBOL")
+#filter out double gene symbols
+ensemblID <- ensemblID %>% distinct (ensemblID$SYMBOL, .keep_all = TRUE)
+# add entrezIDs for each gene symbol in the dataset
+dataset_CD <- cbind(ensemblID$ENSEMBL,dataset_CD)
+#change column name
+colnames(dataset_CD)[1] = "Ensembl.ID_org.Hs"
+
+#UC
+ensemblID <- AnnotationDbi::select(hs, keys = dataset_UC$GeneSymbol,
+            columns = c("ENSEMBL", "SYMBOL"),
+            keytype = "SYMBOL")
+#filter out double gene symbols
+ensemblID <- ensemblID %>% distinct (ensemblID$SYMBOL, .keep_all = TRUE)
+# add entrezIDs for each gene symbol in the dataset
+dataset_UC <- cbind(ensemblID$ENSEMBL,dataset_UC)
+#change column name
+colnames(dataset_UC)[1] = "Ensembl.ID_org.Hs"
+
+
+##TODO: add NA removal before PW analysis (and network analysis?)
+##TODO: print some stats on mapping (issues)
+```
+
+##Save data, print session info and remove large datasets:
+```{r print_session_info}
+##Save data: exporting results to the file
+#CD
+write.table(dataset_CD, file="results/IDMapping_CD",
+            sep = "\t" ,quote = FALSE, row.names = FALSE)
+
+#UC
+write.table(dataset_CD, file="results/IDMapping_UC",
+            sep = "\t" ,quote = FALSE, row.names = FALSE)
+
+##Print session info:
+sessionInfo()
+
+##Remove data objects which are not needed for further processing:
+rm(list=setdiff(ls(), c("dataset_CD", "dataset_UC", "work_DIR")))
+```
