@@ -80,6 +80,8 @@ colnames(dataset_CD)[1] = "ENTREZ.ID_org.Hs"
 entrezID <- AnnotationDbi::select(hs, keys = dataset_UC$GeneSymbol,
             columns = c("ENTREZID", "SYMBOL"),
             keytype = "SYMBOL")
+#store double mapping info
+entrezID_doubles <- (length((na.omit(entrezID$SYMBOL))) - length(unique(na.omit(entrezID$SYMBOL))))
 #filter out double gene symbols
 entrezID <- entrezID %>% distinct (entrezID$SYMBOL, .keep_all = TRUE)
 # add entrezIDs for each gene symbol in the dataset
@@ -108,6 +110,8 @@ colnames(dataset_CD)[1] = "Ensembl.ID_org.Hs"
 ensemblID <- AnnotationDbi::select(hs, keys = dataset_UC$GeneSymbol,
             columns = c("ENSEMBL", "SYMBOL"),
             keytype = "SYMBOL")
+#store double mapping info
+ensemblID_doubles <- (length((na.omit(ensemblID$SYMBOL))) - length(unique(na.omit(ensemblID$SYMBOL))))
 #filter out double gene symbols
 ensemblID <- ensemblID %>% distinct (ensemblID$SYMBOL, .keep_all = TRUE)
 # add entrezIDs for each gene symbol in the dataset
@@ -124,9 +128,11 @@ paste0("The total number of unique HGNC Symbol IDs for the transcriptomics datas
 ##Entrez_org.Hs
 paste0("The total number of Entrez IDs from the org.Hs mapping is: ", (nrow(dataset_CD)-sum(is.na(dataset_CD$ENTREZ.ID_org.Hs))))
 paste0("The total number of unique Entrez IDs from the org.Hs mapping is: ", length(unique(na.omit(dataset_CD$ENTREZ.ID_org.Hs))))
+paste0("The total number of double (one to many) mappings for Entrez IDs from the org.Hs mapping is: ", entrezID_doubles)
 ##Ensembl_org.Hs
 paste0("The total number of Ensembl IDs from the org.Hs mapping is: ", (nrow(dataset_CD)-sum(is.na(dataset_CD$Ensembl.ID_org.Hs))))
 paste0("The total number of unique Ensembl IDs from the org.Hs mapping is: ", length(unique(na.omit(dataset_CD$Ensembl.ID_org.Hs))))
+paste0("The total number of double (one to many) mappings for Ensembl IDs from the org.Hs mapping is: ", ensemblID_doubles)
 
 ##Citation org.Hs:
 citation("org.Hs.eg.db")
