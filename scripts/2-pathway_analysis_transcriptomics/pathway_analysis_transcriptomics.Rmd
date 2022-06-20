@@ -1,0 +1,198 @@
+---
+title: "identifier_mapping_transcriptomics"
+author: 
+- "DeniseSl22"
+date: "20/06/2022"
+output:
+ md_document:
+    variant: markdown_github
+always_allow_html: true
+---
+## Introduction
+In this section, we will map the significantly changed transcripts to pathways from the WikiPathways and Reactome collection, in order to investigate the potential difference in statistical calculations depending on the input identifiers (IDs). We will work with three IDs: HGNC symbols, Entrez (NCBI) gene IDs and Ensembl. The first was present in the original dataset, while the second and third are generated with different mapping tools (org.Hs and BridgeDbR). We will use the SPARQL endpoint interface to compare our dataset to the content of both pathway databases. Other approaches exist (e.g. gProfiler), however not all of these approaches allow performing their analysis with different identifiers.
+
+## R environment setup
+```{r setup, warning=FALSE, message=FALSE}
+# check if libraries are already installed > otherwise install it
+if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
+if(!"dplyr" %in% installed.packages()){install.packages("dplyr")}
+
+#loading installed libraries
+library(rstudioapi) # interface for interacting with RStudio IDE with R code.
+library(dplyr)
+
+# set your working environment to the location where your current source file is saved into.
+setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+```
+
+## Importing dataset and significance
+The data from step 1 will be read in and further processed. For a fairer comparison, we report how many rows per ID type contain a significantly changed transcript.
+```{r dataset, warning=FALSE, message=FALSE}
+#we have four datasets, two different disorders and two different biopsy locations
+dataset_CD <- read.delim("data/IDMapping_CD")
+dataset_UC <- read.delim("data/IDMapping_UC")
+
+#The following selection criteria will be used to determine the significantly changed transcripts Fold change=1.5,log2FC=0.58 and p.value < 0.05.
+
+#CD:
+##HGNC_Symbols:
+dataset_HGNC_CD <- dataset_CD[,c(3,4,5,6,7)]
+###ileum location
+sig.genes.ileum_HGNC_CD   <- dataset_HGNC_CD[(dataset_HGNC_CD$log2FC_ileum >= 0.58 | dataset_HGNC_CD$log2FC_ileum <= -0.58) & dataset_HGNC_CD$pvalue_ileum < 0.05, 1] 
+###rectum location
+sig.genes.rectum_HGNC_CD   <- dataset_HGNC_CD[(dataset_HGNC_CD$log2FC_rectum >= 0.58 | dataset_HGNC_CD$log2FC_rectum <= -0.58) & dataset_HGNC_CD$pvalue_rectum < 0.05, 1] 
+
+##Entrez:
+dataset_ENTREZ_CD <- dataset_CD[,c(2,4,5,6,7)]
+dataset_ENTREZ_CD <- dataset_ENTREZ_CD %>% 
+  filter(!is.na(ENTREZ.ID_org.Hs))
+###ileum location
+sig.genes.ileum_ENTREZ_CD   <- dataset_ENTREZ_CD[(dataset_ENTREZ_CD$log2FC_ileum >= 0.58 | dataset_ENTREZ_CD$log2FC_ileum <= -0.58) & dataset_ENTREZ_CD$pvalue_ileum < 0.05, 1] 
+###rectum location
+sig.genes.rectum_ENTREZ_CD   <- dataset_ENTREZ_CD[(dataset_ENTREZ_CD$log2FC_rectum >= 0.58 | dataset_ENTREZ_CD$log2FC_rectum <= -0.58) & dataset_ENTREZ_CD$pvalue_rectum < 0.05, 1] 
+
+##Ensembl:
+dataset_Ensembl_CD <- dataset_CD[,c(1,4,5,6,7)]
+dataset_Ensembl_CD <- dataset_Ensembl_CD %>% 
+  filter(!is.na(Ensembl.ID_org.Hs))
+###ileum location
+sig.genes.ileum_Ensembl_CD   <- dataset_Ensembl_CD[(dataset_Ensembl_CD$log2FC_ileum >= 0.58 | dataset_Ensembl_CD$log2FC_ileum <= -0.58) & dataset_Ensembl_CD$pvalue_ileum < 0.05, 1] 
+###rectum location
+sig.genes.rectum_Ensembl_CD   <- dataset_Ensembl_CD[(dataset_Ensembl_CD$log2FC_rectum >= 0.58 | dataset_Ensembl_CD$log2FC_rectum <= -0.58) & dataset_Ensembl_CD$pvalue_rectum < 0.05, 1] 
+
+#UC:
+##HGNC_Symbols:
+dataset_HGNC_UC <- dataset_UC[,c(3,4,5,6,7)]
+###ileum location
+sig.genes.ileum_HGNC_UC   <- dataset_HGNC_UC[(dataset_HGNC_UC$log2FC_ileum >= 0.58 | dataset_HGNC_UC$log2FC_ileum <= -0.58) & dataset_HGNC_UC$pvalue_ileum < 0.05, 1] 
+###rectum location
+sig.genes.rectum_HGNC_UC   <- dataset_HGNC_UC[(dataset_HGNC_UC$log2FC_rectum >= 0.58 | dataset_HGNC_UC$log2FC_rectum <= -0.58) & dataset_HGNC_UC$pvalue_rectum < 0.05, 1] 
+
+##Entrez:
+dataset_ENTREZ_UC <- dataset_UC[,c(2,4,5,6,7)]
+dataset_ENTREZ_UC <- dataset_ENTREZ_UC %>% 
+  filter(!is.na(ENTREZ.ID_org.Hs))
+###ileum location
+sig.genes.ileum_ENTREZ_UC   <- dataset_ENTREZ_UC[(dataset_ENTREZ_UC$log2FC_ileum >= 0.58 | dataset_ENTREZ_UC$log2FC_ileum <= -0.58) & dataset_ENTREZ_UC$pvalue_ileum < 0.05, 1] 
+###rectum location
+sig.genes.rectum_ENTREZ_UC   <- dataset_ENTREZ_UC[(dataset_ENTREZ_UC$log2FC_rectum >= 0.58 | dataset_ENTREZ_UC$log2FC_rectum <= -0.58) & dataset_ENTREZ_UC$pvalue_rectum < 0.05, 1] 
+
+##Ensembl:
+dataset_Ensembl_UC <- dataset_UC[,c(1,4,5,6,7)]
+dataset_Ensembl_UC <- dataset_Ensembl_UC %>% 
+  filter(!is.na(Ensembl.ID_org.Hs))
+###ileum location
+sig.genes.ileum_Ensembl_UC   <- dataset_Ensembl_UC[(dataset_Ensembl_UC$log2FC_ileum >= 0.58 | dataset_Ensembl_UC$log2FC_ileum <= -0.58) & dataset_Ensembl_UC$pvalue_ileum < 0.05, 1] 
+###rectum location
+sig.genes.rectum_Ensembl_UC   <- dataset_Ensembl_UC[(dataset_Ensembl_UC$log2FC_rectum >= 0.58 | dataset_Ensembl_UC$log2FC_rectum <= -0.58) & dataset_Ensembl_UC$pvalue_rectum < 0.05, 1] 
+
+```
+
+##Sign. Mapping stats:
+```{r mapping_stats,warning=FALSE, message=FALSE}
+##HGNC_originalData
+paste0("The total number of unique HGNC Symbol IDs for the transcriptomics dataset is: ", length(unique(na.omit(dataset_CD$GeneSymbol))))
+paste0("The total number of significant genes with HGNC Symbol IDs for the different disorders and locations is:") 
+paste0("CD-ileum: ", length(sig.genes.ileum_HGNC_CD))
+paste0("CD-rectum: ", length(sig.genes.rectum_HGNC_CD))
+paste0("UC-ileum: ", length(sig.genes.ileum_HGNC_UC))
+paste0("UC-rectum: ", length(sig.genes.rectum_HGNC_UC))
+paste0("~~~~~")
+##Entrez_org.Hs
+paste0("The total number of unique Entrez IDs from the org.Hs mapping is: ", length(unique(na.omit(dataset_CD$ENTREZ.ID_org.Hs))))
+paste0("The total number of significant genes with Entrez IDs for the different disorders and locations is:") 
+paste0("CD-ileum: ", length(sig.genes.ileum_ENTREZ_CD))
+paste0("CD-rectum: ", length(sig.genes.rectum_ENTREZ_CD))
+paste0("UC-ileum: ", length(sig.genes.ileum_ENTREZ_UC))
+paste0("UC-rectum: ", length(sig.genes.rectum_ENTREZ_UC))
+paste0("~~~~~")
+##Ensembl_org.Hs
+paste0("The total number of unique Ensembl IDs from the org.Hs mapping is: ", length(unique(na.omit(dataset_CD$Ensembl.ID_org.Hs))))
+paste0("The total number of significant genes with Ensembl IDs for the different disorders and locations is:") 
+paste0("CD-ileum: ", length(sig.genes.ileum_Ensembl_CD))
+paste0("CD-rectum: ", length(sig.genes.rectum_Ensembl_CD))
+paste0("UC-ileum: ", length(sig.genes.ileum_Ensembl_UC))
+paste0("UC-rectum: ", length(sig.genes.rectum_Ensembl_UC))
+```
+Find pathways for each dataset, based on signifcantly changed transcripts and different IDs.
+```{r pathway_retrieval,warning=FALSE, message=FALSE}
+if(!"SPARQL" %in% installed.packages()){
+  install.packages("SPARQL")
+}
+library(SPARQL)
+##Connect to Endpoint WikiPathways
+endpointwp <- "https://sparql.wikipathways.org/sparql"
+## 1. Query metadata:
+queryMetadata <-
+"SELECT DISTINCT ?dataset (str(?titleLit) as ?title) ?date ?license 
+WHERE {
+   ?dataset a void:Dataset ;
+   dcterms:title ?titleLit ;
+   dcterms:license ?license ;
+   pav:createdOn ?date .
+ }"
+ #below code should be performed first to handle the ssl certificate error
+options(RCurlOptions = list(cainfo = paste0( tempdir() , "/cacert.pem" ), ssl.verifypeer = FALSE))
+resultsMetadata <- SPARQL(endpointwp,queryMetadata,curl_args=list(useragent=R.version.string))
+showresultsMetadata <- resultsMetadata$results
+remove(queryMetadata, resultsMetadata)
+
+#For now, filter out Reactome PWs due to visualization issues in Cytoscape.
+item1 = "PREFIX hgnc: <https://identifiers.org/hgnc.symbol/>
+PREFIX entrez: <https://identifiers.org/ncbigene/>
+PREFIX ensembl: <https://identifiers.org/ensembl/>
+PREFIX cur: <http://vocabularies.wikipathways.org/wp#Curation:>
+select distinct ?pathwayRes (str(?wpid) as ?pathway) (str(?title) as ?pathwayTitle) (count(distinct ?geneId) AS ?GenesInPWs) 
+where {
+VALUES ?geneId {"
+item2 = "}
+  ?gene a wp:GeneProduct ;
+    dcterms:identifier ?id ;
+    dcterms:isPartOf ?pathwayRes ;"
+item3_HGNC= "
+    wp:bdbHgncSymbol ?geneId ."
+item3_ENTREZ= "
+     wp:bdbEntrezGene ?geneId ."
+item3_Ensembl= "
+    wp:bdbEnsembl ?geneId ."
+item4= "
+  ?pathwayRes a wp:Pathway ;
+              wp:organismName 'Homo sapiens' ; 
+    dcterms:identifier ?wpid ;
+    dc:title ?title .
+    
+  #?pathwayRes wp:ontologyTag cur:Reactome_Approved . 
+  ?pathwayRes wp:ontologyTag cur:AnalysisCollection .   
+}
+
+ORDER BY DESC(?GenesInPWs)"
+
+##TODO: write a function, which takes disease, location, and database ID into account (for dataset and SPARQL query).
+##Split significant genes into list of max. 300 (or x sections if that's easier), otherwise SPARQL endpoint trows a 414 error --> Ensembl has longest ID, 220 entries seems to be the max.
+##Merge the content of the split content back together for the output of the PW Analysis.
+
+#CD:
+##HGNC_Symbols:
+###ileum location
+query_ileum_HGNC_CD <- paste("hgnc:", sig.genes.ileum_HGNC_CD, sep="")
+split_query_ileum_HGNC_CD <- split(query_ileum_HGNC_CD, ceiling(seq_along(query_ileum_HGNC_CD) / 400))
+string_ileum_HGNC_CD <- paste(c(split_query_ileum_HGNC_CD$'1'), collapse=' ' )
+
+query_CombinePWs_ileum_HGNC_CD <- paste(item1,string_ileum_HGNC_CD,item2,item3_HGNC,item4)
+results_CombinePWs_ileum_HGNC_CD <- SPARQL(endpointwp,query_CombinePWs_ileum_HGNC_CD,curl_args=list(useragent=R.version.string))
+showresults_CombinePWs_ileum_HGNC_CD <- results_CombinePWs_ileum_HGNC_CD$results
+
+#CD:
+##Ensembl_IDs:
+###ileum location
+query_ileum_ensembl_CD <- paste("ensembl:", sig.genes.ileum_Ensembl_CD, sep="")
+split_query_ileum_ensembl_CD <- split(query_ileum_ensembl_CD, ceiling(seq_along(query_ileum_ensembl_CD) / 220))
+string_ileum_ensembl_CD <- paste(c(split_query_ileum_ensembl_CD$'1'), collapse=' ' )
+
+query_CombinePWs_ileum_ensembl_CD <- paste(item1,string_ileum_ensembl_CD,item2,item3_Ensembl,item4)
+
+results_CombinePWs_ileum_ensembl_CD <- SPARQL(endpointwp,query_CombinePWs_ileum_ensembl_CD,curl_args=list(useragent=R.version.string))
+showresults_CombinePWs_ileum_ensembl_CD <- results_CombinePWs_ileum_ensembl_CD$results
+
+```
