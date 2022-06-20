@@ -65,25 +65,20 @@ colnames(dataset_UC) <- c("GeneSymbol","log2FC_ileum","pvalue_ileum","log2FC_rec
 #converting gene symbols to entrez ID since these are required for the enrichR function
 hs <- org.Hs.eg.db #This object is a simple mapping of Entrez Gene identifier
 
-##CD
 entrezID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol,
-            columns = c("ENTREZID", "SYMBOL"),
-            keytype = "SYMBOL")
-#filter out double gene symbols
-entrezID <- entrezID %>% distinct (entrezID$SYMBOL, .keep_all = TRUE)
-# add entrezIDs for each gene symbol in the dataset
-dataset_CD <- cbind(entrezID$ENTREZID,dataset_CD)
-#change column name
-colnames(dataset_CD)[1] = "ENTREZ.ID_org.Hs"
-
-##UC
-entrezID <- AnnotationDbi::select(hs, keys = dataset_UC$GeneSymbol,
             columns = c("ENTREZID", "SYMBOL"),
             keytype = "SYMBOL")
 #store double mapping info
 entrezID_doubles <- (length((na.omit(entrezID$SYMBOL))) - length(unique(na.omit(entrezID$SYMBOL))))
 #filter out double gene symbols
 entrezID <- entrezID %>% distinct (entrezID$SYMBOL, .keep_all = TRUE)
+
+##CD
+# add entrezIDs for each gene symbol in the dataset
+dataset_CD <- cbind(entrezID$ENTREZID,dataset_CD)
+#change column name
+colnames(dataset_CD)[1] = "ENTREZ.ID_org.Hs"
+##UC
 # add entrezIDs for each gene symbol in the dataset
 dataset_UC <- cbind(entrezID$ENTREZID,dataset_UC)
 #change column name
@@ -94,26 +89,20 @@ colnames(dataset_UC)[1] = "ENTREZ.ID_org.Hs"
 ## Converting hgnc gene symbols to the corresponding Ensembl IDs
 ```{r converting_ensembl,warning=FALSE, message=FALSE}
 #converting gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
-
-#CD
 ensemblID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol,
-            columns = c("ENSEMBL", "SYMBOL"),
-            keytype = "SYMBOL")
-#filter out double gene symbols
-ensemblID <- ensemblID %>% distinct (ensemblID$SYMBOL, .keep_all = TRUE)
-# add entrezIDs for each gene symbol in the dataset
-dataset_CD <- cbind(ensemblID$ENSEMBL,dataset_CD)
-#change column name
-colnames(dataset_CD)[1] = "Ensembl.ID_org.Hs"
-
-#UC
-ensemblID <- AnnotationDbi::select(hs, keys = dataset_UC$GeneSymbol,
             columns = c("ENSEMBL", "SYMBOL"),
             keytype = "SYMBOL")
 #store double mapping info
 ensemblID_doubles <- (length((na.omit(ensemblID$SYMBOL))) - length(unique(na.omit(ensemblID$SYMBOL))))
 #filter out double gene symbols
 ensemblID <- ensemblID %>% distinct (ensemblID$SYMBOL, .keep_all = TRUE)
+
+##CD
+# add entrezIDs for each gene symbol in the dataset
+dataset_CD <- cbind(ensemblID$ENSEMBL,dataset_CD)
+#change column name
+colnames(dataset_CD)[1] = "Ensembl.ID_org.Hs"
+##UC
 # add entrezIDs for each gene symbol in the dataset
 dataset_UC <- cbind(ensemblID$ENSEMBL,dataset_UC)
 #change column name
@@ -139,10 +128,7 @@ citation("org.Hs.eg.db")
 
 ##Citation BridgeDb:
 citation("BridgeDbR")
-
 ```
-
-
 
 ##Save data, print session info and remove large datasets:
 ```{r print_session_info}
