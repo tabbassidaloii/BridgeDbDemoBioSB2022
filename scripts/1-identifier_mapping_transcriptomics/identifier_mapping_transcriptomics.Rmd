@@ -101,19 +101,16 @@ ensemblID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol,
             keytype = "SYMBOL")
 #store double mapping info
 ensemblID_doubles <- (length((na.omit(ensemblID$SYMBOL))) - length(unique(na.omit(ensemblID$SYMBOL))))
+# ensemblID_doubles <- names (table(ensemblID$SYMBOL)[table(ensemblID$SYMBOL) > 1])
+# ensemblID %>% filter (SYMBOL %in% ensemblID_doubles) %>% arrange (SYMBOL) %>% head () # If you want to see which genes have duplicated Ensembl ID
+
 #filter out double gene symbols
 ensemblID <- ensemblID %>% distinct (ensemblID$SYMBOL, .keep_all = TRUE)
+# add entrezIDs for each gene symbol in the dataset
+dataset_CD$Ensembl.ID_org.Hs <- ensemblID$ENSEMBL [match (dataset_CD$GeneSymbol, ensemblID$SYMBOL)] 
+dataset_UC$Ensembl.ID_org.Hs <- ensemblID$ENSEMBL [match (dataset_UC$GeneSymbol, ensemblID$SYMBOL)] 
 
-##CD
-# add entrezIDs for each gene symbol in the dataset
-dataset_CD <- cbind(ensemblID$ENSEMBL,dataset_CD)
-#change column name
-colnames(dataset_CD)[1] = "Ensembl.ID_org.Hs"
-##UC
-# add entrezIDs for each gene symbol in the dataset
-dataset_UC <- cbind(ensemblID$ENSEMBL,dataset_UC)
-#change column name
-colnames(dataset_UC)[1] = "Ensembl.ID_org.Hs"
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles", "ensemblID_doubles"))) # removing variables that are not required
 ```
 
 ##Mapping stats:
