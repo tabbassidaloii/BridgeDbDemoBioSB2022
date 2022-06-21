@@ -1,0 +1,729 @@
+pathwayRes	pathway	pathwayTitle	GenesInPWs
+<https://identifiers.org/wikipathways/WP100_r107114>	WP100	Glutathione metabolism	5
+<https://identifiers.org/wikipathways/WP106_r114258>	WP106	Alanine and aspartate metabolism	3
+<https://identifiers.org/wikipathways/WP107_r117851>	WP107	Translation factors	15
+<https://identifiers.org/wikipathways/WP111_r117097>	WP111	Electron transport chain: OXPHOS system in mitochondria	25
+<https://identifiers.org/wikipathways/WP117_r117743>	WP117	GPCRs, other	22
+<https://identifiers.org/wikipathways/WP12_r116896>	WP12	Osteoclast signaling	7
+<https://identifiers.org/wikipathways/WP127_r120669>	WP127	IL-5 signaling pathway	17
+<https://identifiers.org/wikipathways/WP129_r117774>	WP129	Matrix metalloproteinases	16
+<https://identifiers.org/wikipathways/WP134_r118339>	WP134	Pentose phosphate metabolism	4
+<https://identifiers.org/wikipathways/WP136_r118346>	WP136	Phase I biotransformations, non P450	3
+<https://identifiers.org/wikipathways/WP138_r122133>	WP138	Androgen receptor signaling pathway	33
+<https://identifiers.org/wikipathways/WP1403_r121114>	WP1403	AMP-activated protein kinase (AMPK) signaling	26
+<https://identifiers.org/wikipathways/WP1422_r118359>	WP1422	Sphingolipid pathway	11
+<https://identifiers.org/wikipathways/WP1423_r117518>	WP1423	Ganglio sphingolipid metabolism	6
+<https://identifiers.org/wikipathways/WP1425_r116437>	WP1425	Bone morphogenic protein (BMP) signaling and regulation	3
+<https://identifiers.org/wikipathways/WP143_r116506>	WP143	Fatty acid beta-oxidation	15
+<https://identifiers.org/wikipathways/WP1433_r122867>	WP1433	Nucleotide-binding oligomerization domain (NOD) pathway	18
+<https://identifiers.org/wikipathways/WP1434_r117813>	WP1434	Osteopontin signaling	6
+<https://identifiers.org/wikipathways/WP1455_r117827>	WP1455	Serotonin transporter activity	5
+<https://identifiers.org/wikipathways/WP1471_r120934>	WP1471	Target of rapamycin (TOR) signaling	11
+<https://identifiers.org/wikipathways/WP1495_r117738>	WP1495	Glycine metabolism	2
+<https://identifiers.org/wikipathways/WP15_r121694>	WP15	Selenium micronutrient network	36
+<https://identifiers.org/wikipathways/WP1528_r121714>	WP1528	Physiological and pathological hypertrophy of the heart	10
+<https://identifiers.org/wikipathways/WP1530_r118120>	WP1530	miRNA regulation of DNA damage response	30
+<https://identifiers.org/wikipathways/WP1531_r118354>	WP1531	Vitamin D metabolism	7
+<https://identifiers.org/wikipathways/WP1533_r121695>	WP1533	Vitamin B12 metabolism	23
+<https://identifiers.org/wikipathways/WP1539_r118358>	WP1539	Angiogenesis	9
+<https://identifiers.org/wikipathways/WP1541_r117711>	WP1541	Energy metabolism	11
+<https://identifiers.org/wikipathways/WP1544_r121713>	WP1544	MicroRNAs in cardiomyocyte hypertrophy	35
+<https://identifiers.org/wikipathways/WP1545_r118363>	WP1545	miRNAs involved in DNA damage response	7
+<https://identifiers.org/wikipathways/WP1559_r117836>	WP1559	Transcription factors regulate miRNAs related to cardiac hypertrophy	3
+<https://identifiers.org/wikipathways/WP1584_r122869>	WP1584	Type II diabetes mellitus	10
+<https://identifiers.org/wikipathways/WP1589_r122870>	WP1589	Folate-alcohol and cancer pathway hypotheses	4
+<https://identifiers.org/wikipathways/WP1591_r118366>	WP1591	Heart development	16
+<https://identifiers.org/wikipathways/WP1600_r119518>	WP1600	Nicotine metabolism in liver cells	3
+<https://identifiers.org/wikipathways/WP1601_r120496>	WP1601	Fluoropyrimidine activity	15
+<https://identifiers.org/wikipathways/WP1602_r117165>	WP1602	Nicotine effect on dopaminergic neurons	6
+<https://identifiers.org/wikipathways/WP1603_r117164>	WP1603	Nicotine effect on chromaffin cells	2
+<https://identifiers.org/wikipathways/WP1604_r118374>	WP1604	Codeine and morphine metabolism	8
+<https://identifiers.org/wikipathways/WP167_r120547>	WP167	Eicosanoid synthesis	13
+<https://identifiers.org/wikipathways/WP170_r116552>	WP170	Nuclear receptors	17
+<https://identifiers.org/wikipathways/WP1742_r116592>	WP1742	TP53 network	6
+<https://identifiers.org/wikipathways/WP176_r121696>	WP176	Folate metabolism	26
+<https://identifiers.org/wikipathways/WP1772_r120736>	WP1772	Apoptosis modulation and signaling	33
+<https://identifiers.org/wikipathways/WP179_r122978>	WP179	Cell cycle	46
+<https://identifiers.org/wikipathways/WP183_r117060>	WP183	Proteasome degradation	30
+<https://identifiers.org/wikipathways/WP185_r116785>	WP185	Integrin-mediated cell adhesion	40
+<https://identifiers.org/wikipathways/WP186_r118416>	WP186	Homologous recombination	3
+<https://identifiers.org/wikipathways/WP1941_r107124>	WP1941	Peroxisomal beta-oxidation of tetracosanoyl-CoA	2
+<https://identifiers.org/wikipathways/WP1946_r122878>	WP1946	Cori cycle	9
+<https://identifiers.org/wikipathways/WP195_r120702>	WP195	IL-1 signaling pathway	23
+<https://identifiers.org/wikipathways/WP197_r120482>	WP197	Cholesterol biosynthesis pathway	13
+<https://identifiers.org/wikipathways/WP1971_r117762>	WP1971	Integrated cancer pathway	21
+<https://identifiers.org/wikipathways/WP1982_r116442>	WP1982	Sterol regulatory element-binding proteins (SREBP) signaling	36
+<https://identifiers.org/wikipathways/WP1991_r117830>	WP1991	SRF and miRs in smooth muscle differentiation and proliferation	3
+<https://identifiers.org/wikipathways/WP1992_r105839>	WP1992	Genes targeted by miRNAs in adipocytes	3
+<https://identifiers.org/wikipathways/WP1995_r116455>	WP1995	Effects of nitric oxide	4
+<https://identifiers.org/wikipathways/WP2007_r106626>	WP2007	Iron metabolism in placenta	3
+<https://identifiers.org/wikipathways/WP2011_r118441>	WP2011	SREBF and miR33 in cholesterol and lipid homeostasis	9
+<https://identifiers.org/wikipathways/WP2018_r120672>	WP2018	RANKL/RANK signaling pathway	21
+<https://identifiers.org/wikipathways/WP2023_r117676>	WP2023	Cell differentiation - expanded index	5
+<https://identifiers.org/wikipathways/WP2029_r120346>	WP2029	Cell differentiation - index	4
+<https://identifiers.org/wikipathways/WP2032_r122774>	WP2032	Thyroid stimulating hormone (TSH) signaling pathway	24
+<https://identifiers.org/wikipathways/WP2034_r120670>	WP2034	Leptin signaling pathway	27
+<https://identifiers.org/wikipathways/WP2035_r120721>	WP2035	Follicle stimulating hormone (FSH) signaling pathway	6
+<https://identifiers.org/wikipathways/WP2036_r120940>	WP2036	TNF-related weak inducer of apoptosis (TWEAK) signaling pathway	13
+<https://identifiers.org/wikipathways/WP2037_r122570>	WP2037	Prolactin signaling pathway	36
+<https://identifiers.org/wikipathways/WP2038_r117173>	WP2038	Microtubule cytoskeleton regulation	15
+<https://identifiers.org/wikipathways/WP205_r120718>	WP205	IL-7 signaling pathway	14
+<https://identifiers.org/wikipathways/WP2059_r119468>	WP2059	Alzheimer's disease and miRNA effects	87
+<https://identifiers.org/wikipathways/WP206_r117723>	WP206	Fatty acid omega-oxidation	5
+<https://identifiers.org/wikipathways/WP2064_r117162>	WP2064	Neural crest differentiation	29
+<https://identifiers.org/wikipathways/WP2112_r117960>	WP2112	IL-17 signaling pathway	7
+<https://identifiers.org/wikipathways/WP2113_r105848>	WP2113	Type III interferon signaling	5
+<https://identifiers.org/wikipathways/WP2118_r119252>	WP2118	Arrhythmogenic right ventricular cardiomyopathy	25
+<https://identifiers.org/wikipathways/WP2197_r117710>	WP2197	Endothelin pathways	12
+<https://identifiers.org/wikipathways/WP22_r120719>	WP22	IL-9 signaling pathway	10
+<https://identifiers.org/wikipathways/WP2203_r120724>	WP2203	Thymic stromal lymphopoietin (TSLP) signaling pathway	22
+<https://identifiers.org/wikipathways/WP2249_r107453>	WP2249	Metastatic brain tumor	3
+<https://identifiers.org/wikipathways/WP2253_r112071>	WP2253	Pilocytic astrocytoma	2
+<https://identifiers.org/wikipathways/WP2261_r118379>	WP2261	Glioblastoma signaling pathways	34
+<https://identifiers.org/wikipathways/WP2267_r117179>	WP2267	Synaptic vesicle pathway	18
+<https://identifiers.org/wikipathways/WP2272_r118427>	WP2272	Pathogenic Escherichia coli infection	23
+<https://identifiers.org/wikipathways/WP2276_r117054>	WP2276	Glial cell differentiation	2
+<https://identifiers.org/wikipathways/WP2289_r120498>	WP2289	Drug induction of bile acid pathway	8
+<https://identifiers.org/wikipathways/WP229_r116612>	WP229	Irinotecan pathway	8
+<https://identifiers.org/wikipathways/WP2290_r79988>	WP2290	RalA downstream regulated genes	2
+<https://identifiers.org/wikipathways/WP2291_r117696>	WP2291	Deregulation of Rab and Rab effector genes in bladder cancer	9
+<https://identifiers.org/wikipathways/WP23_r120701>	WP23	B cell receptor signaling pathway	37
+<https://identifiers.org/wikipathways/WP231_r120699>	WP231	TNF-alpha signaling pathway	34
+<https://identifiers.org/wikipathways/WP2324_r120674>	WP2324	AGE/RAGE pathway	28
+<https://identifiers.org/wikipathways/WP2328_r120805>	WP2328	Allograft rejection	40
+<https://identifiers.org/wikipathways/WP2332_r120725>	WP2332	Interleukin-11 signaling pathway	22
+<https://identifiers.org/wikipathways/WP2333_r72015>	WP2333	Trans-sulfuration pathway	4
+<https://identifiers.org/wikipathways/WP2338_r117159>	WP2338	miRNA biogenesis	1
+<https://identifiers.org/wikipathways/WP2355_r120664>	WP2355	Corticotropin-releasing hormone signaling pathway	31
+<https://identifiers.org/wikipathways/WP2359_r119918>	WP2359	Parkin-ubiquitin proteasomal system pathway	30
+<https://identifiers.org/wikipathways/WP236_r105873>	WP236	Adipogenesis	54
+<https://identifiers.org/wikipathways/WP2361_r117731>	WP2361	Gastric cancer network 1	16
+<https://identifiers.org/wikipathways/WP2363_r117737>	WP2363	Gastric cancer network 2	17
+<https://identifiers.org/wikipathways/WP2366_r105116>	WP2366	Butyrate-induced histone acetylation	1
+<https://identifiers.org/wikipathways/WP2369_r118380>	WP2369	Histone modifications	9
+<https://identifiers.org/wikipathways/WP2371_r119919>	WP2371	Parkinson's disease pathway	13
+<https://identifiers.org/wikipathways/WP2374_r120781>	WP2374	Oncostatin M signaling pathway	33
+<https://identifiers.org/wikipathways/WP2380_r120727>	WP2380	Brain-derived neurotrophic factor (BDNF) signaling pathway	50
+<https://identifiers.org/wikipathways/WP24_r113974>	WP24	Peptide GPCRs	20
+<https://identifiers.org/wikipathways/WP2406_r119249>	WP2406	Cardiac progenitor differentiation	13
+<https://identifiers.org/wikipathways/WP241_r120901>	WP241	One-carbon metabolism	14
+<https://identifiers.org/wikipathways/WP2431_r120812>	WP2431	Spinal cord injury	46
+<https://identifiers.org/wikipathways/WP2435_r120750>	WP2435	Quercetin and Nf-kB / AP-1 induced apoptosis	4
+<https://identifiers.org/wikipathways/WP2436_r107129>	WP2436	Dopamine metabolism	6
+<https://identifiers.org/wikipathways/WP244_r120686>	WP244	Alpha 6 beta 4 signaling pathway	15
+<https://identifiers.org/wikipathways/WP2446_r116593>	WP2446	Retinoblastoma gene in cancer	42
+<https://identifiers.org/wikipathways/WP2447_r113794>	WP2447	Amyotrophic lateral sclerosis (ALS)	13
+<https://identifiers.org/wikipathways/WP2453_r117835>	WP2453	TCA cycle and deficiency of pyruvate dehydrogenase complex (PDHc)	5
+<https://identifiers.org/wikipathways/WP2456_r119185>	WP2456	HIF1A and PPARG regulation of glycolysis	5
+<https://identifiers.org/wikipathways/WP247_r118104>	WP247	Small ligand GPCRs	10
+<https://identifiers.org/wikipathways/WP2485_r117161>	WP2485	NAD biosynthesis II (from tryptophan)	5
+<https://identifiers.org/wikipathways/WP2491_r117698>	WP2491	Diclofenac metabolic pathway	2
+<https://identifiers.org/wikipathways/WP2507_r110715>	WP2507	Nanomaterial induced apoptosis	7
+<https://identifiers.org/wikipathways/WP2509_r101755>	WP2509	Nanoparticle triggered autophagic cell death	7
+<https://identifiers.org/wikipathways/WP2513_r119820>	WP2513	Nanoparticle triggered regulated necrosis	2
+<https://identifiers.org/wikipathways/WP2516_r116808>	WP2516	ATM signaling pathway	17
+<https://identifiers.org/wikipathways/WP2525_r116582>	WP2525	Trans-sulfuration and one-carbon metabolism	13
+<https://identifiers.org/wikipathways/WP2526_r121697>	WP2526	PDGF pathway	14
+<https://identifiers.org/wikipathways/WP2533_r120261>	WP2533	Glycerophospholipid biosynthetic pathway	9
+<https://identifiers.org/wikipathways/WP2536_r117685>	WP2536	Colchicine metabolic pathway	1
+<https://identifiers.org/wikipathways/WP254_r118382>	WP254	Apoptosis	36
+<https://identifiers.org/wikipathways/WP2542_r117834>	WP2542	Sulindac metabolic pathway	2
+<https://identifiers.org/wikipathways/WP2572_r119251>	WP2572	Primary focal segmental glomerulosclerosis (FSGS)	32
+<https://identifiers.org/wikipathways/WP2583_r117181>	WP2583	T cell receptor and co-stimulatory signaling	8
+<https://identifiers.org/wikipathways/WP2586_r121728>	WP2586	Aryl hydrocarbon receptor pathway	12
+<https://identifiers.org/wikipathways/WP2596_r122782>	WP2596	Gastric acid production	1
+<https://identifiers.org/wikipathways/WP2597_r117821>	WP2597	Secretion of hydrochloric acid in parietal cells	1
+<https://identifiers.org/wikipathways/WP26_r118660>	WP26	S1P receptor signal transduction	14
+<https://identifiers.org/wikipathways/WP262_r116630>	WP262	Ebstein-Barr virus LMP1 signaling	8
+<https://identifiers.org/wikipathways/WP2636_r116781>	WP2636	Common pathways underlying drug addiction	10
+<https://identifiers.org/wikipathways/WP2637_r117962>	WP2637	Interleukin-1 (IL-1) structural pathway	18
+<https://identifiers.org/wikipathways/WP2640_r117652>	WP2640	Aripiprazole metabolic pathway	1
+<https://identifiers.org/wikipathways/WP2643_r110709>	WP2643	Nanoparticle-mediated activation of receptor signaling	12
+<https://identifiers.org/wikipathways/WP2645_r95179>	WP2645	Heroin metabolism	2
+<https://identifiers.org/wikipathways/WP2646_r106722>	WP2646	Lidocaine metabolism	1
+<https://identifiers.org/wikipathways/WP268_r117167>	WP268	Notch signaling	14
+<https://identifiers.org/wikipathways/WP272_r120902>	WP272	Blood clotting cascade	9
+<https://identifiers.org/wikipathways/WP2795_r117670>	WP2795	Cardiac hypertrophic response	17
+<https://identifiers.org/wikipathways/WP2805_r106523>	WP2805	exRNA mechanism of action and biogenesis	2
+<https://identifiers.org/wikipathways/WP2806_r116569>	WP2806	Complement system	51
+<https://identifiers.org/wikipathways/WP2813_r102405>	WP2813	Mammary gland development pathway - Embryonic development (Stage 1 of 4)	6
+<https://identifiers.org/wikipathways/WP2814_r102407>	WP2814	Mammary gland development pathway - Puberty (Stage 2 of 4)	6
+<https://identifiers.org/wikipathways/WP2815_r102408>	WP2815	Mammary gland development pathway - Involution (Stage 4 of 4)	5
+<https://identifiers.org/wikipathways/WP2816_r117724>	WP2816	Felbamate metabolism	1
+<https://identifiers.org/wikipathways/WP2817_r102410>	WP2817	Mammary gland development pathway - Pregnancy and lactation (Stage 3 of 4)	13
+<https://identifiers.org/wikipathways/WP2826_r106727>	WP2826	Cocaine metabolism	3
+<https://identifiers.org/wikipathways/WP2828_r119245>	WP2828	Bladder cancer	15
+<https://identifiers.org/wikipathways/WP2839_r117746>	WP2839	Hair follicle development: organogenesis - part 2 of 3	15
+<https://identifiers.org/wikipathways/WP2840_r120866>	WP2840	Hair follicle development: cytodifferentiation - part 3 of 3	29
+<https://identifiers.org/wikipathways/WP2846_r116729>	WP2846	PCSK9-mediated LDL receptor degradation	2
+<https://identifiers.org/wikipathways/WP2848_r120814>	WP2848	Pluripotent stem cell differentiation pathway	17
+<https://identifiers.org/wikipathways/WP2849_r117150>	WP2849	Hematopoietic stem cell differentiation	22
+<https://identifiers.org/wikipathways/WP2853_r116557>	WP2853	Endoderm differentiation	45
+<https://identifiers.org/wikipathways/WP2854_r106431>	WP2854	Gene regulatory network modelling somitogenesis 	2
+<https://identifiers.org/wikipathways/WP2855_r117704>	WP2855	Dopaminergic neurogenesis	9
+<https://identifiers.org/wikipathways/WP2857_r118395>	WP2857	Mesodermal commitment pathway	53
+<https://identifiers.org/wikipathways/WP2858_r116763>	WP2858	Ectoderm differentiation	57
+<https://identifiers.org/wikipathways/WP286_r120663>	WP286	IL-3 signaling pathway	28
+<https://identifiers.org/wikipathways/WP2864_r108133>	WP2864	Apoptosis-related network due to altered Notch3 in ovarian cancer	26
+<https://identifiers.org/wikipathways/WP2865_r120807>	WP2865	IL1 and megakaryocytes in obesity	18
+<https://identifiers.org/wikipathways/WP2868_r117183>	WP2868	TCA cycle nutrient use and invasiveness of ovarian cancer	3
+<https://identifiers.org/wikipathways/WP2870_r106411>	WP2870	Extracellular vesicle-mediated signaling in recipient cells	15
+<https://identifiers.org/wikipathways/WP2873_r120645>	WP2873	Aryl hydrocarbon receptor pathway	17
+<https://identifiers.org/wikipathways/WP2874_r116465>	WP2874	Liver X receptor pathway	6
+<https://identifiers.org/wikipathways/WP2875_r117690>	WP2875	Constitutive androstane receptor pathway	16
+<https://identifiers.org/wikipathways/WP2876_r116466>	WP2876	Pregnane X receptor pathway	17
+<https://identifiers.org/wikipathways/WP2877_r119905>	WP2877	Vitamin D receptor pathway	82
+<https://identifiers.org/wikipathways/WP2878_r116507>	WP2878	PPAR-alpha pathway	10
+<https://identifiers.org/wikipathways/WP2879_r116462>	WP2879	Farnesoid X receptor pathway	7
+<https://identifiers.org/wikipathways/WP288_r118398>	WP288	Nod-like receptor (NLR) signaling pathway	2
+<https://identifiers.org/wikipathways/WP2880_r117734>	WP2880	Glucocorticoid receptor pathway	36
+<https://identifiers.org/wikipathways/WP2881_r117716>	WP2881	Estrogen receptor pathway	7
+<https://identifiers.org/wikipathways/WP2882_r120815>	WP2882	Nuclear receptors meta-pathway	138
+<https://identifiers.org/wikipathways/WP2884_r106658>	WP2884	NRF2 pathway	59
+<https://identifiers.org/wikipathways/WP2889_r107138>	WP2889	Oxytocin signaling	2
+<https://identifiers.org/wikipathways/WP289_r122789>	WP289	Myometrial relaxation and contraction pathways	56
+<https://identifiers.org/wikipathways/WP2895_r118446>	WP2895	Differentiation of white and brown adipocyte	7
+<https://identifiers.org/wikipathways/WP2911_r120808>	WP2911	miRNA targets in ECM and membrane receptors	17
+<https://identifiers.org/wikipathways/WP2916_r104425>	WP2916	Interactome of polycomb repressive complex 2 (PRC2) 	4
+<https://identifiers.org/wikipathways/WP2942_r119083>	WP2942	DDX1 as a regulatory component of the Drosha microprocessor	1
+<https://identifiers.org/wikipathways/WP2943_r117758>	WP2943	Hypoxia-mediated EMT and stemness	1
+<https://identifiers.org/wikipathways/WP299_r117807>	WP299	Nuclear receptors in lipid metabolism and toxicity	11
+<https://identifiers.org/wikipathways/WP3_r120028>	WP3	Transcriptional activation by NRF2 in response to phytochemicals	6
+<https://identifiers.org/wikipathways/WP304_r120696>	WP304	Kit receptor signaling pathway	27
+<https://identifiers.org/wikipathways/WP306_r116784>	WP306	Focal adhesion	91
+<https://identifiers.org/wikipathways/WP313_r118735>	WP313	Hepatocyte growth factor receptor signaling	13
+<https://identifiers.org/wikipathways/WP314_r121827>	WP314	Fas ligand pathway and stress induction of heat shock proteins	14
+<https://identifiers.org/wikipathways/WP322_r117584>	WP322	Osteoblast signaling	6
+<https://identifiers.org/wikipathways/WP325_r116669>	WP325	Triacylglyceride synthesis	6
+<https://identifiers.org/wikipathways/WP3286_r106367>	WP3286	Copper homeostasis	16
+<https://identifiers.org/wikipathways/WP3287_r121705>	WP3287	Overview of nanoparticle effects	11
+<https://identifiers.org/wikipathways/WP3297_r106734>	WP3297	EV release from cardiac cells and their functional effects	4
+<https://identifiers.org/wikipathways/WP3298_r120642>	WP3298	Melatonin metabolism and effects	11
+<https://identifiers.org/wikipathways/WP3299_r88676>	WP3299	let-7 inhibition of ES cell reprogramming	1
+<https://identifiers.org/wikipathways/WP3300_r102277>	WP3300	Dual hijack model of Vif in HIV infection	3
+<https://identifiers.org/wikipathways/WP3301_r120029>	WP3301	MFAP5-mediated ovarian cancer cell motility and invasiveness	3
+<https://identifiers.org/wikipathways/WP3302_r87966>	WP3302	eIF5A regulation in response to inhibition of the nuclear export system	1
+<https://identifiers.org/wikipathways/WP3303_r120561>	WP3303	RAC1/PAK1/p38/MMP2 pathway	25
+<https://identifiers.org/wikipathways/WP334_r117741>	WP334	GPCRs, class B secretin-like	3
+<https://identifiers.org/wikipathways/WP34_r116553>	WP34	Ovarian infertility	11
+<https://identifiers.org/wikipathways/WP3407_r117112>	WP3407	FTO obesity variant mechanism	1
+<https://identifiers.org/wikipathways/WP3408_r118453>	WP3408	Evolocumab mechanism to reduce LDL cholesterol	2
+<https://identifiers.org/wikipathways/WP3413_r116601>	WP3413	NOTCH1 regulation of endothelial cell calcification	9
+<https://identifiers.org/wikipathways/WP3414_r106735>	WP3414	Initiation of transcription and translation elongation at the HIV-1 LTR	8
+<https://identifiers.org/wikipathways/WP35_r117729>	WP35	G protein signaling pathways	27
+<https://identifiers.org/wikipathways/WP3527_r120810>	WP3527	Pre-implantation embryo	11
+<https://identifiers.org/wikipathways/WP3529_r120882>	WP3529	Zinc homeostasis	23
+<https://identifiers.org/wikipathways/WP357_r121828>	WP357	Fatty acid biosynthesis	11
+<https://identifiers.org/wikipathways/WP3580_r120915>	WP3580	Methionine de novo and salvage pathway	8
+<https://identifiers.org/wikipathways/WP3584_r117155>	WP3584	MECP2 and associated Rett syndrome	21
+<https://identifiers.org/wikipathways/WP3585_r106742>	WP3585	Cytosine methylation	3
+<https://identifiers.org/wikipathways/WP3591_r88424>	WP3591	Sleep regulation	10
+<https://identifiers.org/wikipathways/WP3593_r117786>	WP3593	MicroRNA for targeting cancer growth and vascularization in glioblastoma	6
+<https://identifiers.org/wikipathways/WP3594_r117682>	WP3594	Circadian rhythm genes	57
+<https://identifiers.org/wikipathways/WP3595_r89883>	WP3595	mir-124 predicted interactions with cell cycle and differentiation 	4
+<https://identifiers.org/wikipathways/WP3596_r105860>	WP3596	miR-517 relationship with ARCN1 and USP1	1
+<https://identifiers.org/wikipathways/WP3599_r105845>	WP3599	Transcription factor regulation in adipogenesis	11
+<https://identifiers.org/wikipathways/WP3601_r117687>	WP3601	Lipid particles composition	6
+<https://identifiers.org/wikipathways/WP3611_r120501>	WP3611	Photodynamic therapy-induced AP-1 survival signaling	22
+<https://identifiers.org/wikipathways/WP3612_r106540>	WP3612	Photodynamic therapy-induced NFE2L2 (NRF2) survival signaling	10
+<https://identifiers.org/wikipathways/WP3613_r106539>	WP3613	Photodynamic therapy-induced unfolded protein response	18
+<https://identifiers.org/wikipathways/WP3614_r106542>	WP3614	Photodynamic therapy-induced HIF-1 survival signaling	26
+<https://identifiers.org/wikipathways/WP3617_r106541>	WP3617	Photodynamic therapy-induced NF-kB survival signaling	19
+<https://identifiers.org/wikipathways/WP3624_r122572>	WP3624	Lung fibrosis	36
+<https://identifiers.org/wikipathways/WP363_r120695>	WP363	Wnt signaling pathway	13
+<https://identifiers.org/wikipathways/WP3630_r121716>	WP3630	NAD metabolism, sirtuins and aging	4
+<https://identifiers.org/wikipathways/WP3633_r118462>	WP3633	Caffeine and theobromine metabolism	1
+<https://identifiers.org/wikipathways/WP3634_r116602>	WP3634	Insulin signaling in adipocytes (normal condition)	4
+<https://identifiers.org/wikipathways/WP3635_r116600>	WP3635	Insulin signaling in adipocytes (diabetic condition)	4
+<https://identifiers.org/wikipathways/WP364_r121718>	WP364	IL6 signaling pathway	27
+<https://identifiers.org/wikipathways/WP3640_r122579>	WP3640	Imatinib and chronic myeloid leukemia	9
+<https://identifiers.org/wikipathways/WP3644_r118983>	WP3644	NAD+ metabolism	7
+<https://identifiers.org/wikipathways/WP3645_r118940>	WP3645	NAD+ biosynthetic pathways	9
+<https://identifiers.org/wikipathways/WP3646_r116732>	WP3646	Hepatitis C and hepatocellular carcinoma	24
+<https://identifiers.org/wikipathways/WP3651_r122573>	WP3651	Pathways affected in adenoid cystic carcinoma	20
+<https://identifiers.org/wikipathways/WP3655_r117757>	WP3655	Hypothetical craniofacial development pathway	5
+<https://identifiers.org/wikipathways/WP3656_r117955>	WP3656	Interleukin-1 induced activation of NF-kB	5
+<https://identifiers.org/wikipathways/WP3657_r120797>	WP3657	Hematopoietic stem cell gene regulation by GABP alpha/beta complex	6
+<https://identifiers.org/wikipathways/WP3658_r116670>	WP3658	Wnt/beta-catenin signaling pathway in leukemia	6
+<https://identifiers.org/wikipathways/WP366_r120697>	WP366	TGF-beta signaling pathway	44
+<https://identifiers.org/wikipathways/WP3664_r118061>	WP3664	Regulation of Wnt / B-catenin signaling by small molecule compounds	5
+<https://identifiers.org/wikipathways/WP3668_r117756>	WP3668	Hypothesized pathways in pathogenesis of cardiovascular disease	10
+<https://identifiers.org/wikipathways/WP3670_r117829>	WP3670	Interactions between LOXL4 and oxidative stress pathway	9
+<https://identifiers.org/wikipathways/WP3672_r117771>	WP3672	lncRNA-mediated mechanisms of therapeutic resistance	2
+<https://identifiers.org/wikipathways/WP3674_r117841>	WP3674	Tgif disruption of Shh signaling	1
+<https://identifiers.org/wikipathways/WP3676_r116809>	WP3676	BDNF-TrkB signaling	11
+<https://identifiers.org/wikipathways/WP3678_r117647>	WP3678	Amplification and expansion of oncogenic pathways as metastatic traits	5
+<https://identifiers.org/wikipathways/WP3679_r117678>	WP3679	Cell-type dependent selectivity of CCK2R signaling	4
+<https://identifiers.org/wikipathways/WP368_r117795>	WP368	Mitochondrial long chain fatty acid beta-oxidation	12
+<https://identifiers.org/wikipathways/WP3680_r117651>	WP3680	Physico-chemical features and toxicity-associated pathways	20
+<https://identifiers.org/wikipathways/WP382_r119087>	WP382	MAPK signaling pathway	85
+<https://identifiers.org/wikipathways/WP383_r118423>	WP383	Striated muscle contraction pathway	6
+<https://identifiers.org/wikipathways/WP384_r121706>	WP384	Apoptosis modulation by HSP70	4
+<https://identifiers.org/wikipathways/WP3844_r107714>	WP3844	PI3K-AKT-mTOR signaling pathway and therapeutic opportunities	13
+<https://identifiers.org/wikipathways/WP3845_r116460>	WP3845	Canonical and non-canonical Notch signaling	9
+<https://identifiers.org/wikipathways/WP3849_r116433>	WP3849	MAPK and NFkB signaling pathways inhibited by Yersinia YopJ	1
+<https://identifiers.org/wikipathways/WP3850_r121711>	WP3850	Factors and pathways affecting insulin-like growth factor (IGF1)-Akt signaling	10
+<https://identifiers.org/wikipathways/WP3851_r121712>	WP3851	TLR4 signaling and tolerance	11
+<https://identifiers.org/wikipathways/WP3853_r120593>	WP3853	ERK pathway in Huntington's disease	2
+<https://identifiers.org/wikipathways/WP3858_r117850>	WP3858	Toll-like receptor signaling related to MyD88	11
+<https://identifiers.org/wikipathways/WP3859_r117840>	WP3859	TGF-beta signaling in thyroid cells for epithelial-mesenchymal transition	6
+<https://identifiers.org/wikipathways/WP3863_r121717>	WP3863	T-cell antigen receptor (TCR) pathway during Staphylococcus aureus infection	24
+<https://identifiers.org/wikipathways/WP3865_r106524>	WP3865	Novel intracellular components of RIG-I-like receptor (RLR) pathway	19
+<https://identifiers.org/wikipathways/WP3869_r118463>	WP3869	Cannabinoid receptor signaling	15
+<https://identifiers.org/wikipathways/WP3871_r106754>	WP3871	Valproic acid pathway	7
+<https://identifiers.org/wikipathways/WP3872_r116648>	WP3872	Regulation of apoptosis by parathyroid hormone-related protein	9
+<https://identifiers.org/wikipathways/WP3874_r116461>	WP3874	Canonical and non-canonical TGF-B signaling	9
+<https://identifiers.org/wikipathways/WP3875_r117657>	WP3875	ATR signaling	3
+<https://identifiers.org/wikipathways/WP3876_r116398>	WP3876	BMP2-WNT4-FOXO1 pathway in primary endometrial stromal cell differentiation	4
+<https://identifiers.org/wikipathways/WP3877_r117828>	WP3877	MYD88 distinct input-output pathway	8
+<https://identifiers.org/wikipathways/WP3878_r117656>	WP3878	ATM signaling in development and disease 	14
+<https://identifiers.org/wikipathways/WP3879_r120671>	WP3879	4-hydroxytamoxifen, dexamethasone, and retinoic acids regulation of p27 expression	6
+<https://identifiers.org/wikipathways/WP3888_r116782>	WP3888	VEGFA-VEGFR2 signaling pathway	188
+<https://identifiers.org/wikipathways/WP3890_r116457>	WP3890	Nanomaterial-induced inflammasome activation	4
+<https://identifiers.org/wikipathways/WP3891_r106161>	WP3891	Benzene metabolism	3
+<https://identifiers.org/wikipathways/WP3892_r120069>	WP3892	Development of pulmonary dendritic cells and macrophage subsets	7
+<https://identifiers.org/wikipathways/WP3893_r118859>	WP3893	Development and heterogeneity of the ILC family	14
+<https://identifiers.org/wikipathways/WP391_r117794>	WP391	Mitochondrial gene expression	5
+<https://identifiers.org/wikipathways/WP3915_r122574>	WP3915	Angiopoietin-like protein 8 regulatory pathway	51
+<https://identifiers.org/wikipathways/WP3924_r96137>	WP3924	Hfe effect on hepcidin production	1
+<https://identifiers.org/wikipathways/WP3925_r117062>	WP3925	Amino acid metabolism	43
+<https://identifiers.org/wikipathways/WP3926_r106298>	WP3926	ApoE and miR-146 in inflammation and atherosclerosis	6
+<https://identifiers.org/wikipathways/WP3927_r117666>	WP3927	BMP signaling in eyelid development	7
+<https://identifiers.org/wikipathways/WP3929_r119247>	WP3929	Chemokine signaling pathway	71
+<https://identifiers.org/wikipathways/WP3930_r116431>	WP3930	EDA signaling in hair follicle development	4
+<https://identifiers.org/wikipathways/WP3931_r117717>	WP3931	Embryonic stem cell pluripotency pathways	47
+<https://identifiers.org/wikipathways/WP3932_r120304>	WP3932	Focal adhesion: PI3K-Akt-mTOR-signaling pathway	133
+<https://identifiers.org/wikipathways/WP3933_r116372>	WP3933	Kennedy pathway from sphingolipids	3
+<https://identifiers.org/wikipathways/WP3934_r107151>	WP3934	Leptin and adiponectin	2
+<https://identifiers.org/wikipathways/WP3935_r118425>	WP3935	Leptin-insulin signaling overlap	7
+<https://identifiers.org/wikipathways/WP3937_r120792>	WP3937	Microglia pathogen phagocytosis pathway	24
+<https://identifiers.org/wikipathways/WP3940_r119248>	WP3940	One-carbon metabolism and related pathways	18
+<https://identifiers.org/wikipathways/WP3941_r117040>	WP3941	Oxidative damage response	14
+<https://identifiers.org/wikipathways/WP3942_r106517>	WP3942	PPAR signaling pathway	29
+<https://identifiers.org/wikipathways/WP3943_r117818>	WP3943	Robo4 and VEGF signaling pathways crosstalk	2
+<https://identifiers.org/wikipathways/WP3944_r120596>	WP3944	Serotonin and anxiety-related events	4
+<https://identifiers.org/wikipathways/WP3945_r116679>	WP3945	TYROBP causal network in microglia	30
+<https://identifiers.org/wikipathways/WP3947_r106483>	WP3947	Serotonin and anxiety	3
+<https://identifiers.org/wikipathways/WP395_r120704>	WP395	IL-4 signaling pathway	24
+<https://identifiers.org/wikipathways/WP3953_r106206>	WP3953	mRNA, protein, and metabolite inducation pathway by cyclosporin A	3
+<https://identifiers.org/wikipathways/WP3958_r117148>	WP3958	GPR40 pathway	3
+<https://identifiers.org/wikipathways/WP3959_r118468>	WP3959	DNA IR-double strand breaks and cellular response via ATM	17
+<https://identifiers.org/wikipathways/WP3963_r107557>	WP3963	Mevalonate pathway	6
+<https://identifiers.org/wikipathways/WP3965_r117154>	WP3965	Lipid metabolism pathway	11
+<https://identifiers.org/wikipathways/WP3967_r108139>	WP3967	miR-509-3p alteration of YAP1/ECM axis	10
+<https://identifiers.org/wikipathways/WP3969_r106437>	WP3969	H19 action Rb-E2F1 signaling and CDK-Beta-catenin activity	7
+<https://identifiers.org/wikipathways/WP3971_r117820>	WP3971	OSX and miRNAs in tooth development	7
+<https://identifiers.org/wikipathways/WP3972_r108157>	WP3972	PDGFR-beta pathway	12
+<https://identifiers.org/wikipathways/WP3981_r108114>	WP3981	miRNA regulation of prostate cancer signaling pathways	10
+<https://identifiers.org/wikipathways/WP3982_r108115>	WP3982	miRNA regulation of p53 pathway in prostate cancer	11
+<https://identifiers.org/wikipathways/WP399_r119242>	WP399	Wnt signaling pathway and pluripotency	32
+<https://identifiers.org/wikipathways/WP3995_r119304>	WP3995	Prion disease pathway	12
+<https://identifiers.org/wikipathways/WP3996_r107156>	WP3996	Ethanol effects on histone modifications	10
+<https://identifiers.org/wikipathways/WP3998_r119303>	WP3998	Prader-Willi and Angelman syndrome	17
+<https://identifiers.org/wikipathways/WP400_r116725>	WP400	p38 MAPK signaling pathway	8
+<https://identifiers.org/wikipathways/WP4008_r117805>	WP4008	NO/cGMP/PKG mediated neuroprotection	14
+<https://identifiers.org/wikipathways/WP4016_r120667>	WP4016	DNA IR-damage and cellular response via ATR	36
+<https://identifiers.org/wikipathways/WP4018_r117168>	WP4018	Clear cell renal cell carcinoma pathways	44
+<https://identifiers.org/wikipathways/WP4022_r120306>	WP4022	Pyrimidine metabolism	27
+<https://identifiers.org/wikipathways/WP4030_r93221>	WP4030	SCFA and skeletal muscle substrate metabolism	3
+<https://identifiers.org/wikipathways/WP405_r118377>	WP405	Eukaryotic transcription initiation	5
+<https://identifiers.org/wikipathways/WP408_r116900>	WP408	Oxidative stress response	14
+<https://identifiers.org/wikipathways/WP410_r117108>	WP410	Exercise-induced circadian regulation	16
+<https://identifiers.org/wikipathways/WP411_r122796>	WP411	mRNA processing	20
+<https://identifiers.org/wikipathways/WP4136_r120387>	WP4136	Fibrin complement receptor 3 signaling pathway	18
+<https://identifiers.org/wikipathways/WP4141_r122432>	WP4141	PI3K/AKT/mTOR - vitamin D3 signaling	13
+<https://identifiers.org/wikipathways/WP4142_r119292>	WP4142	Metabolism of spingolipids in ER and Golgi apparatus	9
+<https://identifiers.org/wikipathways/WP4146_r107552>	WP4146	Macrophage markers	6
+<https://identifiers.org/wikipathways/WP4147_r94394>	WP4147	PTF1A related regulatory pathway	4
+<https://identifiers.org/wikipathways/WP4148_r110682>	WP4148	Splicing factor NOVA regulated synaptic proteins	20
+<https://identifiers.org/wikipathways/WP4149_r107159>	WP4149	White fat cell differentiation	11
+<https://identifiers.org/wikipathways/WP4150_r116677>	WP4150	Wnt signaling in kidney disease	13
+<https://identifiers.org/wikipathways/WP4153_r120394>	WP4153	Degradation pathway of sphingolipids, including diseases	2
+<https://identifiers.org/wikipathways/WP4155_r119086>	WP4155	Endometrial cancer	21
+<https://identifiers.org/wikipathways/WP4156_r121756>	WP4156	Biosynthesis and regeneration of tetrahydrobiopterin and catabolism of phenylalanine	1
+<https://identifiers.org/wikipathways/WP4157_r120415>	WP4157	GABA metabolism (aka GHB)	5
+<https://identifiers.org/wikipathways/WP4159_r119288>	WP4159	GABA receptor signaling	9
+<https://identifiers.org/wikipathways/WP4172_r122580>	WP4172	PI3K-Akt signaling pathway	138
+<https://identifiers.org/wikipathways/WP4174_r117157>	WP4174	Metabolism of tetrahydrocannabinol (THC)	2
+<https://identifiers.org/wikipathways/WP4186_r105819>	WP4186	Somatroph axis (GH) and its relationship to dietary restriction and aging	2
+<https://identifiers.org/wikipathways/WP4189_r120000>	WP4189	Mevalonate arm of cholesterol biosynthesis pathway with inhibitors	2
+<https://identifiers.org/wikipathways/WP4190_r118431>	WP4190	Mevalonate arm of cholesterol biosynthesis pathway	9
+<https://identifiers.org/wikipathways/WP4191_r106347>	WP4191	Caloric restriction and aging	4
+<https://identifiers.org/wikipathways/WP4194_r119287>	WP4194	Hormonal control of pubertal growth spurt	2
+<https://identifiers.org/wikipathways/WP4197_r120647>	WP4197	Immune response to tuberculosis	16
+<https://identifiers.org/wikipathways/WP4204_r108297>	WP4204	Tumor suppressor activity of SMARCB1	9
+<https://identifiers.org/wikipathways/WP4205_r118937>	WP4205	MET in type 1 papillary renal cell carcinoma	23
+<https://identifiers.org/wikipathways/WP4206_r119286>	WP4206	Hereditary leiomyomatosis and renal cell carcinoma pathway	8
+<https://identifiers.org/wikipathways/WP4210_r95880>	WP4210	Tryptophan catabolism leading to NAD+ production	9
+<https://identifiers.org/wikipathways/WP4211_r107570>	WP4211	Transcriptional cascade regulating adipogenesis	4
+<https://identifiers.org/wikipathways/WP4216_r119088>	WP4216	Chromosomal and microsatellite instability in colorectal cancer 	27
+<https://identifiers.org/wikipathways/WP4217_r120623>	WP4217	Ebola virus infection in host	54
+<https://identifiers.org/wikipathways/WP422_r116723>	WP422	MAPK cascade	7
+<https://identifiers.org/wikipathways/WP4220_r120526>	WP4220	Neurotransmitter disorders	2
+<https://identifiers.org/wikipathways/WP4222_r107160>	WP4222	Phosphodiesterases in neuronal function	9
+<https://identifiers.org/wikipathways/WP4223_r119284>	WP4223	Ras signaling	68
+<https://identifiers.org/wikipathways/WP4224_r120400>	WP4224	Purine metabolism and related disorders	9
+<https://identifiers.org/wikipathways/WP4225_r120401>	WP4225	Pyrimidine metabolism and related diseases	7
+<https://identifiers.org/wikipathways/WP4228_r119281>	WP4228	Vitamin B6-dependent and responsive disorders	3
+<https://identifiers.org/wikipathways/WP4236_r120410>	WP4236	Krebs cycle disorders	2
+<https://identifiers.org/wikipathways/WP4239_r118997>	WP4239	Epithelial to mesenchymal transition in colorectal cancer	59
+<https://identifiers.org/wikipathways/WP4240_r106495>	WP4240	Regulation of sister chromatid separation at the metaphase-anaphase transition	7
+<https://identifiers.org/wikipathways/WP4241_r106520>	WP4241	Type 2 papillary renal cell carcinoma	13
+<https://identifiers.org/wikipathways/WP4249_r117749>	WP4249	Hedgehog signaling pathway	11
+<https://identifiers.org/wikipathways/WP4255_r119279>	WP4255	Non-small cell lung cancer	34
+<https://identifiers.org/wikipathways/WP4258_r117770>	WP4258	lncRNA in canonical Wnt signaling and colorectal cancer	32
+<https://identifiers.org/wikipathways/WP4259_r119256>	WP4259	Disorders of folate metabolism and transport	6
+<https://identifiers.org/wikipathways/WP4262_r108103>	WP4262	Breast cancer pathway	53
+<https://identifiers.org/wikipathways/WP4263_r105482>	WP4263	Pancreatic adenocarcinoma pathway	35
+<https://identifiers.org/wikipathways/WP4269_r117715>	WP4269	Ethanol metabolism production of ROS by CYP2E1	3
+<https://identifiers.org/wikipathways/WP4271_r120408>	WP4271	Vitamin B12 disorders	4
+<https://identifiers.org/wikipathways/WP428_r116549>	WP428	Wnt signaling	35
+<https://identifiers.org/wikipathways/WP4288_r120407>	WP4288	MTHFR deficiency	8
+<https://identifiers.org/wikipathways/WP4290_r118611>	WP4290	Metabolic reprogramming in colon cancer	25
+<https://identifiers.org/wikipathways/WP4292_r121757>	WP4292	Methionine metabolism leading to sulfur amino acids and related disorders	1
+<https://identifiers.org/wikipathways/WP4297_r120409>	WP4297	Thiamine metabolic pathways	5
+<https://identifiers.org/wikipathways/WP4298_r121698>	WP4298	Acute viral myocarditis	33
+<https://identifiers.org/wikipathways/WP43_r122562>	WP43	Oxidation by cytochrome P450	22
+<https://identifiers.org/wikipathways/WP430_r122069>	WP430	Statin inhibition of cholesterol production	17
+<https://identifiers.org/wikipathways/WP4300_r105311>	WP4300	Extracellular vesicles in the crosstalk of cardiac cells	12
+<https://identifiers.org/wikipathways/WP4301_r97800>	WP4301	Inhibition of exosome biogenesis and secretion by Manumycin A in CRPC cells	4
+<https://identifiers.org/wikipathways/WP4304_r119229>	WP4304	Oligodendrocyte specification and differentiation, leading to myelin components for CNS	12
+<https://identifiers.org/wikipathways/WP4312_r119230>	WP4312	Rett syndrome causing genes	12
+<https://identifiers.org/wikipathways/WP4313_r120500>	WP4313	Ferroptosis	27
+<https://identifiers.org/wikipathways/WP4316_r120818>	WP4316	miRNA degrading enzymes	1
+<https://identifiers.org/wikipathways/WP4317_r114309>	WP4317	Mitochondrial fatty acid synthesis pathway	1
+<https://identifiers.org/wikipathways/WP4320_r116686>	WP4320	Effect of progerin on genes involved in Hutchinson-Gilford progeria syndrome	7
+<https://identifiers.org/wikipathways/WP4321_r106178>	WP4321	Thermogenesis	40
+<https://identifiers.org/wikipathways/WP4324_r98172>	WP4324	Mitochondrial complex I assembly model OXPHOS system	17
+<https://identifiers.org/wikipathways/WP4329_r101725>	WP4329	miRNAs involvement in the immune response in sepsis	19
+<https://identifiers.org/wikipathways/WP4331_r107654>	WP4331	Neovascularisation processes	13
+<https://identifiers.org/wikipathways/WP4336_r108198>	WP4336	ncRNAs involved in Wnt signaling in hepatocellular carcinoma	28
+<https://identifiers.org/wikipathways/WP4337_r108190>	WP4337	ncRNAs involved in STAT3 signaling in hepatocellular carcinoma	10
+<https://identifiers.org/wikipathways/WP4341_r122900>	WP4341	Non-genomic actions of 1,25 dihydroxyvitamin D3	40
+<https://identifiers.org/wikipathways/WP4342_r106136>	WP4342	Vitamins A and D - action mechanisms	2
+<https://identifiers.org/wikipathways/WP4352_r102218>	WP4352	Ciliary landscape	58
+<https://identifiers.org/wikipathways/WP4357_r98705>	WP4357	NRF2-ARE regulation	8
+<https://identifiers.org/wikipathways/WP437_r120689>	WP437	EGF/EGFR signaling pathway	61
+<https://identifiers.org/wikipathways/WP438_r119305>	WP438	Non-homologous end joining	3
+<https://identifiers.org/wikipathways/WP4389_r116629>	WP4389	Bile acids synthesis and enterohepatic circulation 	4
+<https://identifiers.org/wikipathways/WP4396_r98945>	WP4396	Nonalcoholic fatty liver disease	57
+<https://identifiers.org/wikipathways/WP4399_r102102>	WP4399	MicroRNA network associated with chronic lymphocytic leukemia	2
+<https://identifiers.org/wikipathways/WP4462_r102079>	WP4462	Platelet-mediated interactions with vascular and circulating cells	14
+<https://identifiers.org/wikipathways/WP4478_r121699>	WP4478	LTF danger signal response pathway	11
+<https://identifiers.org/wikipathways/WP4479_r121700>	WP4479	Supression of HMGB1 mediated inflammation by THBD	2
+<https://identifiers.org/wikipathways/WP4480_r121701>	WP4480	Altered glycosylation of MUC1 in tumor microenvironment	3
+<https://identifiers.org/wikipathways/WP4481_r121702>	WP4481	Resistin as a regulator of inflammation	11
+<https://identifiers.org/wikipathways/WP4482_r121703>	WP4482	Vitamin D in inflammatory diseases	9
+<https://identifiers.org/wikipathways/WP4483_r107927>	WP4483	Relationship between inflammation, COX-2 and EGFR	9
+<https://identifiers.org/wikipathways/WP4484_r107333>	WP4484	Control of immune tolerance by vasoactive intestinal peptide	7
+<https://identifiers.org/wikipathways/WP4493_r120800>	WP4493	Cells and molecules involved in local acute inflammatory response 	13
+<https://identifiers.org/wikipathways/WP4494_r103559>	WP4494	Selective expression of chemokine receptors during T-cell polarization	17
+<https://identifiers.org/wikipathways/WP4495_r117759>	WP4495	IL-10 anti-inflammatory signaling pathway 	10
+<https://identifiers.org/wikipathways/WP4496_r102693>	WP4496	Signal transduction through IL1R	16
+<https://identifiers.org/wikipathways/WP45_r106424>	WP45	G1 to S cell cycle control	25
+<https://identifiers.org/wikipathways/WP4504_r119316>	WP4504	Cysteine and methionine catabolism	3
+<https://identifiers.org/wikipathways/WP4506_r120405>	WP4506	Tyrosine metabolism	1
+<https://identifiers.org/wikipathways/WP4507_r119314>	WP4507	Molybdenum cofactor (Moco) biosynthesis	4
+<https://identifiers.org/wikipathways/WP4518_r122628>	WP4518	Gamma-glutamyl cycle for the biosynthesis and degradation of glutathione, including diseases	1
+<https://identifiers.org/wikipathways/WP4519_r119988>	WP4519	Cerebral organic acidurias, including diseases	3
+<https://identifiers.org/wikipathways/WP4521_r119311>	WP4521	Glycosylation and related congenital defects	7
+<https://identifiers.org/wikipathways/WP4522_r119310>	WP4522	Metabolic pathway of LDL, HDL and TG, including diseases	11
+<https://identifiers.org/wikipathways/WP4523_r121849>	WP4523	Classical pathway of steroidogenesis with glucocorticoid and mineralocorticoid metabolism	2
+<https://identifiers.org/wikipathways/WP453_r116780>	WP453	Inflammatory response pathway	18
+<https://identifiers.org/wikipathways/WP4532_r103287>	WP4532	Intraflagellar transport proteins binding to dynein	8
+<https://identifiers.org/wikipathways/WP4533_r103380>	WP4533	Transcription co-factors SKI and SKIL protein partners	9
+<https://identifiers.org/wikipathways/WP4534_r103303>	WP4534	Mechanoregulation and pathology of YAP/TAZ via Hippo and non-Hippo mechanisms	17
+<https://identifiers.org/wikipathways/WP4535_r109210>	WP4535	Envelope proteins and their potential roles in EDMD physiopathology	11
+<https://identifiers.org/wikipathways/WP4536_r110928>	WP4536	Genes related to primary cilium development (based on CRISPR)	31
+<https://identifiers.org/wikipathways/WP4537_r103300>	WP4537	Hippo-Yap signaling pathway	10
+<https://identifiers.org/wikipathways/WP4538_r104390>	WP4538	Regulatory circuits of the STAT3 signaling pathway	43
+<https://identifiers.org/wikipathways/WP4539_r113659>	WP4539	Synaptic signaling pathways associated with autism spectrum disorder	16
+<https://identifiers.org/wikipathways/WP4540_r120395>	WP4540	Hippo signaling regulation pathways	34
+<https://identifiers.org/wikipathways/WP4541_r116745>	WP4541	Hippo-Merlin signaling dysregulation	49
+<https://identifiers.org/wikipathways/WP4542_r120673>	WP4542	Leukocyte-intrinsic Hippo pathway functions	17
+<https://identifiers.org/wikipathways/WP4545_r121824>	WP4545	Oxysterols derived from cholesterol	19
+<https://identifiers.org/wikipathways/WP4549_r119333>	WP4549	Fragile X syndrome	33
+<https://identifiers.org/wikipathways/WP455_r117740>	WP455	GPCRs, class A rhodopsin-like	55
+<https://identifiers.org/wikipathways/WP4553_r103606>	WP4553	FBXL10 enhancement of MAP/ERK signaling in diffuse large B-cell lymphoma	4
+<https://identifiers.org/wikipathways/WP4558_r107928>	WP4558	Overview of interferons-mediated signaling pathway	10
+<https://identifiers.org/wikipathways/WP4559_r104316>	WP4559	Interactions between immune cells and microRNAs in tumor microenvironment	22
+<https://identifiers.org/wikipathways/WP4560_r108134>	WP4560	MFAP5 effect on permeability and motility of endothelial cells via cytoskeleton rearrangement	4
+<https://identifiers.org/wikipathways/WP4561_r107544>	WP4561	Cell migration and invasion through p75NTR	12
+<https://identifiers.org/wikipathways/WP4562_r117956>	WP4562	Canonical NF-kB pathway	2
+<https://identifiers.org/wikipathways/WP4564_r117803>	WP4564	Neural crest cell migration during development	16
+<https://identifiers.org/wikipathways/WP4565_r117804>	WP4565	Neural crest cell migration in cancer	16
+<https://identifiers.org/wikipathways/WP4566_r104315>	WP4566	Translation inhibitors in chronically activated PDGFRA cells	20
+<https://identifiers.org/wikipathways/WP4571_r120383>	WP4571	Urea cycle and related diseases	3
+<https://identifiers.org/wikipathways/WP4577_r118444>	WP4577	Neurodegeneration with brain iron accumulation (NBIA) subtypes pathway	13
+<https://identifiers.org/wikipathways/WP4582_r108125>	WP4582	Cancer immunotherapy by CTLA4 blockade	10
+<https://identifiers.org/wikipathways/WP4583_r106803>	WP4583	Biomarkers for urea cycle disorders	5
+<https://identifiers.org/wikipathways/WP4584_r119306>	WP4584	Biomarkers for pyrimidine metabolism disorders	6
+<https://identifiers.org/wikipathways/WP4585_r108119>	WP4585	Cancer immunotherapy by PD-1 blockade	11
+<https://identifiers.org/wikipathways/WP4586_r119267>	WP4586	Metabolism of alpha-linolenic acid	4
+<https://identifiers.org/wikipathways/WP4589_r119266>	WP4589	Major receptors targeted by epinephrine and norepinephrine	3
+<https://identifiers.org/wikipathways/WP4595_r121755>	WP4595	Urea cycle and associated pathways	9
+<https://identifiers.org/wikipathways/WP4629_r119264>	WP4629	Aerobic glycolysis	8
+<https://identifiers.org/wikipathways/WP4630_r120771>	WP4630	Measles virus infection	54
+<https://identifiers.org/wikipathways/WP465_r122957>	WP465	Tryptophan metabolism	16
+<https://identifiers.org/wikipathways/WP4655_r105163>	WP4655	Cytosolic DNA-sensing pathway	23
+<https://identifiers.org/wikipathways/WP4656_r120396>	WP4656	Joubert syndrome	24
+<https://identifiers.org/wikipathways/WP4657_r120007>	WP4657	22q11.2 copy number variation syndrome	29
+<https://identifiers.org/wikipathways/WP4658_r119261>	WP4658	Small cell lung cancer	44
+<https://identifiers.org/wikipathways/WP4659_r116555>	WP4659	Gastrin signaling pathway	34
+<https://identifiers.org/wikipathways/WP466_r117096>	WP466	DNA replication	17
+<https://identifiers.org/wikipathways/WP4661_r117646>	WP4661	Amino acid metabolism pathway excerpt: histidine catabolism extension	2
+<https://identifiers.org/wikipathways/WP4666_r119241>	WP4666	Hepatitis B infection	60
+<https://identifiers.org/wikipathways/WP4673_r119920>	WP4673	Male infertility	41
+<https://identifiers.org/wikipathways/WP4674_r117748>	WP4674	Head and neck squamous cell carcinoma	30
+<https://identifiers.org/wikipathways/WP4685_r119240>	WP4685	Melanoma	21
+<https://identifiers.org/wikipathways/WP4686_r122622>	WP4686	Leucine, isoleucine and valine metabolism	10
+<https://identifiers.org/wikipathways/WP4688_r120418>	WP4688	Serine metabolism	4
+<https://identifiers.org/wikipathways/WP4698_r119119>	WP4698	Vitamin D-sensitive calcium signaling in depression	12
+<https://identifiers.org/wikipathways/WP47_r120579>	WP47	Hedgehog signaling pathway	5
+<https://identifiers.org/wikipathways/WP4705_r119081>	WP4705	Pathways of nucleic acid metabolism and innate immune sensing	5
+<https://identifiers.org/wikipathways/WP4707_r116586>	WP4707	Aspirin and miRNAs	6
+<https://identifiers.org/wikipathways/WP4718_r119764>	WP4718	Cholesterol metabolism with Bloch and Kandutsch-Russell pathways	31
+<https://identifiers.org/wikipathways/WP4719_r116307>	WP4719	Eicosanoid metabolism via cyclooxygenases (COX)	16
+<https://identifiers.org/wikipathways/WP4720_r120365>	WP4720	Eicosanoid metabolism via cytochrome P450 monooxygenases pathway	5
+<https://identifiers.org/wikipathways/WP4721_r116526>	WP4721	Eicosanoid metabolism via lipooxygenases (LOX)	16
+<https://identifiers.org/wikipathways/WP4722_r117144>	WP4722	Glycerolipids and glycerophospholipids	6
+<https://identifiers.org/wikipathways/WP4723_r120315>	WP4723	Omega-3 / omega-6 fatty acid synthesis	9
+<https://identifiers.org/wikipathways/WP4724_r117812>	WP4724	Omega-9 fatty acid synthesis	10
+<https://identifiers.org/wikipathways/WP4725_r117175>	WP4725	Sphingolipid metabolism overview	9
+<https://identifiers.org/wikipathways/WP4726_r120323>	WP4726	Sphingolipid metabolism: integrated pathway	9
+<https://identifiers.org/wikipathways/WP474_r117098>	WP474	Endochondral ossification	33
+<https://identifiers.org/wikipathways/WP4742_r122056>	WP4742	Ketogenesis and ketolysis	6
+<https://identifiers.org/wikipathways/WP4746_r120402>	WP4746	Thyroid hormones production and peripheral downstream signaling effects	41
+<https://identifiers.org/wikipathways/WP4747_r116543>	WP4747	Netrin-UNC5B signaling pathway	20
+<https://identifiers.org/wikipathways/WP4751_r120779>	WP4751	HIPK2 in kidney fibrosis	1
+<https://identifiers.org/wikipathways/WP4752_r119239>	WP4752	Base excision repair	11
+<https://identifiers.org/wikipathways/WP4753_r119238>	WP4753	Nucleotide excision repair	13
+<https://identifiers.org/wikipathways/WP4754_r115147>	WP4754	IL-18 signaling pathway	119
+<https://identifiers.org/wikipathways/WP4756_r120634>	WP4756	Renin-angiotensin-aldosterone system (RAAS)	16
+<https://identifiers.org/wikipathways/WP4758_r108284>	WP4758	Nephrotic syndrome	15
+<https://identifiers.org/wikipathways/WP4760_r108400>	WP4760	PKC-gamma calcium signaling pathway in ataxia	8
+<https://identifiers.org/wikipathways/WP4767_r116441>	WP4767	FGFR3 signaling in chondrocyte proliferation and terminal differentiation	10
+<https://identifiers.org/wikipathways/WP477_r117044>	WP477	Cytoplasmic ribosomal proteins	52
+<https://identifiers.org/wikipathways/WP4784_r111633>	WP4784	Proteoglycan biosynthesis	8
+<https://identifiers.org/wikipathways/WP4785_r111735>	WP4785	Somitogenesis in the context of spondylocostal dysostosis	1
+<https://identifiers.org/wikipathways/WP4786_r117852>	WP4786	Type I collagen synthesis in the context of osteogenesis imperfecta	18
+<https://identifiers.org/wikipathways/WP4787_r118872>	WP4787	Osteoblast differentiation and related diseases	42
+<https://identifiers.org/wikipathways/WP4788_r117658>	WP4788	Autosomal recessive osteopetrosis pathways	3
+<https://identifiers.org/wikipathways/WP4789_r117775>	WP4789	MED and pseudoachondroplasia genes	1
+<https://identifiers.org/wikipathways/WP4790_r116413>	WP4790	FGF23 signaling in hypophosphatemic rickets and related disorders	9
+<https://identifiers.org/wikipathways/WP4792_r119117>	WP4792	Purine metabolism	6
+<https://identifiers.org/wikipathways/WP4799_r120793>	WP4799	Downregulation of ACE2 by SARS-CoV-2 spike protein	3
+<https://identifiers.org/wikipathways/WP4803_r110008>	WP4803	Ciliopathies	41
+<https://identifiers.org/wikipathways/WP4804_r117680>	WP4804	Cholesterol biosynthesis with skeletal dysplasias	4
+<https://identifiers.org/wikipathways/WP4806_r116801>	WP4806	EGFR tyrosine kinase inhibitor resistance	38
+<https://identifiers.org/wikipathways/WP4808_r117708>	WP4808	Endochondral ossification with skeletal dysplasias	33
+<https://identifiers.org/wikipathways/WP481_r120562>	WP481	Insulin signaling	65
+<https://identifiers.org/wikipathways/WP4814_r116554>	WP4814	Somatic sex determination	3
+<https://identifiers.org/wikipathways/WP4815_r110276>	WP4815	Glycosaminoglycan degradation	4
+<https://identifiers.org/wikipathways/WP4816_r116440>	WP4816	TGF-beta receptor signaling in skeletal dysplasias	25
+<https://identifiers.org/wikipathways/WP4818_r117691>	WP4818	Conversion of angiotensinogen to angiotensin II 	2
+<https://identifiers.org/wikipathways/WP4823_r119116>	WP4823	Genes controlling nephrogenesis	13
+<https://identifiers.org/wikipathways/WP4829_r109219>	WP4829	mBDNF and proBDNF regulation of GABA neurotransmission	16
+<https://identifiers.org/wikipathways/WP4830_r118773>	WP4830	GDNF/RET signaling axis	4
+<https://identifiers.org/wikipathways/WP4838_r110282>	WP4838	Regucalcin in proximal tubule epithelial kidney cells	7
+<https://identifiers.org/wikipathways/WP4842_r119114>	WP4842	Mammalian disorder of sexual development	6
+<https://identifiers.org/wikipathways/WP4844_r120398>	WP4844	Influence of laminopathies on Wnt signaling	11
+<https://identifiers.org/wikipathways/WP4846_r122702>	WP4846	SARS-CoV-2 and COVID-19 pathway	6
+<https://identifiers.org/wikipathways/WP4853_r122756>	WP4853	Linoleic acid metabolism affected by SARS-CoV-2	5
+<https://identifiers.org/wikipathways/WP4856_r113654>	WP4856	Intracellular trafficking proteins involved in CMT neuropathy	10
+<https://identifiers.org/wikipathways/WP4860_r120599>	WP4860	Hijack of ubiquitination by SARS-CoV-2	2
+<https://identifiers.org/wikipathways/WP4861_r118973>	WP4861	Endoplasmic reticulum stress response in coronavirus infection	15
+<https://identifiers.org/wikipathways/WP4863_r116597>	WP4863	Host-pathogen interaction of human coronaviruses - autophagy	6
+<https://identifiers.org/wikipathways/WP4864_r116596>	WP4864	Host-pathogen interaction of human coronaviruses - apoptosis	9
+<https://identifiers.org/wikipathways/WP4868_r120021>	WP4868	Type I interferon induction and signaling during SARS-CoV-2 infection	16
+<https://identifiers.org/wikipathways/WP4871_r120412>	WP4871	Kisspeptin/kisspeptin receptor system in the ovary	11
+<https://identifiers.org/wikipathways/WP4872_r110081>	WP4872	MAP3K1 role in promoting and blocking gonadal determination	5
+<https://identifiers.org/wikipathways/WP4873_r110299>	WP4873	Peroxiredoxin 2 induced ovarian failure	1
+<https://identifiers.org/wikipathways/WP4874_r121708>	WP4874	CAMKK2 pathway	9
+<https://identifiers.org/wikipathways/WP4875_r116427>	WP4875	Disruption of postsynaptic signaling by CNV	10
+<https://identifiers.org/wikipathways/WP4876_r120600>	WP4876	Activation of NLRP3 inflammasome by SARS-CoV-2	3
+<https://identifiers.org/wikipathways/WP4877_r119237>	WP4877	Host-pathogen interaction of human coronaviruses - MAPK signaling	13
+<https://identifiers.org/wikipathways/WP4879_r120399>	WP4879	Overlap between signal transduction pathways contributing to LMNA laminopathies	19
+<https://identifiers.org/wikipathways/WP4880_r119113>	WP4880	Host-pathogen interaction of human coronaviruses - interferon induction	12
+<https://identifiers.org/wikipathways/WP4883_r120620>	WP4883	SARS-CoV-2 and ACE2 receptor: molecular mechanisms	4
+<https://identifiers.org/wikipathways/WP4884_r120646>	WP4884	Pathogenesis of SARS-CoV-2 mediated by nsp9-nsp10 complex	8
+<https://identifiers.org/wikipathways/WP4891_r120510>	WP4891	COVID-19 adverse outcome pathway	12
+<https://identifiers.org/wikipathways/WP49_r120703>	WP49	IL-2 signaling pathway	20
+<https://identifiers.org/wikipathways/WP4900_r110333>	WP4900	Purinergic signaling	10
+<https://identifiers.org/wikipathways/WP4904_r120598>	WP4904	LDLRAD4 and what we know about it	2
+<https://identifiers.org/wikipathways/WP4905_r115772>	WP4905	1q21.1 copy number variation syndrome	7
+<https://identifiers.org/wikipathways/WP4906_r115773>	WP4906	3q29 copy number variation syndrome	16
+<https://identifiers.org/wikipathways/WP4912_r115852>	WP4912	SARS coronavirus and innate immunity	10
+<https://identifiers.org/wikipathways/WP4917_r119111>	WP4917	Proximal tubule transport	16
+<https://identifiers.org/wikipathways/WP4918_r117679>	WP4918	Cellular proteostasis	2
+<https://identifiers.org/wikipathways/WP4919_r111814>	WP4919	Neuroinflammation	4
+<https://identifiers.org/wikipathways/WP4921_r116643>	WP4921	Mitochondrial complex III assembly	5
+<https://identifiers.org/wikipathways/WP4922_r117792>	WP4922	Mitochondrial complex IV assembly	14
+<https://identifiers.org/wikipathways/WP4923_r110416>	WP4923	Autophagy	6
+<https://identifiers.org/wikipathways/WP4925_r112845>	WP4925	Unfolded protein response	15
+<https://identifiers.org/wikipathways/WP4928_r120795>	WP4928	MAPK pathway in congenital thyroid cancer	3
+<https://identifiers.org/wikipathways/WP4932_r118797>	WP4932	7q11.23 copy number variation syndrome	32
+<https://identifiers.org/wikipathways/WP4940_r115775>	WP4940	15q11.2 copy number variation syndrome	1
+<https://identifiers.org/wikipathways/WP4941_r120578>	WP4941	GPR143 in melanocytes and retinal pigment epithelium cells	10
+<https://identifiers.org/wikipathways/WP4942_r115789>	WP4942	15q13.3 copy number variation syndrome	6
+<https://identifiers.org/wikipathways/WP4946_r117703>	WP4946	DNA repair pathways, full network	38
+<https://identifiers.org/wikipathways/WP4947_r118070>	WP4947	Nitric oxide metabolism in cystic fibrosis	4
+<https://identifiers.org/wikipathways/WP4949_r115778>	WP4949	16p11.2 proximal deletion syndrome	16
+<https://identifiers.org/wikipathways/WP4950_r115784>	WP4950	16p11.2 distal deletion syndrome	13
+<https://identifiers.org/wikipathways/WP496_r119106>	WP496	Steroid biosynthesis	3
+<https://identifiers.org/wikipathways/WP4961_r120610>	WP4961	STING pathway in Kawasaki-like disease and COVID-19	9
+<https://identifiers.org/wikipathways/WP4962_r122013>	WP4962	Airway smooth muscle cell contraction	3
+<https://identifiers.org/wikipathways/WP4963_r122690>	WP4963	p53 transcriptional gene network	38
+<https://identifiers.org/wikipathways/WP4966_r112070>	WP4966	Fluoroacetic acid toxicity	2
+<https://identifiers.org/wikipathways/WP4969_r120081>	WP4969	RAS and bradykinin pathways in COVID-19	18
+<https://identifiers.org/wikipathways/WP497_r119105>	WP497	Urea cycle and metabolism of amino groups	9
+<https://identifiers.org/wikipathways/WP4970_r113773>	WP4970	Galanin receptor pathway	5
+<https://identifiers.org/wikipathways/WP4971_r122106>	WP4971	Phosphoinositides metabolism	15
+<https://identifiers.org/wikipathways/WP500_r121748>	WP500	Glycogen synthesis and degradation	12
+<https://identifiers.org/wikipathways/WP501_r117742>	WP501	GPCRs, class C metabotropic glutamate, pheromone	2
+<https://identifiers.org/wikipathways/WP5027_r120060>	WP5027	nsp1 from SARS-CoV-2 inhibits translation initiation in the host cell	7
+<https://identifiers.org/wikipathways/WP5030_r120416>	WP5030	Ethylmalonic encephalopathy	1
+<https://identifiers.org/wikipathways/WP5031_r122564>	WP5031	Biotin metabolism, including IMDs	3
+<https://identifiers.org/wikipathways/WP5033_r118996>	WP5033	Genes associated with the development of rheumatoid arthritis	12
+<https://identifiers.org/wikipathways/WP5036_r119016>	WP5036	Angiotensin II receptor type 1 pathway	13
+<https://identifiers.org/wikipathways/WP5037_r120417>	WP5037	Riboflavin and CoQ disorders	4
+<https://identifiers.org/wikipathways/WP5038_r121595>	WP5038	Mitochondrial immune response to SARS-CoV-2	14
+<https://identifiers.org/wikipathways/WP5039_r120358>	WP5039	SARS-CoV-2 innate immunity evasion and cell-specific immune response	39
+<https://identifiers.org/wikipathways/WP5043_r120456>	WP5043	Pentose phosphate pathway in senescent cells	2
+<https://identifiers.org/wikipathways/WP5044_r119244>	WP5044	Kynurenine pathway and links to cell senescence	12
+<https://identifiers.org/wikipathways/WP5046_r118987>	WP5046	NAD metabolism in oncogene-induced senescence and mitochondrial dysfunction-associated senescence	11
+<https://identifiers.org/wikipathways/WP5049_r120508>	WP5049	Glycolysis in senescence	9
+<https://identifiers.org/wikipathways/WP5050_r119012>	WP5050	TCA cycle in senescence	4
+<https://identifiers.org/wikipathways/WP5052_r118777>	WP5052	Nephrogenesis	5
+<https://identifiers.org/wikipathways/WP5053_r118778>	WP5053	Development of ureteric collection system	19
+<https://identifiers.org/wikipathways/WP5055_r122621>	WP5055	Burn wound healing	53
+<https://identifiers.org/wikipathways/WP5061_r115541>	WP5061	Fatty acid transporters	5
+<https://identifiers.org/wikipathways/WP5063_r118833>	WP5063	FOXP3 in COVID-19	12
+<https://identifiers.org/wikipathways/WP5064_r120384>	WP5064	7-oxo-C and 7-beta-HC pathways	12
+<https://identifiers.org/wikipathways/WP5065_r118890>	WP5065	SARS-CoV-2 altering angiogenesis via NRP1	3
+<https://identifiers.org/wikipathways/WP5066_r116631>	WP5066	FOXA2 pathway	9
+<https://identifiers.org/wikipathways/WP5072_r115764>	WP5072	Modulators of TCR signaling and T cell activation	23
+<https://identifiers.org/wikipathways/WP5074_r120388>	WP5074	Kallmann syndrome	8
+<https://identifiers.org/wikipathways/WP5076_r118892>	WP5076	Soluble ACE2-mediated cell entry of SARS-CoV-2	3
+<https://identifiers.org/wikipathways/WP5083_r120385>	WP5083	Neuroinflammation and glutamatergic signaling	56
+<https://identifiers.org/wikipathways/WP5085_r119785>	WP5085	Vasopressin-regulated water reabsorption	12
+<https://identifiers.org/wikipathways/WP5087_r122659>	WP5087	Malignant pleural mesothelioma	170
+<https://identifiers.org/wikipathways/WP5088_r119639>	WP5088	Prostaglandin signaling	21
+<https://identifiers.org/wikipathways/WP5089_r118192>	WP5089	Kinin-Kallikrein pathway	3
+<https://identifiers.org/wikipathways/WP5090_r118898>	WP5090	Complement system in neuronal development and plasticity	54
+<https://identifiers.org/wikipathways/WP5092_r119997>	WP5092	Interactions of natural killer cells in pancreatic cancer	13
+<https://identifiers.org/wikipathways/WP5095_r120801>	WP5095	Overview of proinflammatory and profibrotic mediators	55
+<https://identifiers.org/wikipathways/WP5097_r119075>	WP5097	CCL18 signaling pathway	23
+<https://identifiers.org/wikipathways/WP5098_r119538>	WP5098	T-cell activation SARS-CoV-2	37
+<https://identifiers.org/wikipathways/WP51_r116716>	WP51	Regulation of actin cytoskeleton	47
+<https://identifiers.org/wikipathways/WP5101_r119172>	WP5101	Congenital generalized lipodystrophy (CGL)	6
+<https://identifiers.org/wikipathways/WP5102_r119174>	WP5102	Familial partial lipodystrophy (FPLD)	9
+<https://identifiers.org/wikipathways/WP5103_r119170>	WP5103	Progeria-associated lipodystrophy	8
+<https://identifiers.org/wikipathways/WP5104_r120389>	WP5104	Acquired partial lipodystrophy / Barraquer-Simons syndrome	5
+<https://identifiers.org/wikipathways/WP5108_r120390>	WP5108	Familial  hyperlipidemia type 1	8
+<https://identifiers.org/wikipathways/WP5109_r120391>	WP5109	Familial hyperlipidemia type 2	11
+<https://identifiers.org/wikipathways/WP5110_r120392>	WP5110	Familial hyperlipidemia type 3	8
+<https://identifiers.org/wikipathways/WP5111_r119173>	WP5111	Familial hyperlipidemia type 4	9
+<https://identifiers.org/wikipathways/WP5112_r119153>	WP5112	Familial hyperlipidemia type 5	7
+<https://identifiers.org/wikipathways/WP5113_r119486>	WP5113	Antiviral and anti-inflammatory effects of Nrf2 on SARS-CoV-2 pathway	15
+<https://identifiers.org/wikipathways/WP5114_r119169>	WP5114	Nucleotide excision repair in xeroderma pigmentosum 	17
+<https://identifiers.org/wikipathways/WP5115_r120811>	WP5115	Network map of SARS-CoV-2 signaling pathway	107
+<https://identifiers.org/wikipathways/WP5116_r120336>	WP5116	SARS-CoV-2 B.1.1.7 variant antagonises innate immune activation	2
+<https://identifiers.org/wikipathways/WP5117_r119395>	WP5117	Cohesin complex - Cornelia de Lange syndrome	10
+<https://identifiers.org/wikipathways/WP5118_r119397>	WP5118	SMC1/SMC3 role in DNA damage - Cornelia de Lange Syndrome	2
+<https://identifiers.org/wikipathways/WP5120_r120422>	WP5120	Inclusion body myositis	2
+<https://identifiers.org/wikipathways/WP5121_r119472>	WP5121	Sphingolipid metabolism in senescence	13
+<https://identifiers.org/wikipathways/WP5122_r119484>	WP5122	Prostaglandin and leukotriene metabolism in senescence 	14
+<https://identifiers.org/wikipathways/WP5124_r119432>	WP5124	Alzheimer's disease	86
+<https://identifiers.org/wikipathways/WP5130_r122780>	WP5130	Th17 cell differentiation pathway	31
+<https://identifiers.org/wikipathways/WP5133_r121511>	WP5133	Non-classical role of vitamin D	6
+<https://identifiers.org/wikipathways/WP5136_r120082>	WP5136	ALA oxylipin metabolism	3
+<https://identifiers.org/wikipathways/WP5137_r120230>	WP5137	Linoleic acid oxylipin metabolism	3
+<https://identifiers.org/wikipathways/WP5143_r120629>	WP5143	GDNF signaling	1
+<https://identifiers.org/wikipathways/WP5144_r120537>	WP5144	NRP1-triggered signaling pathways in pancreatic cancer 	25
+<https://identifiers.org/wikipathways/WP5149_r120374>	WP5149	Lipid metabolism in senescent cells	7
+<https://identifiers.org/wikipathways/WP5154_r122424>	WP5154	Docosahexaenoic acid (DHA) oxylipin metabolism	2
+<https://identifiers.org/wikipathways/WP516_r117755>	WP516	Hypertrophy model	9
+<https://identifiers.org/wikipathways/WP5166_r122169>	WP5166	Glyoxylate metabolism	3
+<https://identifiers.org/wikipathways/WP5169_r122351>	WP5169	Hemesynthesis defects and porphyrias	2
+<https://identifiers.org/wikipathways/WP5171_r122629>	WP5171	Leukotriene metabolic pathway	6
+<https://identifiers.org/wikipathways/WP5173_r122082>	WP5173	Disorders of galactose metabolism 	4
+<https://identifiers.org/wikipathways/WP5174_r121476>	WP5174	Ulcerative colitis signaling	9
+<https://identifiers.org/wikipathways/WP5175_r122904>	WP5175	Disorders in ketone body synthesis	3
+<https://identifiers.org/wikipathways/WP5176_r122283>	WP5176	Disorders of bile acid synthesis and biliary transport	6
+<https://identifiers.org/wikipathways/WP5178_r122450>	WP5178	Disorders of fructose metabolism	7
+<https://identifiers.org/wikipathways/WP5179_r121899>	WP5179	Biosynthesis and turnover of 1-deoxy-sphingoid bases	3
+<https://identifiers.org/wikipathways/WP5180_r122423>	WP5180	DYRK1A	17
+<https://identifiers.org/wikipathways/WP5181_r122326>	WP5181	Roles of ceramides in the development of insulin resistance	7
+<https://identifiers.org/wikipathways/WP5182_r122168>	WP5182	Pro-survival signaling of neuroprotectin D1	3
+<https://identifiers.org/wikipathways/WP5183_r122816>	WP5183	SARS-CoV-2 mitochondrial chronic oxidative stress and endothelial dysfunction	10
+<https://identifiers.org/wikipathways/WP5186_r122546>	WP5186	Activation of vitamin K-dependent proteins	4
+<https://identifiers.org/wikipathways/WP5187_r122433>	WP5187	mRNA vaccine activation of dendritic cell and induction of IFN-1	5
+<https://identifiers.org/wikipathways/WP5188_r122585>	WP5188	Retinol metabolism	8
+<https://identifiers.org/wikipathways/WP5190_r122630>	WP5190	Creatine pathway	2
+<https://identifiers.org/wikipathways/WP5191_r122556>	WP5191	Resolvin E1 and resolvin D1 signaling pathways promoting inflammation resolution	7
+<https://identifiers.org/wikipathways/WP5192_r122557>	WP5192	Modulation of PI3K-Akt-mTOR signaling by bioactive sphingolipids	8
+<https://identifiers.org/wikipathways/WP5193_r122440>	WP5193	Cholesterol synthesis disorders	13
+<https://identifiers.org/wikipathways/WP5194_r122165>	WP5194	Synthesis of ceramides and 1-deoxyceramides	8
+<https://identifiers.org/wikipathways/WP5195_r122514>	WP5195	Disorders in ketolysis	4
+<https://identifiers.org/wikipathways/WP5198_r121825>	WP5198	Inflammatory bowel disease signaling	24
+<https://identifiers.org/wikipathways/WP5199_r122599>	WP5199	PtdIns(4,5)P2 in cytokinesis pathway	5
+<https://identifiers.org/wikipathways/WP5200_r122392>	WP5200	Dravet syndrome	2
+<https://identifiers.org/wikipathways/WP5202_r122439>	WP5202	Alstrom syndrome	14
+<https://identifiers.org/wikipathways/WP5205_r122560>	WP5205	Clock-controlled autophagy in bone metabolism	24
+<https://identifiers.org/wikipathways/WP521_r111034>	WP521	Amino acid conjugation of benzoic acid	1
+<https://identifiers.org/wikipathways/WP5211_r122576>	WP5211	Glucose metabolism in triple-negative breast cancer cells	8
+<https://identifiers.org/wikipathways/WP5213_r122577>	WP5213	Amino acid metabolism in triple-negative breast cancer cells	4
+<https://identifiers.org/wikipathways/WP5218_r122962>	WP5218	Extrafollicular B cell activation by SARS-CoV-2	39
+<https://identifiers.org/wikipathways/WP5220_r122761>	WP5220	Metabolic reprogramming in pancreatic cancer	20
+<https://identifiers.org/wikipathways/WP5221_r122738>	WP5221	2q11.2 copy number variation syndrome	15
+<https://identifiers.org/wikipathways/WP5222_r122737>	WP5222	2q13 copy number variation syndrome	19
+<https://identifiers.org/wikipathways/WP5223_r122632>	WP5223	2q21.1 copy number variation syndrome	6
+<https://identifiers.org/wikipathways/WP5224_r122740>	WP5224	2q37 copy number variation syndrome	48
+<https://identifiers.org/wikipathways/WP524_r117113>	WP524	G13 signaling pathway	12
+<https://identifiers.org/wikipathways/WP528_r120525>	WP528	Acetylcholine synthesis	4
+<https://identifiers.org/wikipathways/WP53_r120698>	WP53	ID signaling pathway	5
+<https://identifiers.org/wikipathways/WP530_r117693>	WP530	Cytokines and inflammatory response	16
+<https://identifiers.org/wikipathways/WP531_r117702>	WP531	DNA mismatch repair	8
+<https://identifiers.org/wikipathways/WP534_r117147>	WP534	Glycolysis and gluconeogenesis	23
+<https://identifiers.org/wikipathways/WP536_r116854>	WP536	Calcium regulation in cardiac cells	52
+<https://identifiers.org/wikipathways/WP545_r116815>	WP545	Complement activation	12
+<https://identifiers.org/wikipathways/WP550_r119093>	WP550	Biogenic amine synthesis	6
+<https://identifiers.org/wikipathways/WP554_r121084>	WP554	ACE inhibitor pathway	7
+<https://identifiers.org/wikipathways/WP558_r119232>	WP558	Complement and coagulation cascades	30
+<https://identifiers.org/wikipathways/WP560_r117838>	WP560	TGF-beta receptor signaling	24
+<https://identifiers.org/wikipathways/WP561_r117151>	WP561	Heme biosynthesis	2
+<https://identifiers.org/wikipathways/WP58_r113950>	WP58	Monoamine GPCRs	5
+<https://identifiers.org/wikipathways/WP581_r117099>	WP581	EPO receptor signaling	11
+<https://identifiers.org/wikipathways/WP585_r107188>	WP585	Interferon type I signaling pathways	28
+<https://identifiers.org/wikipathways/WP61_r120637>	WP61	Notch signaling pathway	20
+<https://identifiers.org/wikipathways/WP619_r120967>	WP619	Type II interferon signaling	26
+<https://identifiers.org/wikipathways/WP623_r107189>	WP623	Oxidative phosphorylation	12
+<https://identifiers.org/wikipathways/WP673_r118930>	WP673	ErbB signaling pathway	33
+<https://identifiers.org/wikipathways/WP678_r116938>	WP678	Arachidonate epoxygenase / epoxide hydrolase	6
+<https://identifiers.org/wikipathways/WP688_r117673>	WP688	Catalytic cycle of mammalian flavin-containing monooxygenases (FMOs)	5
+<https://identifiers.org/wikipathways/WP69_r120966>	WP69	T-cell receptor signaling pathway	40
+<https://identifiers.org/wikipathways/WP690_r117170>	WP690	Polyol pathway	3
+<https://identifiers.org/wikipathways/WP691_r114497>	WP691	Tamoxifen metabolism	13
+<https://identifiers.org/wikipathways/WP692_r117833>	WP692	Sulfation biotransformation reaction	5
+<https://identifiers.org/wikipathways/WP694_r106139>	WP694	Arylamine metabolism	3
+<https://identifiers.org/wikipathways/WP696_r106311>	WP696	Benzo(a)pyrene metabolism	3
+<https://identifiers.org/wikipathways/WP697_r106826>	WP697	Estrogen metabolism	9
+<https://identifiers.org/wikipathways/WP698_r106827>	WP698	Glucuronidation	8
+<https://identifiers.org/wikipathways/WP699_r106828>	WP699	Aflatoxin B1 metabolism	2
+<https://identifiers.org/wikipathways/WP702_r106643>	WP702	Metapathway biotransformation Phase I and II	61
+<https://identifiers.org/wikipathways/WP704_r117787>	WP704	Methylation pathways	3
+<https://identifiers.org/wikipathways/WP706_r117178>	WP706	Sudden infant death syndrome (SIDS) susceptibility pathways	66
+<https://identifiers.org/wikipathways/WP707_r116541>	WP707	DNA damage response	27
+<https://identifiers.org/wikipathways/WP710_r116542>	WP710	DNA damage response (only ATM dependent)	45
+<https://identifiers.org/wikipathways/WP712_r109450>	WP712	Estrogen signaling pathway	4
+<https://identifiers.org/wikipathways/WP716_r116512>	WP716	Vitamin A and carotenoid metabolism	20
+<https://identifiers.org/wikipathways/WP722_r120570>	WP722	Serotonin HTR1 group and FOS pathway	10
+<https://identifiers.org/wikipathways/WP727_r116775>	WP727	Monoamine transport	12
+<https://identifiers.org/wikipathways/WP732_r120591>	WP732	Serotonin receptor 2 and ELK-SRF/GATA4 signaling	6
+<https://identifiers.org/wikipathways/WP733_r120590>	WP733	Serotonin receptor 2 and STAT3 signaling	2
+<https://identifiers.org/wikipathways/WP734_r117826>	WP734	Serotonin receptor 4/6/7 and NR3C signaling	7
+<https://identifiers.org/wikipathways/WP75_r119233>	WP75	Toll-like receptor signaling pathway	42
+<https://identifiers.org/wikipathways/WP78_r119082>	WP78	TCA cycle (aka Krebs or citric acid cycle)	5
+<https://identifiers.org/wikipathways/WP80_r111167>	WP80	Nucleotide GPCRs	4
+<https://identifiers.org/wikipathways/WP98_r117172>	WP98	Prostaglandin synthesis and regulation	22
