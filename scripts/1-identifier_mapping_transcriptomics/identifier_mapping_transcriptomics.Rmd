@@ -1,17 +1,15 @@
 ---
 title: "Identifier mapping (transcriptomics)"
-author: 
-- "DeniseSl22"
-- "tabbassidaloii"
-- "ddedesener"
+author:
+- DeniseSl22
+- tabbassidaloii
+- ddedesener
 date: "21/06/2022"
 output:
-  output: html_notebook
-
- md_document:
-    variant: markdown_github
-always_allow_html: true
-editor_options: 
+  html_document:
+    df_print: paged
+always_allow_html: yes
+editor_options:
   chunk_output_type: console
 ---
 ## Introduction
@@ -258,7 +256,7 @@ all(!hgnc$mapping %in% dataset_CD$GeneSymbol)#True if the mapped id doesn't anno
 Some of the primary symbols are already presented in the dataset (used as primary symbol for another gene). This shows another limitation of using gene symbols as identifiers, and to avoid the duplicated gene symbols we only mapped those symbols that are not presented in the dataset. 
 
 ```{r converting_PriSymbol_BridgeDb.3, warning = FALSE, message = FALSE}
-hgnc <- hgnc [!hgnc$mapping %in% dataset$GeneSymbol,] 
+hgnc <- hgnc [!hgnc$mapping %in% dataset_CD$GeneSymbol,] 
 #filter out double gene symbols
 hgnc <- hgnc %>% distinct(hgnc$identifier, .keep_all = TRUE)
 
@@ -270,7 +268,7 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 ## Converting `primary` hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
 please look up [here](https://bridgedb.github.io/pages/system-codes.html) for the correct system code for each datasource
-```{r converting_entrez_BridgeDb, warning = FALSE, message = FALSE}
+```{r converting_entrez_PriID_BridgeDb, warning = FALSE, message = FALSE}
 #loading human derby database and converting primary gene symbols to entrez ID since these are required for the enrichR function
 dbLocation = "data/Hs_Derby_Ensembl_105.bridge"
 mapper <- loadDatabase(dbLocation)
@@ -295,7 +293,7 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 ```
 
 ## Converting `primary` hgnc gene symbols to the corresponding Ensembl IDs (BridgeDb)
-```{r converting_ensembl_BridgeDb, warning = FALSE, message = FALSE}
+```{r converting_ensembl_PriID_BridgeDb, warning = FALSE, message = FALSE}
 #converting gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
 ensemblID <- maps(mapper = mapper, input, target = "En") 
 
@@ -317,7 +315,6 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 ##Mapping stats:
 ```{r mapping stats, warning = FALSE, message = FALSE, echo = FALSE}
-
 ##HGNC_originalData
 paste0("The total number of HGNC Symbol in the transcriptomics dataset is: ", nrow(dataset_CD))
 
@@ -343,7 +340,7 @@ citation("BridgeDbR")
 ```
 
 ##Save data, print session info and remove large datasets:
-```{r print_session_info}
+```{r print_session_info, echo = FALSE}
 ##Save data: exporting results to the file
 #CD
 write.table(dataset_CD, file = "results/IDMapping_CD", 
@@ -360,12 +357,12 @@ sessionInfo()
 rm(list = setdiff(ls(), c("dataset_CD", "dataset_UC")))
 ```
 
-```{r writing_to_notebooks,warning = FALSE, message = FALSE, echo = FALSE}
+```{r writing_to_notebooks,warning = FALSE, message = FALSE, include = FALSE, }
 #Jupyter Notebook file
-if(!"devtools" %in% installed.packages()) BiocManager::install("devtools")
-if(!"rmd2jupyter" %in% installed.packages()) devtools::install_github("mkearney/rmd2jupyter", force=TRUE)
-library(devtools)
-library(rmd2jupyter)
-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-rmd2jupyter("identifier_mapping_transcriptomics.Rmd")
+# if(!"devtools" %in% installed.packages()) BiocManager::install("devtools")
+# if(!"rmd2jupyter" %in% installed.packages()) devtools::install_github("mkearney/rmd2jupyter", force=TRUE)
+# library(devtools)
+# library(rmd2jupyter)
+# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
+# rmd2jupyter("identifier_mapping_transcriptomics.Rmd")
 ```
