@@ -212,7 +212,7 @@ item4= "
 
 ORDER BY DESC(?GenesInPWs)"
 
-##Split significant genes into list of max. 300 (or x sections if that's easier), otherwise SPARQL endpoint trows a 414 error --> Ensembl has longest ID, 220 entries seems to be the max.
+##Split significant genes into list of max. 220 entries (number based on Ensembl which has longest ID structure), to avoid SPARQL endpoint trowing a 414 error. 
 ##Merge the content of the split content back together for the output of the PW Analysis.
 
 for (gene_list in ls(pattern = "sig.genes")){
