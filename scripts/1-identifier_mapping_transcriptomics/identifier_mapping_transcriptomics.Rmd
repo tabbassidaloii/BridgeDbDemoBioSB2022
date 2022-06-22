@@ -29,11 +29,21 @@ if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"org.Hs.eg.db" %in% installed.packages()) BiocManager::install("org.Hs.eg.db")  
 if(!"AnnotationDbi" %in% installed.packages()) BiocManager::install("AnnotationDbi")
 if(!"BridgeDbR" %in% installed.packages()) BiocManager::install("BridgeDbR")
+
+#Unload the existing BridgeDb package, and install the developers version:
+# detach("package:BridgeDbR", unload=TRUE)
+# ### Remotes and devtools packages helps install packages from GitHub
+# if(!"devtools" %in% installed.packages())install.packages("devtools")
+# if(!"remotes" %in% installed.packages())install.packages("remotes")
+# ##Download BridgeDbR package update from GitHub
+# remotes::install_github('bridgedb/BridgeDbR')
+# packageVersion("BridgeDbR") #Required >v.2.7.2
+
 if(!"dplyr" %in% installed.packages()) install.packages("dplyr")
 if(!"rmarkdown" %in% installed.packages())install.packages("rmarkdown") 
 if(!"data.table" %in% installed.packages())install.packages("data.table")
 if(!"knitr" %in% installed.packages())install.packages("knitr")
-# if(!"downloader" %in% installed.packages())install.packages("downloader")
+if(!"downloader" %in% installed.packages())install.packages("downloader")
 
 #load installed libraries
 suppressPackageStartupMessages({
@@ -45,7 +55,6 @@ suppressPackageStartupMessages({
   library(rmarkdown)
   library(data.table)
   library(knitr)
-  # require(downloader)
 })
 
 # set your working environment to the location where your current source file is saved into.
@@ -138,20 +147,16 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 ## Converting hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
 ```{r converting_entrez_BridgeDb, warning = FALSE, message = FALSE}
-##Set the working directory to download the GeneProtein mapping file
-location <- "data/Hs_Derby_Ensembl_105.bridge"
-checkfile <- paste0(getwd(), '/' ,location)
-
 ##Download the GeneProtein mapping file (if it doesn't exist locally yet):
+checkfile <- paste0(getwd(), '/' , "data/Hs_Derby_Ensembl_105.bridge")
 if (!file.exists(checkfile)) {
-  print('We will work with the local file, which includes HGNC IDs')
-#Download and load the human derby database for BridgeDb
-# fileUrl <- ""
-# require(downloader)
-# download(fileUrl, "data/Hs_Derby_Ensembl_105.bridge", mode = "wb")
+  #Download and load the human derby database for BridgeDb
+  fileUrl <- "https://zenodo.org/record/6502115/files/Hs_Derby_Ensembl_105.bridge?download=1"
+  require(downloader)
+  download(fileUrl, checkfile, mode = "wb")
 }
 #Load the ID mapper:
-mapper <-  BridgeDbR ::loadDatabase(checkfile)
+mapper <- loadDatabase(checkfile)
 
 ## Obtain the System codes for the databases HGNC (source database of dataset) and Entrez (NCBI) (intended output database)
 code_mappingFrom <- getSystemCode("HGNC")
@@ -234,25 +239,8 @@ Note that this step might require re strating your R-session (select Okay from t
 
 ```{r converting_PriSymbol_BridgeDb.1, warning = FALSE, message = FALSE}
 rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) # removing variables that are not required
-
-#Unload the existing BridgeDb package, and install the developers version:
-detach("package:BridgeDbR", unload=TRUE)
-### Remotes and devtools packages helps install packages from GitHub
-if(!"devtools" %in% installed.packages())install.packages("devtools")
-if(!"remotes" %in% installed.packages())install.packages("remotes")
-install.packages('remotes')
-##Download BridgeDbR package update from GitHub
-remotes::install_github('bridgedb/BridgeDbR')
-library(BridgeDbR)
-library(dplyr)
-
-packageVersion("BridgeDbR") #Required >v.2.7.3
-
-##Set the working directory to download the GeneProtein mapping file
-location <- "data/hgnc_primaryToSecondaryIDs.bridge"
-checkfile <- paste0(getwd(), '/' ,location)
-
-##Download the GeneProtein mapping file (if it doesn't exist locally yet):
+##Download the secondary to primary mapping file (if it doesn't exist locally yet):
+checkfile <- paste0(getwd(), '/' ,"data/hgnc_primaryToSecondaryIDs.bridge")
 if (!file.exists(checkfile)) {
   print('We will work with the local file, which includes HGNC IDs')
 #TODO: update URL for download
@@ -327,7 +315,7 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 #load the regular human derby database again:
 location <- paste0(getwd(), '/data/Hs_Derby_Ensembl_105.bridge')
-mapper <-  BridgeDbR ::loadDatabase(location)
+mapper <- loadDatabase(location)
 
 # Obtain the System codes for the databases HGNC (source database of dataset) and Entrez (NCBI) (intended output database)
 code_mappingFrom <- getSystemCode("HGNC")
@@ -385,7 +373,7 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 ```
 
 ##Mapping stats:
-```{r mapping stats, warning = FALSE, message = FALSE, echo = FALSE}
+```{r mappingStats, warning = FALSE, message = FALSE, echo = FALSE}
 library(data.table)
 library(knitr)
 ##HGNC_originalData
@@ -442,7 +430,7 @@ sessionInfo()
 rm(list = setdiff(ls(), c("dataset_CD", "dataset_UC")))
 ```
 
-```{r writing_to_notebooks,warning = FALSE, message = FALSE, include = FALSE, }
+```{r writing_to_notebooks, warning = FALSE, message = FALSE, include = FALSE}
 #Jupyter Notebook file
 # if(!"devtools" %in% installed.packages()) BiocManager::install("devtools")
 # if(!"rmd2jupyter" %in% installed.packages()) devtools::install_github("mkearney/rmd2jupyter", force=TRUE)

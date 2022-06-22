@@ -1,26 +1,19 @@
----
-title: "Identifier mapping (metabolomics)"
-author: 
-- "DeniseSl22"
-- "tabbassidaloii"
-- "ddedesener"
-date: "22/06/22"
-output:
- md_document:
-    variant: markdown_github
-always_allow_html: true
-editor_options: 
-  chunk_output_type: console
----
 ## Introduction
-In this section, identifier (IDs) mapping is performed on an example metabolomics data set, which was original annotated using HMDB symbols.
-The dataset has been preprocessed already, for details see step 7 and 8 of the multi-omics workflow at: https://github.com/BiGCAT-UM/Transcriptomics_Metabolomics_Analysis/tree/master/metabolomics_analysis .
-We map the HGNCMDB symbols to ChEBI IDs, since tools downstream of this step require different input formats for the IDs.
 
-We use one tool for this mapping: BridgeDb [doi:10.18129/B9.bioc.BridgeDbR].
+In this section, identifier (IDs) mapping is performed on an example
+metabolomics data set, which was original annotated using HMDB symbols.
+The dataset has been preprocessed already, for details see step 7 and 8
+of the multi-omics workflow at:
+<https://github.com/BiGCAT-UM/Transcriptomics_Metabolomics_Analysis/tree/master/metabolomics_analysis>
+. We map the HGNCMDB symbols to ChEBI IDs, since tools downstream of
+this step require different input formats for the IDs.
+
+We use one tool for this mapping: BridgeDb
+\[<doi:10.18129/B9.bioc.BridgeDbR>\].
 
 ## Setup
-```{r setup, warning=FALSE, message=FALSE}
+
+``` r
 # empty the R environment
 rm (list = ls())
 # check if libraries are already installed, otherwise install it
@@ -48,8 +41,10 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ```
 
 ## Importing dataset
+
 The data will be read for two diseases
-```{r dataset, warning = FALSE, message = FALSE}
+
+``` r
 mbx_dataset_CD <- read.csv("data/mbxData_CD.csv") %>% 
   select (HMDB_ID, Compound_Name, foldchange_disorder, p_values_disorder) %>% #filter out unused columns
   rename (HMDBID = HMDB_ID, log2FC = foldchange_disorder, pvalue = p_values_disorder) #change column names
@@ -59,7 +54,8 @@ mbx_dataset_UC <- read.csv("data/mbxData_UC.csv") %>%
 ```
 
 ## Converting HMDB IDs to ChEBI IDs (BridgeDb)
-```{r converting_chebi_BridgeDb, warning = FALSE, message = FALSE}
+
+``` r
 ##Download the Metabolite mapping file (if it doesn't exist locally yet):
 checkfile <- paste0(getwd(), '/' ,"data/metabolites.bridge")
 if (!file.exists(checkfile)) {
@@ -82,7 +78,11 @@ chebiID <- maps(mapper, input, code_mappingTo) %>%
   filter(grepl("CHEBI", mapping, fixed = TRUE)) #remove all rows in the mapped data which do not include the prefix "CHEBI"
 # checking the one-to-multiple mappings
 if(!all(table(chebiID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
+```
 
+    ## [1] "There is no one-to-multiple mapping."
+
+``` r
 # add chebi IDs for each metabolite in the dataset
 mbx_dataset_CD$ChEBI_BridgeDb <- chebiID$mapping[match(mbx_dataset_CD$HMDBID, chebiID$identifier)]
 mbx_dataset_UC$ChEBI_BridgeDb <- chebiID$mapping[match(mbx_dataset_UC$HMDBID, chebiID$identifier)]
@@ -92,7 +92,7 @@ mbx_dataset_UC$ChEBI_BridgeDb <- chebiID$mapping[match(mbx_dataset_UC$HMDBID, ch
 
 ### mapping the HMDB IDs to primary HMDB IDs
 
-```{r hmdb-converting_PriSymbol_BridgeDb.1, warning = FALSE, message = FALSE}
+``` r
 rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing variables that are not required
 ##Download the mapping file (if it doesn't exist locally yet):
 checkfile <- paste0(getwd(), '/' ,"data/hmdb_secondaryToPrimaryIDs.bridge")
@@ -116,7 +116,11 @@ hmdbID <- maps(mapper = mapper, input, target = code_mapping) %>%
 
 # check the one-to-multiple mappings
 if(!all(table(hmdbID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
+```
 
+    ## [1] "There is no one-to-multiple mapping."
+
+``` r
 # add HMDB id for each gene symbol in the dataset
 mbx_dataset_CD$Current_HMDBID <- hmdbID$mapping[match(mbx_dataset_CD$HMDBID, hmdbID$identifier)]
 mbx_dataset_UC$Current_HMDBID <- hmdbID$mapping[match(mbx_dataset_UC$HMDBID, hmdbID$identifier)]
@@ -124,13 +128,19 @@ mbx_dataset_UC$Current_HMDBID <- hmdbID$mapping[match(mbx_dataset_UC$HMDBID, hmd
 
 Checking if all the secondary HMDB ids are mapped to a primary ID
 
-```{r hmdb-converting_PriSymbol_BridgeDb.2, warning = FALSE, message = FALSE}
+``` r
 mbx_dataset_CD[is.na(mbx_dataset_CD$Current_HMDBID), ]
 ```
 
-There is only one metabolite with no primary ID.
-We try to finding a primary HMDB IDs for metabolites using the compound name
-```{r hmdb-converting_PriSymbol_BridgeDb.3, warning = FALSE, message = FALSE}
+    ##          HMDBID    Compound_Name   log2FC     pvalue ChEBI_BridgeDb
+    ## 320 HMDB0041876 diacetylspermine 1.760025 0.06104859           <NA>
+    ##     Current_HMDBID
+    ## 320           <NA>
+
+There is only one metabolite with no primary ID. We try to finding a
+primary HMDB IDs for metabolites using the compound name
+
+``` r
 # Get the metabolite name 
 input <- c (mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], sub("(.)", "\\U\\1", mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], perl=TRUE)) #making sure that the metabolite would be mapped if in the database it starts with a capital letter
 
@@ -144,16 +154,21 @@ input <- data.frame(source = rep("O", length(input)),
     filter(isPrimary == "T")) # Keeping only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
 ```
 
-And the current id is HMDB0002172. Adding the current id to the mbx_dataset_CD
+    ##                  source       identifier target     mapping isPrimary
+    ## Ch:HMDB0002172:T      O Diacetylspermine     Ch HMDB0002172         T
 
-```{r hmdb-converting_PriSymbol_BridgeDb.4, warning = FALSE, message = FALSE}
+And the current id is HMDB0002172. Adding the current id to the
+mbx_dataset_CD
+
+``` r
 mbx_dataset_CD$Current_HMDBID[mbx_dataset_CD$Compound_Name == "diacetylspermine"] = hmdbID$mapping
 mbx_dataset_UC$Current_HMDBID[mbx_dataset_UC$Compound_Name == "diacetylspermine"] = hmdbID$mapping
 rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing variables that are not required
 ```
 
 ## Converting `primary` HMDB IDs to the corresponding ChEBI IDs (BridgeDb)
-```{r converting_chebi_PriID_BridgeDb, warning = FALSE, message = FALSE}
+
+``` r
 rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing variables that are not required
 #Load the ID mapper:
 mapper <- loadDatabase(paste0(getwd(), '/' ,"data/metabolites.bridge"))
@@ -172,7 +187,11 @@ chebiID <- maps(mapper, input, code_mappingTo) %>%
   filter(grepl("CHEBI", mapping, fixed = TRUE)) #remove all rows in the mapped data which do not include the prefix "CHEBI"
 # checking the one-to-multiple mappings
 if(!all(table(chebiID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
+```
 
+    ## [1] "There is no one-to-multiple mapping."
+
+``` r
 # add chebi IDs for each metabolite in the dataset
 mbx_dataset_CD$ChEBI_PriID_BridgeDb <- chebiID$mapping[match(mbx_dataset_CD$Current_HMDBID, chebiID$identifier)]
 mbx_dataset_UC$ChEBI_PriID_BridgeDb <- chebiID$mapping[match(mbx_dataset_UC$Current_HMDBID, chebiID$identifier)]
@@ -180,53 +199,66 @@ rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing varia
 ```
 
 ##Mapping stats:
-```{r mappingStats, warning = FALSE, message = FALSE, echo = FALSE}
-MappingStats <- data.table(`  ` =  c("The total number of unique HMDB IDs (CD)",
-                                     "The total number of unique HMDB IDs (UC)",
-                                     "The total number of unique ChEBI IDs (CD)",
-                                     "The total number of unique ChEBI IDs (UC)",
-                                     "The total number of missing mappings for HMDB IDs to ChEBI IDs (CD)",
-                                     "The total number of missing mappings for HMDB IDs to ChEBI IDs (UC)"),
-                           BridgeDb = c(length(unique(mbx_dataset_CD$HMDBID)),
-                                        length(unique(mbx_dataset_UC$HMDBID)),
-                                        length(na.omit(unique(mbx_dataset_CD$ChEBI_BridgeDb))),
-                                        length(na.omit(unique(mbx_dataset_UC$ChEBI_BridgeDb))),
-                                        sum(is.na(unique(mbx_dataset_CD %>% select(HMDBID, ChEBI_BridgeDb)) %>% .$ChEBI_BridgeDb)),
-                                        sum(is.na(unique(mbx_dataset_UC %>% select(HMDBID, ChEBI_BridgeDb)) %>% .$ChEBI_BridgeDb))),
-                           PrimaryID_BridgeDb = c(length(unique(mbx_dataset_CD$HMDBID)),
-                                        length(unique(mbx_dataset_UC$HMDBID)),
-                                        length(na.omit(unique(mbx_dataset_CD$ChEBI_PriID_BridgeDb))),
-                                        length(na.omit(unique(mbx_dataset_UC$ChEBI_PriID_BridgeDb))),
-                                        sum(is.na(unique(mbx_dataset_CD %>% select(HMDBID, ChEBI_PriID_BridgeDb)) %>% .$ChEBI_PriID_BridgeDb)),
-                                        sum(is.na(unique(mbx_dataset_UC %>% select(HMDBID, ChEBI_PriID_BridgeDb)) %>% .$ChEBI_PriID_BridgeDb))))
 
-kable(MappingStats)
-```
+|                                                                     | BridgeDb | PrimaryID_BridgeDb |
+|:-------------------------------------------------|-------:|--------------:|
+| The total number of unique HMDB IDs (CD)                            |      438 |                438 |
+| The total number of unique HMDB IDs (UC)                            |      437 |                437 |
+| The total number of unique ChEBI IDs (CD)                           |      363 |                366 |
+| The total number of unique ChEBI IDs (UC)                           |      362 |                365 |
+| The total number of missing mappings for HMDB IDs to ChEBI IDs (CD) |       75 |                 70 |
+| The total number of missing mappings for HMDB IDs to ChEBI IDs (UC) |       75 |                 70 |
 
 ##Save data, print session info, and citation
-```{r print_session_info, echo = FALSE}
-##Save data: exporting results to the file
-#CD
-write.table(mbx_dataset_CD, file = "results/mbx_IDMapping_CD", 
-            sep = "\t" , quote = FALSE, row.names = FALSE)
 
-#UC
-write.table(mbx_dataset_UC, file = "results/mbx_IDMapping_UC", 
-            sep = "\t" , quote = FALSE, row.names = FALSE)
+    ## R version 4.1.2 (2021-11-01)
+    ## Platform: x86_64-w64-mingw32/x64 (64-bit)
+    ## Running under: Windows 10 x64 (build 22000)
+    ## 
+    ## Matrix products: default
+    ## 
+    ## locale:
+    ## [1] LC_COLLATE=English_United Kingdom.1252 
+    ## [2] LC_CTYPE=English_United Kingdom.1252   
+    ## [3] LC_MONETARY=English_United Kingdom.1252
+    ## [4] LC_NUMERIC=C                           
+    ## [5] LC_TIME=English_United Kingdom.1252    
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## other attached packages:
+    ## [1] knitr_1.39        data.table_1.14.2 BridgeDbR_2.7.2   rJava_1.0-6      
+    ## [5] dplyr_1.0.9       rstudioapi_0.13  
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] magrittr_2.0.3      tidyselect_1.1.2    R6_2.5.1           
+    ##  [4] rlang_1.0.2         fastmap_1.1.0       fansi_1.0.3        
+    ##  [7] highr_0.9           stringr_1.4.0       tools_4.1.2        
+    ## [10] xfun_0.31           utf8_1.2.2          DBI_1.1.2          
+    ## [13] cli_3.2.0           htmltools_0.5.2     ellipsis_0.3.2     
+    ## [16] assertthat_0.2.1    yaml_2.3.5          digest_0.6.29      
+    ## [19] tibble_3.1.7        lifecycle_1.0.1     crayon_1.5.1       
+    ## [22] purrr_0.3.4         BiocManager_1.30.18 vctrs_0.4.1        
+    ## [25] curl_4.3.2          glue_1.6.2          evaluate_0.15      
+    ## [28] rmarkdown_2.14      stringi_1.7.6       compiler_4.1.2     
+    ## [31] pillar_1.7.0        generics_0.1.2      pkgconfig_2.0.3
 
-##Print session info:
-sessionInfo()
-
-##Citation BridgeDb:
-citation("BridgeDbR")
-```
-
-```{r writing_to_notebooks, warning = FALSE, message = FALSE, include = FALSE}
-#Jupyter Notebook file
-# if(!"devtools" %in% installed.packages()) BiocManager::install("devtools")
-# if(!"rmd2jupyter" %in% installed.packages()) devtools::install_github("mkearney/rmd2jupyter", force=TRUE)
-# library(devtools)
-# library(rmd2jupyter)
-# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-# rmd2jupyter("identifier_mapping_metabolomics.Rmd")
-```
+    ## 
+    ## To cite package 'BridgeDbR' in publications use:
+    ## 
+    ##   Chris Leemans, Egon Willighagen, Denise Slenter, Anwesha Bohler, Lars
+    ##   Eijssen and Tooba Abbassi-Daloii (2022). BridgeDbR: Code for using
+    ##   BridgeDb identifier mapping framework from within R. R package
+    ##   version 2.7.2. https://github.com/bridgedb/BridgeDbR
+    ## 
+    ## A BibTeX entry for LaTeX users is
+    ## 
+    ##   @Manual{,
+    ##     title = {BridgeDbR: Code for using BridgeDb identifier mapping framework from within
+    ## R},
+    ##     author = {Chris Leemans and Egon Willighagen and Denise Slenter and Anwesha Bohler and Lars Eijssen and Tooba Abbassi-Daloii},
+    ##     year = {2022},
+    ##     note = {R package version 2.7.2},
+    ##     url = {https://github.com/bridgedb/BridgeDbR},
+    ##   }
