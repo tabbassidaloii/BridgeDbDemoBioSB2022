@@ -23,23 +23,32 @@ if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"org.Hs.eg.db" %in% installed.packages()) BiocManager::install("org.Hs.eg.db")  
 if(!"AnnotationDbi" %in% installed.packages()) BiocManager::install("AnnotationDbi")
 if(!"BridgeDbR" %in% installed.packages()) BiocManager::install("BridgeDbR")
+
+#Unload the existing BridgeDb package, and install the developers version:
+# detach("package:BridgeDbR", unload=TRUE)
+# ### Remotes and devtools packages helps install packages from GitHub
+# if(!"devtools" %in% installed.packages())install.packages("devtools")
+# if(!"remotes" %in% installed.packages())install.packages("remotes")
+# ##Download BridgeDbR package update from GitHub
+# remotes::install_github('bridgedb/BridgeDbR')
+# packageVersion("BridgeDbR") #Required >v.2.7.2
+
 if(!"dplyr" %in% installed.packages()) install.packages("dplyr")
 if(!"rmarkdown" %in% installed.packages())install.packages("rmarkdown") 
 if(!"data.table" %in% installed.packages())install.packages("data.table")
 if(!"knitr" %in% installed.packages())install.packages("knitr")
-# if(!"downloader" %in% installed.packages())install.packages("downloader")
+if(!"downloader" %in% installed.packages())install.packages("downloader")
 
 #load installed libraries
 suppressPackageStartupMessages({
   library(rstudioapi) # interface for interacting with RStudio IDE with R code.
   library(org.Hs.eg.db) #This is the organism annotation package ("org") for Homo sapiens ("Hs"), organized as an AnnotationDbi   package ("db"), using Entrez Gene IDs ("eg") as primary key.
   library(AnnotationDbi) # for connecting and querying annotation databases
-  library(BridgeDbR)
+  library(BridgeDbR) #This is the BridgeDb annotation package containing multiple species, using Ensembl Gene IDs ("En") as primary key. Current release: v2.6.0
   library(dplyr)
   library(rmarkdown)
   library(data.table)
   library(knitr)
-  # require(downloader)
 })
 
 # set your working environment to the location where your current source file is saved into.
@@ -164,11 +173,16 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 ## Converting hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
 
 ``` r
-#Download and load the human derby database and converting gene symbols to entrez ID since these are required for the enrichR function
-# fileUrl <- ""
-# require(downloader)
-# download(fileUrl, "data/Hs_Derby_Ensembl_105.bridge", mode = "wb")
-mapper <- loadDatabase("D:/bridgeDb/BridgeDbDemoBioSB2022/scripts/1-identifier_mapping_transcriptomics/data/Hs_Derby_Ensembl_105.bridge")
+##Download the GeneProtein mapping file (if it doesn't exist locally yet):
+checkfile <- paste0(getwd(), '/' , "data/Hs_Derby_Ensembl_105.bridge")
+if (!file.exists(checkfile)) {
+  #Download and load the human derby database for BridgeDb
+  fileUrl <- "https://zenodo.org/record/6502115/files/Hs_Derby_Ensembl_105.bridge?download=1"
+  require(downloader)
+  download(fileUrl, checkfile, mode = "wb")
+}
+#Load the ID mapper:
+mapper <- loadDatabase(checkfile)
 
 ## Obtain the System codes for the databases HGNC (source database of dataset) and Entrez (NCBI) (intended output database)
 code_mappingFrom <- getSystemCode("HGNC")
@@ -199,13 +213,12 @@ entrezID <- entrezID %>% distinct(entrezID$identifier, .keep_all = TRUE)
 # add entrezIDs for each gene symbol in the dataset
 dataset_CD$ENTREZ.ID_BridgeDb <- entrezID$mapping [match(dataset_CD$GeneSymbol, entrezID$identifier)] 
 dataset_UC$ENTREZ.ID_BridgeDb <- entrezID$mapping [match(dataset_UC$GeneSymbol, entrezID$identifier)] 
-
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb"))) # removing variables that are not required
 ```
 
 ## Converting hgnc gene symbols to the corresponding Ensembl IDs (BridgeDb)
 
 ``` r
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb"))) # removing variables that are not required
 #converting gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
 ## Obtain the System codes for Ensembl (intended output database)
 code_mappingTo <- getSystemCode("Ensembl")
@@ -231,8 +244,6 @@ ensemblID <- ensemblID %>% distinct(ensemblID$identifier, .keep_all = TRUE)
 # add ensemblIDs for each gene symbol in the dataset
 dataset_CD$Ensembl.ID_BridgeDb <- ensemblID$mapping [match(dataset_CD$GeneSymbol, ensemblID$identifier)] 
 dataset_UC$Ensembl.ID_BridgeDb <- ensemblID$mapping [match(dataset_UC$GeneSymbol, ensemblID$identifier)] 
-
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) # removing variables that are not required
 ```
 
 ## Using BridgeDb for secondary to primary mapping of hgnc gene symbols
@@ -248,6 +259,8 @@ gene symbols challenging.
 `Here We assumed when a hgnc gene symbol has a hgnc ID, it is primary and we only map those without a hgnc ID.`
 
 ``` r
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) # removing variables that are not required
+
 #converting gene symbols to hgnc ID 
 ## Obtain the System codes for HGNC Accession number (intended output database)
 code_mappingTo <- getSystemCode("HGNC Accession number")
@@ -264,17 +277,29 @@ if(!all(table(hgncID$identifier) == 1)) {print ("There are one-to-multiple mappi
 # add HGNC id for each gene symbol in the dataset
 dataset_CD$HGNC.ID_BridgeDb <- hgncID$mapping[match(dataset_CD$GeneSymbol, hgncID$identifier)]
 dataset_UC$HGNC.ID_BridgeDb <- hgncID$mapping[match(dataset_UC$GeneSymbol, hgncID$identifier)]
-
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) # removing variables that are not required
 ```
 
 ### b. mapping secondary hgnc symbols to primary hgnc symbols
 
-Mapping hgnc symbols without a HGNC id mapped
+Mapping hgnc symbols without a HGNC id mapped; note that this setp
+requires to download the developpers version of BridgeDbR from GitHub!
+Note that this step might require re strating your R-session (select
+Okay from the pop-up menu if requested).
 
 ``` r
-# loading the HGNC secondary id derby database
-mapper <- loadDatabase("D:/bridgeDb/BridgeDbDemoBioSB2022/scripts/1-identifier_mapping_transcriptomics/data/hgnc_primaryToSecondaryIDs.bridge")
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) # removing variables that are not required
+##Download the secondary to primary mapping file (if it doesn't exist locally yet):
+checkfile <- paste0(getwd(), '/' ,"data/hgnc_primaryToSecondaryIDs.bridge")
+if (!file.exists(checkfile)) {
+  print('We will work with the local file, which includes HGNC IDs')
+#TODO: update URL for download
+#  #Download and load the human secondary derby database for BridgeDb
+#  # fileUrl <- ""
+#  # require(downloader)
+#  # download(fileUrl, "data/hgnc_primaryToSecondaryIDs.bridge", mode = "wb")
+}
+#Load the ID mapper:
+mapper <-  BridgeDbR ::loadDatabase(checkfile)
 
 ## Obtain the System codes for the databases HGNC 
 code_mapping <- getSystemCode("HGNC")
@@ -303,7 +328,7 @@ hgnc_doubles_PriID_BridgeDb <- length(table(hgnc$identifier) [table(hgnc$identif
 ```
 
 Checking the reason that the secondary symbol mapped to multiple primary
-symbols
+symbols for the example AGPAT9.
 
 ``` r
 hgnc [hgnc$identifier == "AGPAT9", ]
@@ -356,15 +381,16 @@ dataset_CD$Current_GeneSymbol [is.na(dataset_CD$Current_GeneSymbol)] = dataset_C
 
 dataset_UC$Current_GeneSymbol <- hgnc$mapping[match(dataset_UC$GeneSymbol, hgnc$identifier)]
 dataset_UC$Current_GeneSymbol [is.na(dataset_UC$Current_GeneSymbol)] = dataset_UC$GeneSymbol [is.na(dataset_UC$Current_GeneSymbol)]
-
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb"))) # removing variables that are not required
 ```
 
 ## Converting `primary` hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
 
 ``` r
-#load the human derby database and converting gene symbols to entrez ID since these are required for the enrichR function
-mapper <- loadDatabase("D:/bridgeDb/BridgeDbDemoBioSB2022/scripts/1-identifier_mapping_transcriptomics/data/Hs_Derby_Ensembl_105.bridge")
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb"))) # removing variables that are not required
+
+#load the regular human derby database again:
+location <- paste0(getwd(), '/data/Hs_Derby_Ensembl_105.bridge')
+mapper <- loadDatabase(location)
 
 # Obtain the System codes for the databases HGNC (source database of dataset) and Entrez (NCBI) (intended output database)
 code_mappingFrom <- getSystemCode("HGNC")
@@ -396,13 +422,13 @@ entrezID <- entrezID %>% distinct(entrezID$identifier, .keep_all = TRUE)
 # add entrezIDs for each gene symbol in the dataset
 dataset_CD$ENTREZ.ID_PriID_BridgeDb <- entrezID$mapping [match(dataset_CD$Current_GeneSymbol, entrezID$identifier)] 
 dataset_UC$ENTREZ.ID_PriID_BridgeDb <- entrezID$mapping [match(dataset_UC$Current_GeneSymbol, entrezID$identifier)] 
-
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb", "entrezID_doubles_PriID_BridgeDb", "input", "mapper"))) # removing variables that are not required
 ```
 
 ## Converting `primary` hgnc gene symbols to the corresponding Ensembl IDs (BridgeDb)
 
 ``` r
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb", "entrezID_doubles_PriID_BridgeDb", "input", "mapper"))) # removing variables that are not required
+
 #converting gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
 ## Obtain the System codes for Ensembl (intended output database)
 code_mappingTo <- getSystemCode("Ensembl")
