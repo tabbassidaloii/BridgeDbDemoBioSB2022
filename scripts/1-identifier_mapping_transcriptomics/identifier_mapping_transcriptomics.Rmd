@@ -283,7 +283,7 @@ dataset_CD$Current_GeneSymbol <- hgnc$mapping[match(dataset_CD$GeneSymbol, hgnc$
 dataset_CD$Current_GeneSymbol [is.na(dataset_CD$Current_GeneSymbol)] = dataset_CD$GeneSymbol [is.na(dataset_CD$Current_GeneSymbol)]
 
 dataset_UC$Current_GeneSymbol <- hgnc$mapping[match(dataset_UC$GeneSymbol, hgnc$identifier)]
-dataset_UC$Current_GeneSymbol [is.na(dataset_CD$Current_GeneSymbol)] = dataset_UC$GeneSymbol [is.na(dataset_CD$Current_GeneSymbol)]
+dataset_UC$Current_GeneSymbol [is.na(dataset_UC$Current_GeneSymbol)] = dataset_UC$GeneSymbol [is.na(dataset_UC$Current_GeneSymbol)]
 
 rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb"))) # removing variables that are not required
 ```

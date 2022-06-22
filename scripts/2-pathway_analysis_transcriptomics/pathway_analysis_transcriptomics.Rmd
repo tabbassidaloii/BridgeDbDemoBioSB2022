@@ -18,7 +18,6 @@ In this section, we will map the significantly changed transcripts to pathways f
 ```{r setup, warning=FALSE, message=FALSE}
 # empty the R environment
 rm (list = ls())
-
 # check if libraries are already installed > otherwise install it
 if(!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
@@ -41,7 +40,7 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ## Importing dataset and subsetting genes with significant changes
 The data from step 1 will be read in and further processed. For a fairer comparison, we report how many rows per ID type contain a significantly changed gene.
 ```{r dataset, warning=FALSE, message=FALSE}
-#we have four datasets, two different disorders and two different biopsy locations
+#we have four datasets, two different disorders and two different biopsy locations. In the first script, identifier_mapping_transcriptomics.Rmd, we merged the data from two locations in one dataset and we added the mapping data using Hs.org and BridgeDb (with and without secondary to primary mapping).  
 dataset_CD <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_CD")
 dataset_UC <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_UC")
 
@@ -72,11 +71,11 @@ sig.genes.rectum_Ensembl_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_BridgeDb[s
 sig.genes.ileum_HGNC_PriID_BridgeDb_CD <- dataset_CD$Current_GeneSymbol[sig.rows.ileum_CD] #ileum location
 sig.genes.rectum_HGNC_PriID_BridgeDb_CD <- dataset_CD$Current_GeneSymbol[sig.rows.rectum_CD] #rectum location
 ### Entrez ID:
-sig.genes.ileum_ENTREZ_PriID_BridgeDb_CD <- na.omit(dataset_CD$ENTREZ.ID_BridgeDb_PriID[sig.rows.ileum_CD]) #ileum location
-sig.genes.rectum_ENTREZ_PriID_BridgeDb_CD <- na.omit(dataset_CD$ENTREZ.ID_BridgeDb_PriID[sig.rows.rectum_CD]) #rectum location
+sig.genes.ileum_ENTREZ_PriID_BridgeDb_CD <- na.omit(dataset_CD$ENTREZ.ID_PriID_BridgeDb[sig.rows.ileum_CD]) #ileum location
+sig.genes.rectum_ENTREZ_PriID_BridgeDb_CD <- na.omit(dataset_CD$ENTREZ.ID_PriID_BridgeDb[sig.rows.rectum_CD]) #rectum location
 ### Ensembl IDs:
-sig.genes.ileum_Ensembl_PriID_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_BridgeDb_PriID[sig.rows.ileum_CD]) #ileum location
-sig.genes.rectum_Ensembl_PriID_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_BridgeDb_PriID[sig.rows.rectum_CD]) #rectum location
+sig.genes.ileum_Ensembl_PriID_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_PriID_BridgeDb[sig.rows.ileum_CD]) #ileum location
+sig.genes.rectum_Ensembl_PriID_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_PriID_BridgeDb[sig.rows.rectum_CD]) #rectum location
 
 #UC dataset
 ## Significant rows
@@ -104,18 +103,18 @@ sig.genes.rectum_Ensembl_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_BridgeDb[s
 sig.genes.ileum_HGNC_PriID_BridgeDb_UC <- dataset_UC$Current_GeneSymbol[sig.rows.ileum_UC] #ileum location
 sig.genes.rectum_HGNC_PriID_BridgeDb_UC <- dataset_UC$Current_GeneSymbol[sig.rows.rectum_UC] #rectum location
 ### Entrez ID:
-sig.genes.ileum_ENTREZ_PriID_BridgeDb_UC <- na.omit(dataset_UC$ENTREZ.ID_BridgeDb_PriID[sig.rows.ileum_UC]) #ileum location
-sig.genes.rectum_ENTREZ_PriID_BridgeDb_UC <- na.omit(dataset_UC$ENTREZ.ID_BridgeDb_PriID[sig.rows.rectum_UC]) #rectum location
+sig.genes.ileum_ENTREZ_PriID_BridgeDb_UC <- na.omit(dataset_UC$ENTREZ.ID_PriID_BridgeDb[sig.rows.ileum_UC]) #ileum location
+sig.genes.rectum_ENTREZ_PriID_BridgeDb_UC <- na.omit(dataset_UC$ENTREZ.ID_PriID_BridgeDb[sig.rows.rectum_UC]) #rectum location
 ### Ensembl IDs:
-sig.genes.ileum_Ensembl_PriID_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_BridgeDb_PriID[sig.rows.ileum_UC]) #ileum location
-sig.genes.rectum_Ensembl_PriID_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_BridgeDb_PriID[sig.rows.rectum_UC]) #rectum location
+sig.genes.ileum_Ensembl_PriID_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_PriID_BridgeDb[sig.rows.ileum_UC]) #ileum location
+sig.genes.rectum_Ensembl_PriID_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_PriID_BridgeDb[sig.rows.rectum_UC]) #rectum location
 ```
 
 ##Sign. Mapping stats:
 ```{r mapping_stats_Sig_genes,warning=FALSE, message=FALSE}
 ##HGNC_originalData
 MappingStats <- data.table(`  ` =  c("The total number of genes in the transcriptomics dataset" ,
-                                     "The total number of significant genes with HGNC Symbol IDs for CD (ileum location)",
+                                     "The total number of significant genes with HGNC Symbol IDs for CD (ileum location)", 
                                      "The total number of significant genes with HGNC Symbol IDs for CD (rectum location)",
                                      "The total number of significant genes with HGNC Symbol IDs for UC (ileum location)",
                                      "The total number of significant genes with HGNC Symbol IDs for UC (rectum location)",
@@ -132,30 +131,30 @@ MappingStats <- data.table(`  ` =  c("The total number of genes in the transcrip
                            org.Hs = c(nrow (dataset_CD), 
                                       length(sig.genes.ileum_HGNC_CD), length(sig.genes.rectum_HGNC_CD), 
                                       length(sig.genes.ileum_HGNC_UC), length(sig.genes.rectum_HGNC_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_org.Hs),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$ENTREZ.ID_org.Hs),]), 
                                       length(sig.genes.ileum_ENTREZ_Hs_CD), length(sig.genes.rectum_ENTREZ_Hs_CD), 
                                       length(sig.genes.ileum_ENTREZ_Hs_UC), length(sig.genes.rectum_ENTREZ_Hs_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_org.Hs),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$Ensembl.ID_org.Hs),]), 
                                       length(sig.genes.ileum_Ensembl_Hs_CD), length(sig.genes.rectum_Ensembl_Hs_CD), 
                                       length(sig.genes.ileum_Ensembl_Hs_UC), length(sig.genes.rectum_Ensembl_Hs_UC)),
-                           BridgeDb = c(nrow (dataset_CD), 
+                           BridgeDb = c(nrow(dataset_CD), 
                                       length(sig.genes.ileum_HGNC_CD), length(sig.genes.rectum_HGNC_CD), 
                                       length(sig.genes.ileum_HGNC_UC),  length(sig.genes.rectum_HGNC_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_BridgeDb),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$ENTREZ.ID_BridgeDb),]), 
                                       length(sig.genes.ileum_ENTREZ_BridgeDb_CD), length(sig.genes.rectum_ENTREZ_BridgeDb_CD), 
                                       length(sig.genes.ileum_ENTREZ_BridgeDb_UC), length(sig.genes.rectum_ENTREZ_BridgeDb_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_BridgeDb),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$Ensembl.ID_BridgeDb),]), 
                                       length(sig.genes.ileum_Ensembl_BridgeDb_CD), length(sig.genes.rectum_Ensembl_BridgeDb_CD), 
                                       length(sig.genes.ileum_Ensembl_BridgeDb_UC), length(sig.genes.rectum_Ensembl_BridgeDb_UC)),
-                           PrimaryID_BridgeDb = c(c(nrow (dataset_CD), 
+                           PrimaryID_BridgeDb = c(nrow(dataset_CD), 
                                       length(sig.genes.ileum_HGNC_PriID_BridgeDb_CD), length(sig.genes.rectum_HGNC_PriID_BridgeDb_CD), 
                                       length(sig.genes.ileum_HGNC_PriID_BridgeDb_UC), length(sig.genes.rectum_HGNC_PriID_BridgeDb_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_BridgeDb),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$ENTREZ.ID_PriID_BridgeDb),]), 
                                       length(sig.genes.ileum_ENTREZ_PriID_BridgeDb_CD), length(sig.genes.rectum_ENTREZ_PriID_BridgeDb_CD), 
                                       length(sig.genes.ileum_ENTREZ_PriID_BridgeDb_UC), length(sig.genes.rectum_ENTREZ_PriID_BridgeDb_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_BridgeDb),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$Ensembl.ID_PriID_BridgeDb),]), 
                                       length(sig.genes.ileum_Ensembl_PriID_BridgeDb_CD), length(sig.genes.rectum_Ensembl_PriID_BridgeDb_CD), 
-                                      length(sig.genes.ileum_Ensembl_PriID_BridgeDb_UC),  length(sig.genes.rectum_Ensembl_PriID_BridgeDb_UC))))
+                                      length(sig.genes.ileum_Ensembl_PriID_BridgeDb_UC),  length(sig.genes.rectum_Ensembl_PriID_BridgeDb_UC)))
 kable(MappingStats)
 
 rm(list = setdiff(ls(), grep ("dataset_UC|dataset_CD|sig.genes", ls(), value = TRUE))) # removing variables that are not required
@@ -216,7 +215,6 @@ ORDER BY DESC(?GenesInPWs)"
 ##Split significant genes into list of max. 300 (or x sections if that's easier), otherwise SPARQL endpoint trows a 414 error --> Ensembl has longest ID, 220 entries seems to be the max.
 ##Merge the content of the split content back together for the output of the PW Analysis.
 
-ls(pattern = "sig.genes")
 for (gene_list in ls(pattern = "sig.genes")){
   sig.genes = get (gene_list)
   IDsource = gsub ("_.*", "", gsub ("^[^_]+_", "", gene_list))
@@ -238,6 +236,7 @@ for (gene_list in ls(pattern = "sig.genes")){
   showresults_CombinePWs %>% 
     group_by(pathwayRes, pathway, pathwayTitle) %>% 
     summarise(GenesInPWs = sum(GenesInPWs)) %>%
+    arrange(desc(GenesInPWs)) %>%
     write.table(outputFile, 
             sep = "\t" , quote = FALSE, row.names = FALSE)
   assign(paste0 ("CombinePWs", gsub ("sig.genes", "", gene_list)), showresults_CombinePWs)
@@ -328,12 +327,12 @@ MappingStats <- data.table(`  ` =  c("The total number of genes in the transcrip
                                       length(sig.genes.rectum_HGNC_PriID_BridgeDb_CD), length(unique(CombinePWs.rectum_HGNC_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.ileum_HGNC_PriID_BridgeDb_UC), length(unique(CombinePWs.ileum_HGNC_PriID_BridgeDb_UC$pathway)),
                                       length(sig.genes.rectum_HGNC_PriID_BridgeDb_UC), length(unique(CombinePWs.rectum_HGNC_PriID_BridgeDb_UC$pathway)),
-                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_BridgeDb_PriID),]), 
+                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_PriID_BridgeDb),]), 
                                       length(sig.genes.ileum_ENTREZ_PriID_BridgeDb_CD), length(unique(CombinePWs.ileum_ENTREZ_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.rectum_ENTREZ_PriID_BridgeDb_CD), length(unique(CombinePWs.rectum_ENTREZ_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.ileum_ENTREZ_PriID_BridgeDb_UC), length(unique(CombinePWs.ileum_ENTREZ_PriID_BridgeDb_UC$pathway)),
                                       length(sig.genes.rectum_ENTREZ_PriID_BridgeDb_UC), length(unique(CombinePWs.rectum_ENTREZ_PriID_BridgeDb_UC$pathway)),
-                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_BridgeDb_PriID),]), 
+                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_PriID_BridgeDb),]), 
                                       length(sig.genes.ileum_Ensembl_PriID_BridgeDb_CD), length(unique(CombinePWs.ileum_Ensembl_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.rectum_Ensembl_PriID_BridgeDb_CD), length(unique(CombinePWs.rectum_Ensembl_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.ileum_Ensembl_PriID_BridgeDb_UC), length(unique(CombinePWs.ileum_Ensembl_PriID_BridgeDb_UC$pathway)),
