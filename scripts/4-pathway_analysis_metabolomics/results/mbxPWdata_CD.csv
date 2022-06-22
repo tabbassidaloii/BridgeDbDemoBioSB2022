@@ -1,0 +1,99 @@
+"pathway","pathwayTitle","BiomarkersInPWs","probabilities"
+"WP3604","Biochemical pathways: part I",17,3.54433363209782e-14
+"WP3925","Amino acid metabolism",7,0.000110953359086187
+"WP15","Selenium micronutrient network",6,2.23658646623507e-05
+"WP3940","One-carbon metabolism and related pathways",6,0.107985838138283
+"WP4723","Omega-3 / omega-6 fatty acid synthesis",6,0.132206430986094
+"WP661","Glucose homeostasis",6,0.142867368471749
+"WP2525","Trans-sulfuration and one-carbon metabolism",5,0.125681638567303
+"WP3602","Metabolism overview",4,4.03234050480993e-07
+"WP4726","Sphingolipid metabolism: integrated pathway",4,0.000808867702314443
+"WP5176","Disorders of bile acid synthesis and biliary transport",4,0.0229144091502934
+"WP550","Biogenic amine synthesis",4,0.222978676897685
+"WP3580","Methionine de novo and salvage pathway",3,0.00317588004355869
+"WP4949","16p11.2 proximal deletion syndrome",3,0.0112505003703549
+"WP4313","Ferroptosis",3,0.0205924418241504
+"WP497","Urea cycle and metabolism of amino groups",3,0.0553401501692758
+"WP241","One-carbon metabolism",3,0.115852025919464
+"WP4195","Phosphatidylcholine catabolism",3,0.188746253200236
+"WP4661","Amino acid metabolism pathway excerpt: histidine catabolism extension",3,0.242792802128893
+"WP706","Sudden infant death syndrome (SIDS) susceptibility pathways",3,0.256306873088125
+"WP4022","Pyrimidine metabolism",2,0.00440374557017935
+"WP4504","Cysteine and methionine catabolism",2,0.00525428429244091
+"WP2289","Drug induction of bile acid pathway",2,0.0400126429496579
+"WP4259","Disorders of folate metabolism and transport",2,0.046867672752711
+"WP2485","NAD biosynthesis II (from tryptophan)",2,0.0547596159622824
+"WP78","TCA cycle (aka Krebs or citric acid cycle)",2,0.0638039789063825
+"WP4288","MTHFR deficiency",2,0.0741157330730706
+"WP4292","Methionine metabolism leading to sulfur amino acids and related disorders",2,0.0741157330730706
+"WP4156","Biosynthesis and regeneration of tetrahydrobiopterin and catabolism of phenylalanine",2,0.0858036933811347
+"WP106","Alanine and aspartate metabolism",2,0.0858036933811347
+"WP4583","Biomarkers for urea cycle disorders",2,0.0858036933811347
+"WP5122","Prostaglandin and leukotriene metabolism in senescence ",2,0.0858036933811347
+"WP4586","Metabolism of alpha-linolenic acid",2,0.113663121483201
+"WP2453","TCA cycle and deficiency of pyruvate dehydrogenase complex (PDHc)",2,0.129936894308373
+"WP5190","Creatine pathway",2,0.147759758523267
+"WP4853","Linoleic acid metabolism affected by SARS-CoV-2",2,0.230688176744135
+"WP3953","mRNA, protein, and metabolite inducation pathway by cyclosporin A",2,0.230688176744135
+"WP1495","Glycine metabolism",2,0.252067210525765
+"WP715","Amino acid conjugation",2,0.269835066007599
+"WP4486","Role of carnosine in muscle contraction",2,0.289373673271415
+"WP528","Acetylcholine synthesis",2,0.302376698070364
+"WP4686","Leucine, isoleucine and valine metabolism",1,9.0084576076567e-07
+"WP465","Tryptophan metabolism",1,7.97091299906188e-06
+"WP1533","Vitamin B12 metabolism",1,7.97091299906188e-06
+"WP4224","Purine metabolism and related disorders",1,1.18860295385123e-05
+"WP2533","Glycerophospholipid biosynthetic pathway",1,2.16782945109486e-05
+"WP4545","Oxysterols derived from cholesterol",1,8.86660162682867e-05
+"WP4721","Eicosanoid metabolism via lipooxygenases (LOX)",1,0.00081896063961904
+"WP4719","Eicosanoid metabolism via cyclooxygenases (COX)",1,0.00150075257492194
+"WP4225","Pyrimidine metabolism and related diseases",1,0.00150075257492194
+"WP4290","Metabolic reprogramming in colon cancer",1,0.00150075257492194
+"WP4584","Biomarkers for pyrimidine metabolism disorders",1,0.00224535856838908
+"WP4595","Urea cycle and associated pathways",1,0.00611349868823062
+"WP4722","Glycerolipids and glycerophospholipids",1,0.00745901916528894
+"WP4519","Cerebral organic acidurias, including diseases",1,0.00909497075681619
+"WP167","Eicosanoid synthesis",1,0.0110818476176075
+"WP4210","Tryptophan catabolism leading to NAD+ production",1,0.0242034190816746
+"WP3869","Cannabinoid receptor signaling",1,0.0293374776747571
+"WP3996","Ethanol effects on histone modifications",1,0.0355077784162461
+"WP4236","Krebs cycle disorders",1,0.0355077784162461
+"WP1601","Fluoropyrimidine activity",1,0.0429034758333747
+"WP3933","Kennedy pathway from sphingolipids",1,0.0429034758333747
+"WP4485","Modified nucleosides derived from tRNA as urinary cancer markers",1,0.0517404000918323
+"WP5171","Leukotriene metabolic pathway",1,0.0517404000918323
+"WP5213","Amino acid metabolism in triple-negative breast cancer cells",1,0.0622614285227621
+"WP4220","Neurotransmitter disorders",1,0.0622614285227621
+"WP4969","RAS and bradykinin pathways in COVID-19",1,0.0747349704567914
+"WP430","Statin inhibition of cholesterol production",1,0.0747349704567914
+"WP4906","3q29 copy number variation syndrome",1,0.0894504573073213
+"WP3644","NAD+ metabolism",1,0.106709244628379
+"WP5050","TCA cycle in senescence",1,0.12680865727857
+"WP2197","Endothelin pathways",1,0.12680865727857
+"WP727","Monoamine transport",1,0.12680865727857
+"WP3645","NAD+ biosynthetic pathways",1,0.12680865727857
+"WP2333","Trans-sulfuration pathway",1,0.12680865727857
+"WP4571","Urea cycle and related diseases",1,0.12680865727857
+"WP98","Prostaglandin synthesis and regulation",1,0.150015972079147
+"WP4720","Eicosanoid metabolism via cytochrome P450 monooxygenases pathway",1,0.150015972079147
+"WP5087","Malignant pleural mesothelioma",1,0.150015972079147
+"WP2848","Pluripotent stem cell differentiation pathway",1,0.150015972079147
+"WP5046","NAD metabolism in oncogene-induced senescence and mitochondrial dysfunction-associated senescence",1,0.17652783814064
+"WP690","Polyol pathway",1,0.206408852409238
+"WP4580","Blood clotting and drug effects",1,0.206408852409238
+"WP1600","Nicotine metabolism in liver cells",1,0.206408852409238
+"WP678","Arachidonate epoxygenase / epoxide hydrolase",1,0.239500559128046
+"WP2526","PDGF pathway",1,0.239500559128046
+"WP2431","Spinal cord injury",1,0.275288785534894
+"WP4947","Nitric oxide metabolism in cystic fibrosis",1,0.275288785534894
+"WP2435","Quercetin and Nf-kB / AP-1 induced apoptosis",1,0.275288785534894
+"WP4966","Fluoroacetic acid toxicity",1,0.312712635080707
+"WP2513","Nanoparticle triggered regulated necrosis",1,0.312712635080707
+"WP4483","Relationship between inflammation, COX-2 and EGFR",1,0.345055699441445
+"WP2267","Synaptic vesicle pathway",1,0.349892190472846
+"WP4487","Ophthalmate biosynthesis in hepatocytes",1,0.349892190472846
+"WP231","TNF-alpha signaling pathway",1,0.403479903096872
+"WP4216","Chromosomal and microsatellite instability in colorectal cancer ",1,0.403479903096872
+"WP1455","Serotonin transporter activity",1,0.403479903096872
+"WP4341","Non-genomic actions of 1,25 dihydroxyvitamin D3",1,0.409437235574031
+"WP1982","Sterol regulatory element-binding proteins (SREBP) signaling",1,0.409437235574031
