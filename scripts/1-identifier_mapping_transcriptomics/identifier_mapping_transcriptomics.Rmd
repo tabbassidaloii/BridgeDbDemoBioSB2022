@@ -33,8 +33,7 @@ if(!"dplyr" %in% installed.packages()) install.packages("dplyr")
 if(!"rmarkdown" %in% installed.packages())install.packages("rmarkdown") 
 if(!"data.table" %in% installed.packages())install.packages("data.table")
 if(!"knitr" %in% installed.packages())install.packages("knitr")
-
- 
+# if(!"downloader" %in% installed.packages())install.packages("downloader")
 
 #load installed libraries
 suppressPackageStartupMessages({
@@ -46,6 +45,7 @@ suppressPackageStartupMessages({
   library(rmarkdown)
   library(data.table)
   library(knitr)
+  # require(downloader)
 })
 
 # set your working environment to the location where your current source file is saved into.
@@ -95,13 +95,14 @@ entrezID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol,
             keytype = "SYMBOL")
 
 # checking the one-to-multiple mappings
-all(table(entrezID$SYMBOL) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+if(!all(table(entrezID$SYMBOL) == 1)) print ("There are one-to-multiple mappings")
 #store one-to-multiple mapping info
 entrezID_doubles_Hs <- length(table(entrezID$SYMBOL) [table(entrezID$SYMBOL) > 1])
+##run the two lines below if you want to check which genes have multiple Entrez (NCBI) gene IDs
 # entrezID_doubles_Hs <- names(table(entrezID$SYMBOL)[table(entrezID$SYMBOL) > 1])
-# entrezID [entrezID$SYMBOL %in% entrezID_doubles_Hs, ] # If you want to see which genes have multiple Entrez Gene identifier
+# entrezID [entrezID$SYMBOL %in% entrezID_doubles_Hs, ]
 
-#filter out double gene symbols
+#filter out double identifiers because there are one-to-many relationship
 entrezID <- entrezID %>% distinct(entrezID$SYMBOL, .keep_all = TRUE)
 
 # add entrezIDs for each gene symbol in the dataset
@@ -119,14 +120,14 @@ ensemblID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol,
             keytype = "SYMBOL")
 
 # checking the one-to-multiple mappings
-all(table(ensemblID$SYMBOL) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+if(!all(table(ensemblID$SYMBOL) == 1)) print ("There are one-to-multiple mappings")
 #store one-to-multiple mapping info
 ensemblID_doubles_Hs <- length(table(ensemblID$SYMBOL)[table(ensemblID$SYMBOL) > 1])
-# length(na.omit(ensemblID$SYMBOL)) - length(unique(na.omit(ensemblID$SYMBOL)))
+##run the two lines below if you want to check which genes have multiple Ensembl IDs
 # ensemblID_doubles_Hs <- names(table(ensemblID$SYMBOL)[table(ensemblID$SYMBOL) > 1])
-# ensemblID %>% filter(SYMBOL %in% ensemblID_doubles_Hs) %>% arrange(SYMBOL) %>% head() # If you want to see which genes have multiple Ensembl ID
+# ensemblID %>% filter(SYMBOL %in% ensemblID_doubles_Hs) %>% arrange(SYMBOL)
 
-#filter out double gene symbols
+#filter out double identifiers because there are one-to-many relationship
 ensemblID <- ensemblID %>% distinct(ensemblID$SYMBOL, .keep_all = TRUE)
 # add entrezIDs for each gene symbol in the dataset
 dataset_CD$Ensembl.ID_org.Hs <- ensemblID$ENSEMBL [match(dataset_CD$GeneSymbol, ensemblID$SYMBOL)] 
@@ -136,22 +137,32 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 ```
 
 ## Converting hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
-please look up [here](https://bridgedb.github.io/pages/system-codes.html) for the correct system code for each datasource
 ```{r converting_entrez_BridgeDb, warning = FALSE, message = FALSE}
-#loading human derby database and converting gene symbols to entrez ID since these are required for the enrichR function
-dbLocation = "data/Hs_Derby_Ensembl_105.bridge"
-mapper <- loadDatabase(dbLocation)
-input <- data.frame(source = rep("H", length(dataset_CD$GeneSymbol)),
+#Download and load the human derby database and converting gene symbols to entrez ID since these are required for the enrichR function
+# fileUrl <- ""
+# require(downloader)
+# download(fileUrl, "data/Hs_Derby_Ensembl_105.bridge", mode = "wb")
+mapper <- loadDatabase("D:/bridgeDb/BridgeDbDemoBioSB2022/scripts/1-identifier_mapping_transcriptomics/data/Hs_Derby_Ensembl_105.bridge")
+
+## Obtain the System codes for the databases HGNC (source database of dataset) and Entrez (NCBI) (intended output database)
+code_mappingFrom <- getSystemCode("HGNC")
+code_mappingTo <- getSystemCode("Entrez Gene")
+
+## Create a data frame with the mappings and the correct SystemCode
+input <- data.frame(source = rep(code_mappingFrom, length(dataset_CD$GeneSymbol)),
                      identifier = dataset_CD$GeneSymbol)
-entrezID <- maps(mapper = mapper, input, target = "L") 
+#Obtain all mappings from HGNC to Entrez (NCBI)
+entrezID <- maps(mapper = mapper, input, target = code_mappingTo) 
 
 # checking the one-to-multiple mappings
-all(table(entrezID$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+if(!all(table(entrezID$identifier) == 1)) print ("There are one-to-multiple mappings")
 #store one-to-multiple mapping info
 entrezID_doubles_BridgeDb <- length(table(entrezID$identifier) [table(entrezID$identifier) > 1])
+##run the two lines below if you want to check which genes have multiple Entrez (NCBI) gene IDs
 # entrezID_doubles_BridgeDb <- names(table(entrezID$identifier)[table(entrezID$identifier) > 1])
-# entrezID [entrezID$identifier %in% entrezID_doubles_BridgeDb, ] # If you want to see which genes have multiple Entrez Gene identifier
-#filter out double gene symbols
+# entrezID [entrezID$identifier %in% entrezID_doubles_BridgeDb, ]
+
+#filter out double identifiers because there are one-to-many relationship
 entrezID <- entrezID %>% distinct(entrezID$identifier, .keep_all = TRUE)
 
 # add entrezIDs for each gene symbol in the dataset
@@ -164,15 +175,20 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 ## Converting hgnc gene symbols to the corresponding Ensembl IDs (BridgeDb)
 ```{r converting_ensembl_BridgeDb, warning = FALSE, message = FALSE}
 #converting gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
-ensemblID <- maps(mapper = mapper, input, target = "En") 
+## Obtain the System codes for Ensembl (intended output database)
+code_mappingTo <- getSystemCode("Ensembl")
+#Obtain all mappings from HGNC to Ensembl
+ensemblID <- maps(mapper = mapper, input, target = code_mappingTo) 
 
 # checking the one-to-multiple mappings
-all(table(ensemblID$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+if(!all(table(ensemblID$identifier) == 1)) print ("There are one-to-multiple mappings")
 #store one-to-multiple mapping info
 ensemblID_doubles_BridgeDb <- length(table(ensemblID$identifier) [table(ensemblID$identifier) > 1])
+##run the two lines below if you want to check which genes have multiple Ensembl ID
 # ensemblID_doubles_BridgeDb <- names(table(ensemblID$identifier)[table(ensemblID$identifier) > 1])
-# ensemblID [ensemblID$identifier %in% ensemblID_doubles_BridgeDb, ] # If you want to see which genes have multiple Ensembl ID
-#filter out double gene symbols
+# ensemblID [ensemblID$identifier %in% ensemblID_doubles_BridgeDb, ] 
+
+#filter out double identifiers because there are one-to-many relationship
 ensemblID <- ensemblID %>% distinct(ensemblID$identifier, .keep_all = TRUE)
 
 # add ensemblIDs for each gene symbol in the dataset
@@ -191,10 +207,13 @@ This makes the mapping based on hgnc gene symbols challenging.
 
 ```{r converting_hgncID_BridgeDb, warning = FALSE, message = FALSE}
 #converting gene symbols to hgnc ID 
+## Obtain the System codes for HGNC Accession number (intended output database)
+code_mappingTo <- getSystemCode("HGNC Accession number")
+#Obtain all mappings from HGNC to HGNC Accession number
 hgncID <- maps(mapper = mapper, input, target = "Hac") 
 
 # checking the one-to-multiple mappings
-all(table(hgncID$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+if(!all(table(hgncID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
 
 # add HGNC id for each gene symbol in the dataset
 dataset_CD$HGNC.ID_BridgeDb <- hgncID$mapping[match(dataset_CD$GeneSymbol, hgncID$identifier)]
@@ -208,31 +227,34 @@ Mapping hgnc symbols without a HGNC id mapped
 
 ```{r converting_PriSymbol_BridgeDb.1, warning = FALSE, message = FALSE}
 # loading the HGNC secondary id derby database
-dbLocation = "derbyDB/hgnc_all_secIds.bridge"
-mapper <- loadDatabase(dbLocation)
+mapper <- loadDatabase("D:/bridgeDb/BridgeDbDemoBioSB2022/scripts/1-identifier_mapping_transcriptomics/data/hgnc_primaryToSecondaryIDs.bridge")
+
+## Obtain the System codes for the databases HGNC 
+code_mapping <- getSystemCode("HGNC")
+
 #Subset hgnc gene symbols with no hgnc ID
 input <- dataset_CD$GeneSymbol [is.na(dataset_CD$HGNC.ID_BridgeDb)] 
-input <- data.frame(source = rep("H", length(input)),
+## Create a data frame with the mappings and the correct SystemCode
+input <- data.frame(source = rep(code_mapping, length(input)),
                     identifier = input)
 #converting secondary gene symbols to primary gene symbols 
-hgnc <- maps(mapper, input, "H") %>% 
-    filter(isPrimary == "T") # Keeping only rows where the mapping is annotated as primary id (defined in BridgeDb java  library)
+hgnc <- maps(mapper = mapper, input, target = code_mapping) %>% 
+    filter(isPrimary == "T") # Keeping only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
 
 # checking the one-to-multiple mappings
-all(table(hgnc$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+if(!all(table(hgnc$identifier) == 1)) print ("There are one-to-multiple mappings")
+
 #store one-to-multiple mapping info
 hgnc_doubles_PriID_BridgeDb <- length(table(hgnc$identifier) [table(hgnc$identifier) > 1])
+##run the two lines below if you want to check which genes have multiple mapping
 # hgnc_doubles_PriID_BridgeDb <- names(table(hgnc$identifier)[table(hgnc$identifier) > 1])
-# hgnc [hgnc$identifier %in% hgnc_doubles_PriID_BridgeDb, ] # If you want to see which genes have multiple primary id
+# hgnc [hgnc$identifier %in% hgnc_doubles_PriID_BridgeDb, ] 
 ```
 
 Checking the reason that the secondary symbol mapped to multiple primary symbols
 
 ```{r HGNC-PriSymbol-1toM.1, warning = FALSE, message = FALSE}
 hgnc [hgnc$identifier == "AGPAT9", ]
-#            source identifier target mapping isPrimary
-# H:GPAT3:T       H     AGPAT9      H   GPAT3         T
-# H:LPCAT1:T      H     AGPAT9      H  LPCAT1         T
 ```
 
 In this example where we manually checked:
@@ -247,16 +269,12 @@ This is an example of using the same alias for 5 different hgnc genes
 
 The issue of one-to-multiple mappings could not be easily fixed (needs manual check) and emphasizes on the importance of using unique, persistent, resolvable identifiers. 
 
-We then checked whether the primary symbols mapped are already present in the gene expression data 
-
-```{r converting_PriSymbol_BridgeDb.2, warning = FALSE, message = FALSE}
-all(!hgnc$mapping %in% dataset_CD$GeneSymbol)#True if the mapped id doesn't annotate another gene and is not present in the dataset, otherwise FALSE
-```
-
 Some of the primary symbols are already presented in the dataset (used as primary symbol for another gene). This shows another limitation of using gene symbols as identifiers, and to avoid the duplicated gene symbols we only mapped those symbols that are not presented in the dataset. 
 
-```{r converting_PriSymbol_BridgeDb.3, warning = FALSE, message = FALSE}
-hgnc <- hgnc [!hgnc$mapping %in% dataset_CD$GeneSymbol,] 
+```{r converting_PriSymbol_BridgeDb.2, warning = FALSE, message = FALSE}
+if (!all(!hgnc$mapping %in% dataset_CD$GeneSymbol))
+    hgnc <- hgnc [!hgnc$mapping %in% dataset_CD$GeneSymbol,] 
+    
 #filter out double gene symbols
 hgnc <- hgnc %>% distinct(hgnc$identifier, .keep_all = TRUE)
 
@@ -271,27 +289,35 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 ```
 
 ## Converting `primary` hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
-please look up [here](https://bridgedb.github.io/pages/system-codes.html) for the correct system code for each datasource
 ```{r converting_entrez_PriID_BridgeDb, warning = FALSE, message = FALSE}
-#loading human derby database and converting primary gene symbols to entrez ID since these are required for the enrichR function
-dbLocation = "data/Hs_Derby_Ensembl_105.bridge"
-mapper <- loadDatabase(dbLocation)
-input <- data.frame(source = rep("H", length(dataset_CD$Current_GeneSymbol)),
-                     identifier = dataset_CD$Current_GeneSymbol)
-entrezID <- maps(mapper = mapper, input, target = "L") 
+#load the human derby database and converting gene symbols to entrez ID since these are required for the enrichR function
+mapper <- loadDatabase("D:/bridgeDb/BridgeDbDemoBioSB2022/scripts/1-identifier_mapping_transcriptomics/data/Hs_Derby_Ensembl_105.bridge")
+
+# Obtain the System codes for the databases HGNC (source database of dataset) and Entrez (NCBI) (intended output database)
+code_mappingFrom <- getSystemCode("HGNC")
+code_mappingTo <- getSystemCode("Entrez Gene")
+
+# Create a data frame with the mappings and the correct SystemCode
+input <- data.frame(source = rep(code_mappingFrom, length(dataset_CD$Current_GeneSymbol)),
+                    identifier = dataset_CD$Current_GeneSymbol)
+
+#Obtain all mappings from HGNC to Entrez (NCBI)
+entrezID <- maps(mapper = mapper, input, target = code_mappingTo) 
 
 # checking the one-to-multiple mappings
-all(table(entrezID$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+if(!all(table(entrezID$identifier) == 1)) print ("There are one-to-multiple mappings")
 #store one-to-multiple mapping info
 entrezID_doubles_PriID_BridgeDb <- length(table(entrezID$identifier) [table(entrezID$identifier) > 1])
+##run the two lines below if you want to check which genes have multiple Entrez (NCBI) gene IDs
 # entrezID_doubles_PriID_BridgeDb <- names(table(entrezID$identifier)[table(entrezID$identifier) > 1])
-# entrezID [entrezID$identifier %in% entrezID_doubles_PriID_BridgeDb, ] # If you want to see which genes have multiple Entrez Gene identifier
-#filter out double gene symbols
+# entrezID [entrezID$identifier %in% entrezID_doubles_PriID_BridgeDb, ] 
+
+#filter out double identifiers because there are one-to-many relationship
 entrezID <- entrezID %>% distinct(entrezID$identifier, .keep_all = TRUE)
 
 # add entrezIDs for each gene symbol in the dataset
-dataset_CD$ENTREZ.ID_BridgeDb_PriID <- entrezID$mapping [match(dataset_CD$GeneSymbol, entrezID$identifier)] 
-dataset_UC$ENTREZ.ID_BridgeDb_PriID <- entrezID$mapping [match(dataset_UC$GeneSymbol, entrezID$identifier)] 
+dataset_CD$ENTREZ.ID_PriID_BridgeDb <- entrezID$mapping [match(dataset_CD$Current_GeneSymbol, entrezID$identifier)] 
+dataset_UC$ENTREZ.ID_PriID_BridgeDb <- entrezID$mapping [match(dataset_UC$Current_GeneSymbol, entrezID$identifier)] 
 
 rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb", "entrezID_doubles_PriID_BridgeDb", "input", "mapper"))) # removing variables that are not required
 ```
@@ -299,20 +325,25 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 ## Converting `primary` hgnc gene symbols to the corresponding Ensembl IDs (BridgeDb)
 ```{r converting_ensembl_PriID_BridgeDb, warning = FALSE, message = FALSE}
 #converting gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
-ensemblID <- maps(mapper = mapper, input, target = "En") 
+## Obtain the System codes for Ensembl (intended output database)
+code_mappingTo <- getSystemCode("Ensembl")
+#Obtain all mappings from HGNC to Ensembl
+ensemblID <- maps(mapper = mapper, input, target = code_mappingTo) 
 
 # checking the one-to-multiple mappings
-all(table(ensemblID$identifier) == 1) #True if there is no one-to-multiple mapping, otherwise FALSE
+if(!all(table(ensemblID$identifier) == 1)) print ("There are one-to-multiple mappings")
 #store one-to-multiple mapping info
 ensemblID_doubles_PriID_BridgeDb <- length(table(ensemblID$identifier) [table(ensemblID$identifier) > 1])
+##run the two lines below if you want to check which genes have multiple Ensembl ID
 # ensemblID_doubles_PriID_BridgeDb <- names(table(ensemblID$identifier)[table(ensemblID$identifier) > 1])
-# ensemblID [ensemblID$identifier %in% ensemblID_doubles_PriID_BridgeDb, ] # If you want to see which genes have multiple Ensembl ID
-#filter out double gene symbols
+# ensemblID [ensemblID$identifier %in% ensemblID_doubles_PriID_BridgeDb, ]
+
+#filter out double identifiers because there are one-to-many relationship
 ensemblID <- ensemblID %>% distinct(ensemblID$identifier, .keep_all = TRUE)
 
 # add ensemblIDs for each gene symbol in the dataset
-dataset_CD$Ensembl.ID_BridgeDb_PriID <- ensemblID$mapping [match(dataset_CD$GeneSymbol, ensemblID$identifier)] 
-dataset_UC$Ensembl.ID_BridgeDb_PriID <- ensemblID$mapping [match(dataset_UC$GeneSymbol, ensemblID$identifier)] 
+dataset_CD$Ensembl.ID_PriID_BridgeDb <- ensemblID$mapping [match(dataset_CD$Current_GeneSymbol, ensemblID$identifier)] 
+dataset_UC$Ensembl.ID_PriID_BridgeDb <- ensemblID$mapping [match(dataset_UC$Current_GeneSymbol, ensemblID$identifier)] 
 
 rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb", "entrezID_doubles_PriID_BridgeDb", "ensemblID_doubles_PriID_BridgeDb"))) # removing variables that are not required
 ```
@@ -328,12 +359,24 @@ MappingStats <- data.table(`  ` =  c("The total number of unique Entrez IDs",
                                      "The total number of unique Ensembl IDs",
                                      "The total number of missing mappings for HGNC Symbol to Ensembl IDs",
                                      "The total number of one-to-many mappings for Ensembl IDs"),
-                           org.Hs = c(sum(!is.na(dataset_CD$ENTREZ.ID_org.Hs)), sum(is.na(dataset_CD$ENTREZ.ID_org.Hs)), entrezID_doubles_Hs,
-                                      sum(!is.na(dataset_CD$Ensembl.ID_org.Hs)), sum(is.na(dataset_CD$Ensembl.ID_org.Hs)), ensemblID_doubles_Hs),
-                           BridgeDb = c(sum(!is.na(dataset_CD$ENTREZ.ID_BridgeDb)), sum(is.na(dataset_CD$ENTREZ.ID_BridgeDb)), entrezID_doubles_BridgeDb,
-                                        sum(!is.na(dataset_CD$Ensembl.ID_BridgeDb)), sum(is.na(dataset_CD$Ensembl.ID_BridgeDb)), ensemblID_doubles_BridgeDb),
-                           PrimaryID_BridgeDb = c(sum(!is.na(dataset_CD$ENTREZ.ID_BridgeDb_priID)), sum(is.na(dataset_CD$ENTREZ.ID_BridgeDb_priID)), entrezID_doubles_PriID_BridgeDb,
-                                                  sum(!is.na(dataset_CD$Ensembl.ID_BridgeDb_PriID)), sum(is.na(dataset_CD$Ensembl.ID_BridgeDb_PriID)), ensemblID_doubles_PriID_BridgeDb))
+                           org.Hs = c(sum(!is.na(dataset_CD$ENTREZ.ID_org.Hs)), 
+                                      sum(is.na(dataset_CD$ENTREZ.ID_org.Hs)),
+                                      entrezID_doubles_Hs,
+                                      sum(!is.na(dataset_CD$Ensembl.ID_org.Hs)), 
+                                      sum(is.na(dataset_CD$Ensembl.ID_org.Hs)), 
+                                      ensemblID_doubles_Hs),
+                           BridgeDb = c(sum(!is.na(dataset_CD$ENTREZ.ID_BridgeDb)),
+                                        sum(is.na(dataset_CD$ENTREZ.ID_BridgeDb)), 
+                                        entrezID_doubles_BridgeDb,
+                                        sum(!is.na(dataset_CD$Ensembl.ID_BridgeDb)), 
+                                        sum(is.na(dataset_CD$Ensembl.ID_BridgeDb)),
+                                        ensemblID_doubles_BridgeDb),
+                           PrimaryID_BridgeDb = c(sum(!is.na(dataset_CD$ENTREZ.ID_PriID_BridgeDb)),
+                                                  sum(is.na(dataset_CD$ENTREZ.ID_PriID_BridgeDb)),
+                                                  entrezID_doubles_PriID_BridgeDb,
+                                                  sum(!is.na(dataset_CD$Ensembl.ID_PriID_BridgeDb)), 
+                                                  sum(is.na(dataset_CD$Ensembl.ID_PriID_BridgeDb)),
+                                                  ensemblID_doubles_PriID_BridgeDb))
 
 kable(MappingStats)
 ##Citation org.Hs:
