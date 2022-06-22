@@ -17,7 +17,6 @@ identifiers.
 ``` r
 # empty the R environment
 rm (list = ls())
-
 # check if libraries are already installed > otherwise install it
 if(!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
@@ -44,7 +43,7 @@ comparison, we report how many rows per ID type contain a significantly
 changed gene.
 
 ``` r
-#we have four datasets, two different disorders and two different biopsy locations
+#we have four datasets, two different disorders and two different biopsy locations. In the first script, identifier_mapping_transcriptomics.Rmd, we merged the data from two locations in one dataset and we added the mapping data using Hs.org and BridgeDb (with and without secondary to primary mapping).  
 dataset_CD <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_CD")
 dataset_UC <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_UC")
 
@@ -75,11 +74,11 @@ sig.genes.rectum_Ensembl_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_BridgeDb[s
 sig.genes.ileum_HGNC_PriID_BridgeDb_CD <- dataset_CD$Current_GeneSymbol[sig.rows.ileum_CD] #ileum location
 sig.genes.rectum_HGNC_PriID_BridgeDb_CD <- dataset_CD$Current_GeneSymbol[sig.rows.rectum_CD] #rectum location
 ### Entrez ID:
-sig.genes.ileum_ENTREZ_PriID_BridgeDb_CD <- na.omit(dataset_CD$ENTREZ.ID_BridgeDb_PriID[sig.rows.ileum_CD]) #ileum location
-sig.genes.rectum_ENTREZ_PriID_BridgeDb_CD <- na.omit(dataset_CD$ENTREZ.ID_BridgeDb_PriID[sig.rows.rectum_CD]) #rectum location
+sig.genes.ileum_ENTREZ_PriID_BridgeDb_CD <- na.omit(dataset_CD$ENTREZ.ID_PriID_BridgeDb[sig.rows.ileum_CD]) #ileum location
+sig.genes.rectum_ENTREZ_PriID_BridgeDb_CD <- na.omit(dataset_CD$ENTREZ.ID_PriID_BridgeDb[sig.rows.rectum_CD]) #rectum location
 ### Ensembl IDs:
-sig.genes.ileum_Ensembl_PriID_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_BridgeDb_PriID[sig.rows.ileum_CD]) #ileum location
-sig.genes.rectum_Ensembl_PriID_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_BridgeDb_PriID[sig.rows.rectum_CD]) #rectum location
+sig.genes.ileum_Ensembl_PriID_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_PriID_BridgeDb[sig.rows.ileum_CD]) #ileum location
+sig.genes.rectum_Ensembl_PriID_BridgeDb_CD <- na.omit(dataset_CD$Ensembl.ID_PriID_BridgeDb[sig.rows.rectum_CD]) #rectum location
 
 #UC dataset
 ## Significant rows
@@ -107,11 +106,11 @@ sig.genes.rectum_Ensembl_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_BridgeDb[s
 sig.genes.ileum_HGNC_PriID_BridgeDb_UC <- dataset_UC$Current_GeneSymbol[sig.rows.ileum_UC] #ileum location
 sig.genes.rectum_HGNC_PriID_BridgeDb_UC <- dataset_UC$Current_GeneSymbol[sig.rows.rectum_UC] #rectum location
 ### Entrez ID:
-sig.genes.ileum_ENTREZ_PriID_BridgeDb_UC <- na.omit(dataset_UC$ENTREZ.ID_BridgeDb_PriID[sig.rows.ileum_UC]) #ileum location
-sig.genes.rectum_ENTREZ_PriID_BridgeDb_UC <- na.omit(dataset_UC$ENTREZ.ID_BridgeDb_PriID[sig.rows.rectum_UC]) #rectum location
+sig.genes.ileum_ENTREZ_PriID_BridgeDb_UC <- na.omit(dataset_UC$ENTREZ.ID_PriID_BridgeDb[sig.rows.ileum_UC]) #ileum location
+sig.genes.rectum_ENTREZ_PriID_BridgeDb_UC <- na.omit(dataset_UC$ENTREZ.ID_PriID_BridgeDb[sig.rows.rectum_UC]) #rectum location
 ### Ensembl IDs:
-sig.genes.ileum_Ensembl_PriID_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_BridgeDb_PriID[sig.rows.ileum_UC]) #ileum location
-sig.genes.rectum_Ensembl_PriID_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_BridgeDb_PriID[sig.rows.rectum_UC]) #rectum location
+sig.genes.ileum_Ensembl_PriID_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_PriID_BridgeDb[sig.rows.ileum_UC]) #ileum location
+sig.genes.rectum_Ensembl_PriID_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_PriID_BridgeDb[sig.rows.rectum_UC]) #rectum location
 ```
 
 ##Sign. Mapping stats:
@@ -119,7 +118,7 @@ sig.genes.rectum_Ensembl_PriID_BridgeDb_UC <- na.omit(dataset_UC$Ensembl.ID_Brid
 ``` r
 ##HGNC_originalData
 MappingStats <- data.table(`  ` =  c("The total number of genes in the transcriptomics dataset" ,
-                                     "The total number of significant genes with HGNC Symbol IDs for CD (ileum location)",
+                                     "The total number of significant genes with HGNC Symbol IDs for CD (ileum location)", 
                                      "The total number of significant genes with HGNC Symbol IDs for CD (rectum location)",
                                      "The total number of significant genes with HGNC Symbol IDs for UC (ileum location)",
                                      "The total number of significant genes with HGNC Symbol IDs for UC (rectum location)",
@@ -136,30 +135,30 @@ MappingStats <- data.table(`  ` =  c("The total number of genes in the transcrip
                            org.Hs = c(nrow (dataset_CD), 
                                       length(sig.genes.ileum_HGNC_CD), length(sig.genes.rectum_HGNC_CD), 
                                       length(sig.genes.ileum_HGNC_UC), length(sig.genes.rectum_HGNC_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_org.Hs),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$ENTREZ.ID_org.Hs),]), 
                                       length(sig.genes.ileum_ENTREZ_Hs_CD), length(sig.genes.rectum_ENTREZ_Hs_CD), 
                                       length(sig.genes.ileum_ENTREZ_Hs_UC), length(sig.genes.rectum_ENTREZ_Hs_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_org.Hs),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$Ensembl.ID_org.Hs),]), 
                                       length(sig.genes.ileum_Ensembl_Hs_CD), length(sig.genes.rectum_Ensembl_Hs_CD), 
                                       length(sig.genes.ileum_Ensembl_Hs_UC), length(sig.genes.rectum_Ensembl_Hs_UC)),
-                           BridgeDb = c(nrow (dataset_CD), 
+                           BridgeDb = c(nrow(dataset_CD), 
                                       length(sig.genes.ileum_HGNC_CD), length(sig.genes.rectum_HGNC_CD), 
                                       length(sig.genes.ileum_HGNC_UC),  length(sig.genes.rectum_HGNC_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_BridgeDb),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$ENTREZ.ID_BridgeDb),]), 
                                       length(sig.genes.ileum_ENTREZ_BridgeDb_CD), length(sig.genes.rectum_ENTREZ_BridgeDb_CD), 
                                       length(sig.genes.ileum_ENTREZ_BridgeDb_UC), length(sig.genes.rectum_ENTREZ_BridgeDb_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_BridgeDb),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$Ensembl.ID_BridgeDb),]), 
                                       length(sig.genes.ileum_Ensembl_BridgeDb_CD), length(sig.genes.rectum_Ensembl_BridgeDb_CD), 
                                       length(sig.genes.ileum_Ensembl_BridgeDb_UC), length(sig.genes.rectum_Ensembl_BridgeDb_UC)),
-                           PrimaryID_BridgeDb = c(c(nrow (dataset_CD), 
+                           PrimaryID_BridgeDb = c(nrow(dataset_CD), 
                                       length(sig.genes.ileum_HGNC_PriID_BridgeDb_CD), length(sig.genes.rectum_HGNC_PriID_BridgeDb_CD), 
                                       length(sig.genes.ileum_HGNC_PriID_BridgeDb_UC), length(sig.genes.rectum_HGNC_PriID_BridgeDb_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_BridgeDb),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$ENTREZ.ID_PriID_BridgeDb),]), 
                                       length(sig.genes.ileum_ENTREZ_PriID_BridgeDb_CD), length(sig.genes.rectum_ENTREZ_PriID_BridgeDb_CD), 
                                       length(sig.genes.ileum_ENTREZ_PriID_BridgeDb_UC), length(sig.genes.rectum_ENTREZ_PriID_BridgeDb_UC),
-                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_BridgeDb),]), 
+                                      nrow(dataset_CD[na.omit(dataset_CD$Ensembl.ID_PriID_BridgeDb),]), 
                                       length(sig.genes.ileum_Ensembl_PriID_BridgeDb_CD), length(sig.genes.rectum_Ensembl_PriID_BridgeDb_CD), 
-                                      length(sig.genes.ileum_Ensembl_PriID_BridgeDb_UC),  length(sig.genes.rectum_Ensembl_PriID_BridgeDb_UC))))
+                                      length(sig.genes.ileum_Ensembl_PriID_BridgeDb_UC),  length(sig.genes.rectum_Ensembl_PriID_BridgeDb_UC)))
 kable(MappingStats)
 ```
 
@@ -170,16 +169,16 @@ kable(MappingStats)
 | The total number of significant genes with HGNC Symbol IDs for CD (rectum location) |   1339 |     1339 |               1339 |
 | The total number of significant genes with HGNC Symbol IDs for UC (ileum location)  |    121 |      121 |                121 |
 | The total number of significant genes with HGNC Symbol IDs for UC (rectum location) |   6809 |     6809 |               6809 |
-| The total number of unique Entrez IDs in the transcriptomics dataset                |  15022 |    14133 |              14133 |
-| The total number of significant genes with Entrez IDs for CD (ileum location)       |   1697 |     1558 |               1558 |
-| The total number of significant genes with Entrez IDs for CD (rectum location)      |   1195 |     1114 |               1114 |
-| The total number of significant genes with Entrez IDs for UC (ileum location)       |     99 |       97 |                 97 |
-| The total number of significant genes with Entrez IDs for UC (rectum location)      |   5870 |     5593 |               5593 |
-| The total number of unique Ensembl IDs in the transcriptomics dataset               |  14596 |    15009 |              15009 |
-| The total number of significant genes with Ensembl IDs for CD (ileum location)      |   1665 |     1695 |               1695 |
-| The total number of significant genes with Ensembl IDs for CD (rectum location)     |   1171 |     1195 |               1195 |
-| The total number of significant genes with Ensembl IDs for UC (ileum location)      |     97 |       99 |                 99 |
-| The total number of significant genes with Ensembl IDs for UC (rectum location)     |   5771 |     5864 |               5864 |
+| The total number of unique Entrez IDs in the transcriptomics dataset                |  15022 |    14133 |              15050 |
+| The total number of significant genes with Entrez IDs for CD (ileum location)       |   1697 |     1558 |               1652 |
+| The total number of significant genes with Entrez IDs for CD (rectum location)      |   1195 |     1114 |               1173 |
+| The total number of significant genes with Entrez IDs for UC (ileum location)       |     99 |       97 |                102 |
+| The total number of significant genes with Entrez IDs for UC (rectum location)      |   5870 |     5593 |               5939 |
+| The total number of unique Ensembl IDs in the transcriptomics dataset               |  14596 |    15009 |              16015 |
+| The total number of significant genes with Ensembl IDs for CD (ileum location)      |   1665 |     1695 |               1797 |
+| The total number of significant genes with Ensembl IDs for CD (rectum location)     |   1171 |     1195 |               1257 |
+| The total number of significant genes with Ensembl IDs for UC (ileum location)      |     97 |       99 |                107 |
+| The total number of significant genes with Ensembl IDs for UC (rectum location)     |   5771 |     5864 |               6232 |
 
 ``` r
 rm(list = setdiff(ls(), grep ("dataset_UC|dataset_CD|sig.genes", ls(), value = TRUE))) # removing variables that are not required
@@ -242,43 +241,6 @@ ORDER BY DESC(?GenesInPWs)"
 ##Split significant genes into list of max. 300 (or x sections if that's easier), otherwise SPARQL endpoint trows a 414 error --> Ensembl has longest ID, 220 entries seems to be the max.
 ##Merge the content of the split content back together for the output of the PW Analysis.
 
-ls(pattern = "sig.genes")
-```
-
-    ##  [1] "sig.genes.ileum_Ensembl_BridgeDb_CD"       
-    ##  [2] "sig.genes.ileum_Ensembl_BridgeDb_UC"       
-    ##  [3] "sig.genes.ileum_Ensembl_Hs_CD"             
-    ##  [4] "sig.genes.ileum_Ensembl_Hs_UC"             
-    ##  [5] "sig.genes.ileum_Ensembl_PriID_BridgeDb_CD" 
-    ##  [6] "sig.genes.ileum_Ensembl_PriID_BridgeDb_UC" 
-    ##  [7] "sig.genes.ileum_ENTREZ_BridgeDb_CD"        
-    ##  [8] "sig.genes.ileum_ENTREZ_BridgeDb_UC"        
-    ##  [9] "sig.genes.ileum_ENTREZ_Hs_CD"              
-    ## [10] "sig.genes.ileum_ENTREZ_Hs_UC"              
-    ## [11] "sig.genes.ileum_ENTREZ_PriID_BridgeDb_CD"  
-    ## [12] "sig.genes.ileum_ENTREZ_PriID_BridgeDb_UC"  
-    ## [13] "sig.genes.ileum_HGNC_CD"                   
-    ## [14] "sig.genes.ileum_HGNC_PriID_BridgeDb_CD"    
-    ## [15] "sig.genes.ileum_HGNC_PriID_BridgeDb_UC"    
-    ## [16] "sig.genes.ileum_HGNC_UC"                   
-    ## [17] "sig.genes.rectum_Ensembl_BridgeDb_CD"      
-    ## [18] "sig.genes.rectum_Ensembl_BridgeDb_UC"      
-    ## [19] "sig.genes.rectum_Ensembl_Hs_CD"            
-    ## [20] "sig.genes.rectum_Ensembl_Hs_UC"            
-    ## [21] "sig.genes.rectum_Ensembl_PriID_BridgeDb_CD"
-    ## [22] "sig.genes.rectum_Ensembl_PriID_BridgeDb_UC"
-    ## [23] "sig.genes.rectum_ENTREZ_BridgeDb_CD"       
-    ## [24] "sig.genes.rectum_ENTREZ_BridgeDb_UC"       
-    ## [25] "sig.genes.rectum_ENTREZ_Hs_CD"             
-    ## [26] "sig.genes.rectum_ENTREZ_Hs_UC"             
-    ## [27] "sig.genes.rectum_ENTREZ_PriID_BridgeDb_CD" 
-    ## [28] "sig.genes.rectum_ENTREZ_PriID_BridgeDb_UC" 
-    ## [29] "sig.genes.rectum_HGNC_CD"                  
-    ## [30] "sig.genes.rectum_HGNC_PriID_BridgeDb_CD"   
-    ## [31] "sig.genes.rectum_HGNC_PriID_BridgeDb_UC"   
-    ## [32] "sig.genes.rectum_HGNC_UC"
-
-``` r
 for (gene_list in ls(pattern = "sig.genes")){
   sig.genes = get (gene_list)
   IDsource = gsub ("_.*", "", gsub ("^[^_]+_", "", gene_list))
@@ -300,6 +262,7 @@ for (gene_list in ls(pattern = "sig.genes")){
   showresults_CombinePWs %>% 
     group_by(pathwayRes, pathway, pathwayTitle) %>% 
     summarise(GenesInPWs = sum(GenesInPWs)) %>%
+    arrange(desc(GenesInPWs)) %>%
     write.table(outputFile, 
             sep = "\t" , quote = FALSE, row.names = FALSE)
   assign(paste0 ("CombinePWs", gsub ("sig.genes", "", gene_list)), showresults_CombinePWs)
@@ -387,17 +350,16 @@ MappingStats <- data.table(`  ` =  c("The total number of genes in the transcrip
                                       length(sig.genes.rectum_HGNC_CD), length(unique(CombinePWs.rectum_HGNC_CD$pathway)),
                                       length(sig.genes.ileum_HGNC_UC), length(unique(CombinePWs.ileum_HGNC_UC$pathway)),
                                       length(sig.genes.rectum_HGNC_UC), length(unique(CombinePWs.rectum_HGNC_UC$pathway)),
-                                      nrow (dataset_CD),
                                       length(sig.genes.ileum_HGNC_PriID_BridgeDb_CD), length(unique(CombinePWs.ileum_HGNC_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.rectum_HGNC_PriID_BridgeDb_CD), length(unique(CombinePWs.rectum_HGNC_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.ileum_HGNC_PriID_BridgeDb_UC), length(unique(CombinePWs.ileum_HGNC_PriID_BridgeDb_UC$pathway)),
                                       length(sig.genes.rectum_HGNC_PriID_BridgeDb_UC), length(unique(CombinePWs.rectum_HGNC_PriID_BridgeDb_UC$pathway)),
-                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_BridgeDb),]), 
+                                      nrow (dataset_CD[na.omit(dataset_CD$ENTREZ.ID_PriID_BridgeDb),]), 
                                       length(sig.genes.ileum_ENTREZ_PriID_BridgeDb_CD), length(unique(CombinePWs.ileum_ENTREZ_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.rectum_ENTREZ_PriID_BridgeDb_CD), length(unique(CombinePWs.rectum_ENTREZ_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.ileum_ENTREZ_PriID_BridgeDb_UC), length(unique(CombinePWs.ileum_ENTREZ_PriID_BridgeDb_UC$pathway)),
                                       length(sig.genes.rectum_ENTREZ_PriID_BridgeDb_UC), length(unique(CombinePWs.rectum_ENTREZ_PriID_BridgeDb_UC$pathway)),
-                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_BridgeDb),]), 
+                                      nrow (dataset_CD[na.omit(dataset_CD$Ensembl.ID_PriID_BridgeDb),]), 
                                       length(sig.genes.ileum_Ensembl_PriID_BridgeDb_CD), length(unique(CombinePWs.ileum_Ensembl_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.rectum_Ensembl_PriID_BridgeDb_CD), length(unique(CombinePWs.rectum_Ensembl_PriID_BridgeDb_CD$pathway)),
                                       length(sig.genes.ileum_Ensembl_PriID_BridgeDb_UC), length(unique(CombinePWs.ileum_Ensembl_PriID_BridgeDb_UC$pathway)),
@@ -416,30 +378,29 @@ kable(MappingStats)
 | The total number of pathways with HGNC Symbol IDs for UC (ileum location)                   | 59     | 59       |                 59 |
 | The total number of significant genes with HGNC Symbol IDs for UC (rectum location)         | 6809   | 6809     |               6809 |
 | The total number of pathways with HGNC Symbol IDs for UC (rectum location)                  | 728    | 728      |                728 |
-| The total number of significant genes with primary HGNC Symbol IDs for CD (ileum location)  | \-     | \-       |              17670 |
-| The total number of pathways with primary HGNC Symbol IDs for CD (ileum location)           | \-     | \-       |               1896 |
-| The total number of significant genes with primary HGNC Symbol IDs for CD (rectum location) | \-     | \-       |                611 |
-| The total number of pathways with primary HGNC Symbol IDs for CD (rectum location)          | \-     | \-       |               1339 |
-| The total number of significant genes with primary HGNC Symbol IDs for UC (ileum location)  | \-     | \-       |                594 |
-| The total number of pathways with primary HGNC Symbol IDs for UC (ileum location)           | \-     | \-       |                121 |
-| The total number of significant genes with primary HGNC Symbol IDs for UC (rectum location) | \-     | \-       |                  3 |
-| The total number of pathways with primary HGNC Symbol IDs for UC (rectum location)          | \-     | \-       |               6809 |
-| The total number of unique Entrez IDs in the transcriptomics dataset                        | 15022  | 14133    |                145 |
-| The total number of significant genes with Entrez IDs for CD (ileum location)               | 1697   | 1558     |              14133 |
-| The total number of pathways with Entrez IDs for CD (ileum location)                        | 611    | 611      |               1558 |
-| The total number of significant genes with Entrez IDs for CD (rectum location)              | 1195   | 1114     |                611 |
-| The total number of pathways with Entrez IDs for CD (rectum location)                       | 593    | 593      |               1114 |
-| The total number of significant genes with Entrez IDs for UC (ileum location)               | 99     | 97       |                593 |
-| The total number of pathways with Entrez IDs for UC (ileum location)                        | 59     | 59       |                 97 |
-| The total number of significant genes with Entrez IDs for UC (rectum location)              | 5870   | 5593     |                 59 |
-| The total number of pathways with Entrez IDs for UC (rectum location)                       | 728    | 728      |               5593 |
-| The total number of unique Ensembl IDs in the transcriptomics dataset                       | 14596  | 15009    |                728 |
-| The total number of significant genes with Ensembl IDs for CD (ileum location)              | 1665   | 1695     |              15009 |
-| The total number of pathways with Ensembl IDs for CD (ileum location)                       | 611    | 611      |               1695 |
-| The total number of significant genes with Ensembl IDs for CD (rectum location)             | 1171   | 1195     |                611 |
-| The total number of pathways with Ensembl IDs for CD (rectum location)                      | 593    | 593      |               1195 |
-| The total number of significant genes with Ensembl IDs for UC (ileum location)              | 97     | 99       |                593 |
-| The total number of pathways with Ensembl IDs for UC (ileum location)                       | 59     | 59       |                 99 |
-| The total number of significant genes with Ensembl IDs for UC (rectum location)             | 5771   | 5864     |                 59 |
-| The total number of pathways with Ensembl IDs for UC (rectum location)                      | 728    | 728      |               5864 |
-| The total number of genes in the transcriptomics dataset                                    | 17670  | 17670    |                728 |
+| The total number of significant genes with primary HGNC Symbol IDs for CD (ileum location)  | \-     | \-       |               1896 |
+| The total number of pathways with primary HGNC Symbol IDs for CD (ileum location)           | \-     | \-       |                611 |
+| The total number of significant genes with primary HGNC Symbol IDs for CD (rectum location) | \-     | \-       |               1339 |
+| The total number of pathways with primary HGNC Symbol IDs for CD (rectum location)          | \-     | \-       |                594 |
+| The total number of significant genes with primary HGNC Symbol IDs for UC (ileum location)  | \-     | \-       |                121 |
+| The total number of pathways with primary HGNC Symbol IDs for UC (ileum location)           | \-     | \-       |                 60 |
+| The total number of significant genes with primary HGNC Symbol IDs for UC (rectum location) | \-     | \-       |               6809 |
+| The total number of pathways with primary HGNC Symbol IDs for UC (rectum location)          | \-     | \-       |                728 |
+| The total number of unique Entrez IDs in the transcriptomics dataset                        | 15022  | 14133    |              15050 |
+| The total number of significant genes with Entrez IDs for CD (ileum location)               | 1697   | 1558     |               1652 |
+| The total number of pathways with Entrez IDs for CD (ileum location)                        | 611    | 611      |                611 |
+| The total number of significant genes with Entrez IDs for CD (rectum location)              | 1195   | 1114     |               1173 |
+| The total number of pathways with Entrez IDs for CD (rectum location)                       | 593    | 593      |                594 |
+| The total number of significant genes with Entrez IDs for UC (ileum location)               | 99     | 97       |                102 |
+| The total number of pathways with Entrez IDs for UC (ileum location)                        | 59     | 59       |                 60 |
+| The total number of significant genes with Entrez IDs for UC (rectum location)              | 5870   | 5593     |               5939 |
+| The total number of pathways with Entrez IDs for UC (rectum location)                       | 728    | 728      |                728 |
+| The total number of unique Ensembl IDs in the transcriptomics dataset                       | 14596  | 15009    |              16015 |
+| The total number of significant genes with Ensembl IDs for CD (ileum location)              | 1665   | 1695     |               1797 |
+| The total number of pathways with Ensembl IDs for CD (ileum location)                       | 611    | 611      |                611 |
+| The total number of significant genes with Ensembl IDs for CD (rectum location)             | 1171   | 1195     |               1257 |
+| The total number of pathways with Ensembl IDs for CD (rectum location)                      | 593    | 593      |                594 |
+| The total number of significant genes with Ensembl IDs for UC (ileum location)              | 97     | 99       |                107 |
+| The total number of pathways with Ensembl IDs for UC (ileum location)                       | 59     | 59       |                 60 |
+| The total number of significant genes with Ensembl IDs for UC (rectum location)             | 5771   | 5864     |               6232 |
+| The total number of pathways with Ensembl IDs for UC (rectum location)                      | 728    | 728      |                728 |
