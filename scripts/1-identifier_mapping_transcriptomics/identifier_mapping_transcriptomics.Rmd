@@ -40,7 +40,7 @@ suppressPackageStartupMessages({
   library(rstudioapi) # interface for interacting with RStudio IDE with R code.
   library(org.Hs.eg.db) #This is the organism annotation package ("org") for Homo sapiens ("Hs"), organized as an AnnotationDbi   package ("db"), using Entrez Gene IDs ("eg") as primary key.
   library(AnnotationDbi) # for connecting and querying annotation databases
-  library(BridgeDbR)
+  library(BridgeDbR) #This is the BridgeDb annotation package containing multiple species, using Ensembl Gene IDs ("En") as primary key.
   library(dplyr)
   library(rmarkdown)
   library(data.table)
@@ -138,7 +138,7 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 ## Converting hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
 ```{r converting_entrez_BridgeDb, warning = FALSE, message = FALSE}
-#Download and load the human derby database and converting gene symbols to entrez ID since these are required for the enrichR function
+#Download and load the human derby database for BridgeDb
 # fileUrl <- ""
 # require(downloader)
 # download(fileUrl, "data/Hs_Derby_Ensembl_105.bridge", mode = "wb")

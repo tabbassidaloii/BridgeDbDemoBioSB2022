@@ -23,7 +23,7 @@ We use one tool for this mapping: BridgeDb [doi:10.18129/B9.bioc.BridgeDbR].
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"dplyr" %in% installed.packages()) BiocManager::install("dplyr")
 if(!"BridgeDbR" %in% installed.packages()) BiocManager::install("BridgeDbR")
-install.packages("rJava",repos = "http://cran.us.r-project.org" )
+if(!"rJava" %in% installed.packages()) install.packages("rJava")
  ## See https://www.r-bloggers.com/2018/02/installing-rjava-on-ubuntu/ if you have issues with this package on Ubuntu.
 
 #load libraries
@@ -45,14 +45,20 @@ mbxData_UC <- read.csv("data/mbxData_UC.csv")
 mbxData_CD <- mbxData_CD [,c(1,3,4)]
 mbxData_UC <- mbxData_UC [,c(1,3,4)]
 
-##Transform HMDB IDs to ChEBI IDs
-##TODO: download is not working?
-#Download the Metabolite mapping file:
-fileUrl <- "https://figshare.com/ndownloader/files/26001794?accessType=DOWNLOAD"
-require(downloader)
-download(fileUrl, "data/metabolites.bridge", mode = "wb")
-##TODO: mapper is not loading?
-mapper <- BridgeDbR ::loadDatabase("data/metabolites.bridge")
+#Transform HMDB IDs to ChEBI IDs:
+
+##Set the working directory to download the Metabolite mapping file
+location <- "data/metabolites.bridge"
+checkfile <- paste0(getwd(), '/' ,location)
+
+##Download the Metabolite mapping file (if it doesn't exist locally yet):
+if (!file.exists(checkfile)) {
+download.file(
+  "https://figshare.com/ndownloader/files/26001794",
+  location)
+}
+#Load the ID mapper:
+mapper <-  BridgeDbR ::loadDatabase(checkfile)
 
 ## Obtain the System codes for the databases HMDB (source database of dataset) and ChEBI (intended output database)
 code <- getOrganismCode("Homo sapiens")
@@ -104,8 +110,6 @@ colnames(merged.data_UC) <- c("HMDBID","CHEBI", "log2FC_met", "pvalue_met")
 merged.data_UC ["data.type"] <- "metabolomics" 
 merged.data_UC <- merged.data_UC [,-1]
 colnames(merged.data_UC) <- c("Identifier","log2FC","pvalue","data.type")
-
-
 ```
 
 
