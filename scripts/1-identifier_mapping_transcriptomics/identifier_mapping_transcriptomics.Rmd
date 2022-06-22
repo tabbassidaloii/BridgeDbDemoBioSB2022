@@ -138,11 +138,20 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 ## Converting hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
 ```{r converting_entrez_BridgeDb, warning = FALSE, message = FALSE}
+##Set the working directory to download the GeneProtein mapping file
+location <- "data/Hs_Derby_Ensembl_105.bridge"
+checkfile <- paste0(getwd(), '/' ,location)
+
+##Download the GeneProtein mapping file (if it doesn't exist locally yet):
+if (!file.exists(checkfile)) {
+  print('We will work with the local file, which includes HGNC IDs')
 #Download and load the human derby database for BridgeDb
 # fileUrl <- ""
 # require(downloader)
 # download(fileUrl, "data/Hs_Derby_Ensembl_105.bridge", mode = "wb")
-mapper <- loadDatabase("D:/bridgeDb/BridgeDbDemoBioSB2022/scripts/1-identifier_mapping_transcriptomics/data/Hs_Derby_Ensembl_105.bridge")
+}
+#Load the ID mapper:
+mapper <-  BridgeDbR ::loadDatabase(checkfile)
 
 ## Obtain the System codes for the databases HGNC (source database of dataset) and Entrez (NCBI) (intended output database)
 code_mappingFrom <- getSystemCode("HGNC")
@@ -169,7 +178,7 @@ entrezID <- entrezID %>% distinct(entrezID$identifier, .keep_all = TRUE)
 dataset_CD$ENTREZ.ID_BridgeDb <- entrezID$mapping [match(dataset_CD$GeneSymbol, entrezID$identifier)] 
 dataset_UC$ENTREZ.ID_BridgeDb <- entrezID$mapping [match(dataset_UC$GeneSymbol, entrezID$identifier)] 
 
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb"))) # removing variables that are not required
+#rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb"))) # removing variables that are not required
 ```
 
 ## Converting hgnc gene symbols to the corresponding Ensembl IDs (BridgeDb)
