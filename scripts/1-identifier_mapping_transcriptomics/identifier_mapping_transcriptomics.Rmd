@@ -234,8 +234,21 @@ Mapping hgnc symbols without a HGNC id mapped
 ```{r converting_PriSymbol_BridgeDb.1, warning = FALSE, message = FALSE}
 rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) # removing variables that are not required
 
-# loading the HGNC secondary id derby database
-mapper <- loadDatabase("D:/bridgeDb/BridgeDbDemoBioSB2022/scripts/1-identifier_mapping_transcriptomics/data/hgnc_primaryToSecondaryIDs.bridge")
+##Set the working directory to download the GeneProtein mapping file
+location <- "data/hgnc_primaryToSecondaryIDs.bridge"
+checkfile <- paste0(getwd(), '/' ,location)
+
+##Download the GeneProtein mapping file (if it doesn't exist locally yet):
+if (!file.exists(checkfile)) {
+  print('We will work with the local file, which includes HGNC IDs')
+#TODO: update URL for download
+#  #Download and load the human secondary derby database for BridgeDb
+#  # fileUrl <- ""
+#  # require(downloader)
+#  # download(fileUrl, "data/hgnc_primaryToSecondaryIDs.bridge", mode = "wb")
+}
+#Load the ID mapper:
+mapper <-  BridgeDbR ::loadDatabase(checkfile)
 
 ## Obtain the System codes for the databases HGNC 
 code_mapping <- getSystemCode("HGNC")
@@ -259,7 +272,7 @@ hgnc_doubles_PriID_BridgeDb <- length(table(hgnc$identifier) [table(hgnc$identif
 # hgnc [hgnc$identifier %in% hgnc_doubles_PriID_BridgeDb, ] 
 ```
 
-Checking the reason that the secondary symbol mapped to multiple primary symbols
+Checking the reason that the secondary symbol mapped to multiple primary symbols for the example AGPAT9.
 
 ```{r HGNC-PriSymbol-1toM.1, warning = FALSE, message = FALSE}
 hgnc [hgnc$identifier == "AGPAT9", ]
