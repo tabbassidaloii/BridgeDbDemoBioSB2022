@@ -61,7 +61,7 @@ sig.metabolites.ChEBI_PriID_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$ChEBI_P
 sig.metabolites.ChEBI_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_PriID_BridgeDb)) #UC
 ```
 
-Find pathways for each dataset, based on different IDs.
+## Find pathways for each dataset, based on different IDs.
 ```{r pathway_retrieval, warning =FALSE, message = FALSE}
 ##Connect to Endpoint WikiPathways
 endpointwp <- "https://sparql.wikipathways.org/sparql"
@@ -132,94 +132,14 @@ for (metabolite_list in ls(pattern = "sig.metabolites")){
     showresults_CombinePWs <- rbind (showresults_CombinePWs, results_CombinePWs$results)
   }
   outputFile = paste0 ("results/CombinePWs", gsub ("sig.metabolites", "", metabolite_list))
-  showresults_CombinePWs %>% 
-  group_by(pathwayRes, pathway, pathwayTitle, TotalMetabolitesinPW) %>% 
-  summarise(BiomarkersInPWs = sum(BiomarkersInPWs)) %>%
-  arrange(desc(BiomarkersInPWs)) #%>%
-  # write.table(outputFile, 
-          # sep = "\t" , quote = FALSE, row.names = FALSE)
+  (showresults_CombinePWs <- showresults_CombinePWs %>% 
+      group_by(pathwayRes, pathway, pathwayTitle, TotalMetabolitesinPW) %>% 
+      summarise(BiomarkersInPWs = sum(BiomarkersInPWs)) %>%
+      mutate(probabilities = dhyper(BiomarkersInPWs, TotalMetabolitesinPW, (length(query) - BiomarkersInPWs), length(query), log = FALSE)) %>% # Calculate hypergeometric density p-value for all pathways.
+      arrange(desc(BiomarkersInPWs), probabilities)) %>%
+    write.table(outputFile, sep = "\t" , quote = FALSE, row.names = FALSE)
 
   assign(paste0 ("CombinePWs", gsub ("sig.metabolites", "", metabolite_list)), showresults_CombinePWs)
   rm (sig.metabolites, IDsource, item3, query, split_query, showresults_CombinePWs, i, string, query_CombinePWs, results_CombinePWs, outputFile)
 }
 ```
-
-Calculate the ORA score for each pathway, using the Fishers exact test.
-```{r pathway_analysis, warning=FALSE, message=FALSE}
-##Based on: https://www.pathwaycommons.org/guide/primers/statistics/fishers_exact_test/
-
-#Create a dataframe to store the required numbers in.
-Contingency_table <- data.frame(matrix(ncol=5,nrow=0, dimnames=list(NULL, c("WP.ID", "x", "m", "n", "k"))))
-counter = 1
-for (i in 1:nrow(showresults_CombinePWs)) {
-   Contingency_table[counter,1] <- (showresults_CombinePWs[i,2]) #WP.ID
-   Contingency_table[counter,2] <- (showresults_CombinePWs[i,4]) ##x <- (number4) #Total differentially changed metabolites, also in a PW. (HMDBsInPWs)
-   Contingency_table[counter,3] <- (showresults_CombinePWs[i,5]) ##m <- (number) #Total Metabolites in PW (TotalMetabolitesinPW)
-   Contingency_table[counter,4] <- (length(unique(mSet[,1])) - showresults_CombinePWs[i,4]) ##n <- (number2) #Total Metabolites measured not in PW (DISTINCT all_HMDB - HMDBsInPWs)
-   Contingency_table[counter,5] <- length(unique(vector_HMDB)) ##k <- (number3) #Total differentially changed metabolites. (DISTINCT vector_HMDB)
-
-   counter <- counter + 1
-}
-
-# Calculate hypergeometric density p-value for all pathways.
-i <- 1:nrow(Contingency_table)
-probabilities <- dhyper(Contingency_table[i,2], Contingency_table[i,3], Contingency_table[i,4], Contingency_table[i,5], log = FALSE)
-
-pathwayAnalysis_results <- cbind(showresults_CombinePWs[, c(2:4)], probabilities)
-
-##Sort PW results based on 1. highest amount of biomarkers in PW, 2. lowest p-values
-pathwayAnalysis_results_sorted <- pathwayAnalysis_results[  with(pathwayAnalysis_results, order(-BiomarkersInPWs, probabilities)),]
-
-print(pathwayAnalysis_results_sorted[1:5,])
-```
-
-Export the pathway data:
-```{r data_export, warning=FALSE, message=FALSE}
-##Save the data file
-nameDataFile <- paste0("results/mbxPWdata_", disorder ,".csv")
-write.table(pathwayAnalysis_results_sorted, nameDataFile, sep =",", row.names = FALSE)
-```
-
-Print significantly changed metabolites which were not in a pathway, by ID and name:
-```{r missing_data,warning=FALSE, message=FALSE }
-##Find Missing Biomarkers (not part of any Human pathway model)
-item1 = "PREFIX ch: <https://identifiers.org/hmdb/>
-SELECT DISTINCT ?HMDBMetabolite WHERE {
-  VALUES ?HMDBMetabolite {"
-item2 = "}
-  ?pathwayRes  a wp:Pathway ;
-             	wp:organismName 'Homo sapiens' .
-  
-  ?metabolite 	a wp:Metabolite ;
-                dcterms:identifier ?id ;
-                dcterms:isPartOf ?pathwayRes .
-  ?metabolite wp:bdbHmdb ?HMDBMetabolite.
-}"
-queryMissingBiomarkers <- paste(item1,string_HMDB,item2)
-remove(item1,item2)
-resultsMissingBiomarkers <- SPARQL(endpointwp,queryMissingBiomarkers,curl_args=list(useragent=R.version.string))
-listMissingBiomarkers <- c(resultsMissingBiomarkers$results) #safe results as list for comparison.
-remove(queryMissingBiomarkers,resultsMissingBiomarkers)
-HMDBs_inPWs <- gsub("[<https://identifiers.org/hmdb/>]", "", listMissingBiomarkers) #HMDB IDs IRI cleanup
-intersectingHMDB <- setdiff(vector_HMDB, HMDBs_inPWs)
-
-string_intersectingHMDB <- paste(c(intersectingHMDB), collapse=', ' )
-
-#Find names for missing Biomarkers based on HMDB ID (to help with data understanding and curation)
-missingNames <- list()
-for (j in 1:length(intersectingHMDB)){
-  for (i in 1:nrow(mSet)){
-    if(!is.na(mSet[i,5]) & mSet[i,5] == intersectingHMDB[j]){
-       missingNames[j] <- mSet[i,6]
-      }
-    else{next}
-  }
-}
-remove(i,j)
-#Save list on one string for reporting purposes
-string_missingNames <- do.call(paste, c(as.list(missingNames), sep = ", "))
-#Print relevant information:
-if(length(intersectingHMDB) == 0 ){print("All relevant biomarkers are in a pathway!")} else{
-  print(paste0("For the disorder ", disorder, ", ", length(intersectingHMDB), " biomarkers are not in a pathway; with the following HMDB IDs: " , string_intersectingHMDB, "; with the following Database names: ", string_missingNames))}
-```
-
