@@ -17,7 +17,7 @@ In this workflow, we link the metabolites of interest to pathway data from WikiP
 
 ## Setup
 ```{r setup, warning=FALSE, message=FALSE}
-# check if libraries are already installed > otherwise install it
+# check if libraries are already installed, otherwise install it
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"SPARQL" %in% installed.packages()){  install.packages("SPARQL")}
