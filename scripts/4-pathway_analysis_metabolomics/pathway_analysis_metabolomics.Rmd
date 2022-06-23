@@ -1,7 +1,8 @@
 ---
-title: "metabolomics_analysis"
+title: "Pathway analysis (metabolomics)"
 author: 
 - "DeniseSl22"
+- "tabbassidaloii"
 - "ddedesener"
 date: "25/04/2022"
 output:
