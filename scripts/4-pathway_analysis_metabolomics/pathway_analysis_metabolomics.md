@@ -199,6 +199,7 @@ CombinePWs_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern =
 CombinePWs_CD_toPlot <- CombinePWs_CD [, !grepl("probabilities|pathwayRes|pathwayTitle|TotalMetabolitesinPW", colnames (CombinePWs_CD))] %>% select (pathway, BiomarkersInPWs.HMDB_CD, BiomarkersInPWs.ChEBI_BridgeDb_CD, BiomarkersInPWs.HMDB_PriID_BridgeDb_CD, BiomarkersInPWs.ChEBI_PriID_BridgeDb_CD)
 colnames(CombinePWs_CD_toPlot) <- gsub ("BiomarkersInPWs.|_CD", "", colnames(CombinePWs_CD_toPlot))
 all_the_same <- apply(CombinePWs_CD_toPlot[-c(1, 2)], 1, function(x) all(x == x[1]))
+#Keep the pathways with different number of BiomarkersInPWs across different mappings
 CombinePWs_CD_toPlot <- CombinePWs_CD_toPlot %>%
   filter(!all_the_same) %>%
   reshape2::melt() %>%
@@ -223,6 +224,7 @@ ggplot(CombinePWs_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
 #UC
 CombinePWs_UC_toPlot <- CombinePWs_UC [, !grepl("probabilities|pathwayRes|pathwayTitle|TotalMetabolitesinPW", colnames (CombinePWs_UC))] %>% select (pathway, BiomarkersInPWs.HMDB_UC, BiomarkersInPWs.ChEBI_BridgeDb_UC, BiomarkersInPWs.HMDB_PriID_BridgeDb_UC, BiomarkersInPWs.ChEBI_PriID_BridgeDb_UC)
 colnames(CombinePWs_UC_toPlot) <- gsub ("BiomarkersInPWs.|_UC", "", colnames(CombinePWs_UC_toPlot))
+#Keep the pathways with different number of BiomarkersInPWs across different mappings
 all_the_same <- apply(CombinePWs_UC_toPlot[-c(1, 2)], 1, function(x) all(x == x[1]))
 CombinePWs_UC_toPlot <- CombinePWs_UC_toPlot %>%
   filter(!all_the_same) %>%
@@ -237,7 +239,8 @@ ggplot(CombinePWs_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
   scale_fill_gradient(low = "white", high = "red") +
   labs(y = NULL, x = NULL) +
   geom_text(aes(label = value), color = "black", size = 4) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 16),
+        axis.text.y = element_text(size = 16),
         legend.position = "none") +
   ggtitle("UC")
 ```
