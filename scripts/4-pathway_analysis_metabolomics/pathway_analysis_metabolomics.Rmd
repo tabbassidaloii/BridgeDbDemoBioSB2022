@@ -235,5 +235,4 @@ ggplot(CombinePWs_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
         axis.text.y = element_text(size = 16),
         legend.position = "none") +
   ggtitle("UC")
-
 ```

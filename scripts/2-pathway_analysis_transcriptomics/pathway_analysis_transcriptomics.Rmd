@@ -27,6 +27,8 @@ if(!"knitr" %in% installed.packages()) install.packages("knitr")
 if(!"SPARQL" %in% installed.packages()) install.packages("SPARQL")
 # alternative way to intall this package if you get this warning "package ‘SPARQL’ is not available for this version of R"
 if(!"SPARQL" %in% installed.packages()) install.packages("https://cran.r-project.org/src/contrib/Archive/SPARQL/SPARQL_1.16.tar.gz", repos = NULL, type="source")
+if(!"reshape2" %in% installed.packages()) install.packages("reshape2")
+if(!"ggplot2" %in% installed.packages()) install.packages("ggplot2")
 
 #loading installed libraries
 suppressPackageStartupMessages({
@@ -35,6 +37,8 @@ suppressPackageStartupMessages({
   library(data.table)
   library(knitr)
   library(SPARQL)
+  library(reshape2)
+  library(ggplot2)
   })
 
 # set your working environment to the location where your current source file is saved into.
@@ -246,6 +250,10 @@ for (gene_list in ls(pattern = "sig.genes")){
     mutate(probabilities = dhyper(GenesInPWs, TotalGenesinPW, (length(query) - GenesInPWs), length(query), log = FALSE)) %>% # Calculate hypergeometric density p-value for all pathways.
     arrange(desc(GenesInPWs), probabilities)) %>%
     write.table(outputFile, sep = "\t" , quote = FALSE, row.names = FALSE)
+  
+  colnames(showresults_CombinePWs)[colnames(showresults_CombinePWs) == "GenesInPWs"] <- paste0 ("GenesInPWs", gsub ("sig.genes", "", gene_list))
+  colnames(showresults_CombinePWs)[colnames(showresults_CombinePWs) == "probabilities"] <- paste0 ("probabilities", gsub ("sig.genes", "", gene_list))
+  
   assign(paste0 ("CombinePWs", gsub ("sig.genes", "", gene_list)), showresults_CombinePWs)
   rm (sig.genes, IDsource, item3, query, split_query, showresults_CombinePWs, i, string, query_CombinePWs, results_CombinePWs, outputFile)
 }
@@ -253,9 +261,6 @@ for (gene_list in ls(pattern = "sig.genes")){
 
 ##Pathway Mapping stats:
 ```{r mapping_stats_Pathways, warning = FALSE, message = FALSE}
-##TODO: the MappingStats table should be checked.
-
-##HGNC_originalData
 MappingStats <- data.table(`  ` =  c("#genes in the transcriptomics dataset" ,
                                      "#significant genes with HGNC Symbol IDs for CD (ileum location)",
                                      "#pathways with HGNC Symbol IDs for CD (ileum location)",
@@ -347,3 +352,103 @@ MappingStats <- data.table(`  ` =  c("#genes in the transcriptomics dataset" ,
 kable(MappingStats)
 ```
 
+## Combining pathways for the vidualization
+```{r Comparison, warning = FALSE, message = FALSE, fig.height = 16, fig.width = 14}
+CombinePWs_ileum_CD <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.ileum.*CD"), get), accumulate = F)
+CombinePWs_rectum_CD <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.rectum.*CD"), get), accumulate = F)
+CombinePWs_ileum_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.ileum.*UC"), get), accumulate = F)
+CombinePWs_rectum_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.rectum.*UC"), get), accumulate = F)
+
+#CD
+##ileum
+CombinePWs_ileum_CD_toPlot <- CombinePWs_ileum_CD [, !grepl("probabilities|pathwayRes|pathwayTitle|TotalGenesinPW", colnames (CombinePWs_ileum_CD))] %>% select (pathway, GenesInPWs.ileum_HGNC_CD, GenesInPWs.ileum_ENTREZ_Hs_CD, GenesInPWs.ileum_Ensembl_Hs_CD, GenesInPWs.ileum_ENTREZ_BridgeDb_CD, GenesInPWs.ileum_Ensembl_BridgeDb_CD, GenesInPWs.ileum_HGNC_PriID_BridgeDb_CD, GenesInPWs.ileum_ENTREZ_PriID_BridgeDb_CD, GenesInPWs.ileum_Ensembl_PriID_BridgeDb_CD)
+colnames(CombinePWs_ileum_CD_toPlot) <- gsub ("GenesInPWs.ileum_|_CD", "", colnames(CombinePWs_ileum_CD_toPlot))
+all_the_same <- apply(CombinePWs_ileum_CD_toPlot[-c(1, 2)], 1, function(x) all(x == x[1]))
+#Keep the pathways with different number of GenesInPWs across different mappings
+CombinePWs_ileum_CD_toPlot <- CombinePWs_ileum_CD_toPlot %>%
+  filter(!all_the_same) %>%
+  reshape2::melt() %>%
+  mutate(pathway = paste0(pathway, ":", CombinePWs_ileum_CD$pathwayTitle[match(pathway, CombinePWs_ileum_CD$pathway)]),
+         value = ifelse (is.na(value), 0, value))
+ggplot(CombinePWs_ileum_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1) +
+  coord_fixed() +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(y = NULL, x = NULL) +
+  geom_text(aes(label = value), color = "black", size = 4) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 16),
+        axis.text.y = element_text(size = 16),
+        legend.position = "none") +
+  ggtitle("CD (ileum location)")
+##rectum 
+CombinePWs_rectum_CD_toPlot <- CombinePWs_rectum_CD [, !grepl("probabilities|pathwayRes|pathwayTitle|TotalGenesinPW", colnames (CombinePWs_rectum_CD))] %>% select (pathway, GenesInPWs.rectum_HGNC_CD, GenesInPWs.rectum_ENTREZ_Hs_CD, GenesInPWs.rectum_Ensembl_Hs_CD, GenesInPWs.rectum_ENTREZ_BridgeDb_CD, GenesInPWs.rectum_Ensembl_BridgeDb_CD, GenesInPWs.rectum_HGNC_PriID_BridgeDb_CD, GenesInPWs.rectum_ENTREZ_PriID_BridgeDb_CD, GenesInPWs.rectum_Ensembl_PriID_BridgeDb_CD)
+colnames(CombinePWs_rectum_CD_toPlot) <- gsub ("GenesInPWs.rectum_|_CD", "", colnames(CombinePWs_rectum_CD_toPlot))
+all_the_same <- apply(CombinePWs_rectum_CD_toPlot[-c(1, 2)], 1, function(x) all(x == x[1]))
+#Keep the pathways with different number of GenesInPWs across different mappings
+CombinePWs_rectum_CD_toPlot <- CombinePWs_rectum_CD_toPlot %>%
+  filter(!all_the_same) %>%
+  reshape2::melt() %>%
+  mutate(pathway = paste0(pathway, ":", CombinePWs_rectum_CD$pathwayTitle[match(pathway, CombinePWs_rectum_CD$pathway)]),
+         value = ifelse (is.na(value), 0, value))
+ggplot(CombinePWs_rectum_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1) +
+  coord_fixed() +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(y = NULL, x = NULL) +
+  geom_text(aes(label = value), color = "black", size = 4) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 16),
+        axis.text.y = element_text(size = 16),
+        legend.position = "none") +
+  ggtitle("CD (rectum location)")
+
+#UC
+##ileum
+CombinePWs_ileum_UC_toPlot <- CombinePWs_ileum_UC [, !grepl("probabilities|pathwayRes|pathwayTitle|TotalGenesinPW", colnames (CombinePWs_ileum_UC))] %>% select (pathway, GenesInPWs.ileum_HGNC_UC, GenesInPWs.ileum_ENTREZ_Hs_UC, GenesInPWs.ileum_Ensembl_Hs_UC, GenesInPWs.ileum_ENTREZ_BridgeDb_UC, GenesInPWs.ileum_Ensembl_BridgeDb_UC, GenesInPWs.ileum_HGNC_PriID_BridgeDb_UC, GenesInPWs.ileum_ENTREZ_PriID_BridgeDb_UC, GenesInPWs.ileum_Ensembl_PriID_BridgeDb_UC)
+colnames(CombinePWs_ileum_UC_toPlot) <- gsub ("GenesInPWs.ileum_|_UC", "", colnames(CombinePWs_ileum_UC_toPlot))
+all_the_same <- apply(CombinePWs_ileum_UC_toPlot[-c(1, 2)], 1, function(x) all(x == x[1]))
+#Keep the pathways with different number of GenesInPWs across different mappings
+CombinePWs_ileum_UC_toPlot <- CombinePWs_ileum_UC_toPlot %>%
+  filter(!all_the_same) %>%
+  reshape2::melt() %>%
+  mutate(pathway = paste0(pathway, ":", CombinePWs_ileum_UC$pathwayTitle[match(pathway, CombinePWs_ileum_UC$pathway)]),
+         value = ifelse (is.na(value), 0, value))
+ggplot(CombinePWs_ileum_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1) +
+  coord_fixed() +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(y = NULL, x = NULL) +
+  geom_text(aes(label = value), color = "black", size = 4) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 16),
+        axis.text.y = element_text(size = 16),
+        legend.position = "none") +
+  ggtitle("UC (ileum location)")
+##rectum 
+CombinePWs_rectum_UC_toPlot <- CombinePWs_rectum_UC [, !grepl("probabilities|pathwayRes|pathwayTitle|TotalGenesinPW", colnames (CombinePWs_rectum_UC))] %>% select (pathway, GenesInPWs.rectum_HGNC_UC, GenesInPWs.rectum_ENTREZ_Hs_UC, GenesInPWs.rectum_Ensembl_Hs_UC, GenesInPWs.rectum_ENTREZ_BridgeDb_UC, GenesInPWs.rectum_Ensembl_BridgeDb_UC, GenesInPWs.rectum_HGNC_PriID_BridgeDb_UC, GenesInPWs.rectum_ENTREZ_PriID_BridgeDb_UC, GenesInPWs.rectum_Ensembl_PriID_BridgeDb_UC)
+colnames(CombinePWs_rectum_UC_toPlot) <- gsub ("GenesInPWs.rectum_|_UC", "", colnames(CombinePWs_rectum_UC_toPlot))
+all_the_same <- apply(CombinePWs_rectum_UC_toPlot[-c(1, 2)], 1, function(x) all(x == x[1]))
+#Keep the pathways with different number of GenesInPWs across different mappings
+CombinePWs_rectum_UC_toPlot <- CombinePWs_rectum_UC_toPlot %>%
+  filter(!all_the_same) %>%
+  reshape2::melt() %>%
+  mutate(pathway = paste0(pathway, ":", CombinePWs_rectum_UC$pathwayTitle[match(pathway, CombinePWs_rectum_UC$pathway)]),
+         value = ifelse (is.na(value), 0, value))
+ggplot(CombinePWs_rectum_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1) +
+  coord_fixed() +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(y = NULL, x = NULL) +
+  geom_text(aes(label = value), color = "black", size = 4) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 16),
+        axis.text.y = element_text(size = 16),
+        legend.position = "none") +
+  ggtitle("UC (rectum location)")
+
+```
