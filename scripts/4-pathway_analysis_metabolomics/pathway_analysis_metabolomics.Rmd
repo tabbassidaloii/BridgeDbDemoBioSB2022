@@ -26,7 +26,8 @@ if(!"SPARQL" %in% installed.packages()) install.packages("SPARQL")
 if(!"dplyr" %in% installed.packages()) install.packages("dplyr")
 if(!"data.table" %in% installed.packages()) install.packages("data.table")
 if(!"knitr" %in% installed.packages()) install.packages("knitr")
-
+if(!"reshape2" %in% installed.packages()) install.packages("reshape2")
+if(!"ggplot2" %in% installed.packages()) install.packages("ggplot2")
 
 #loading installed libraries
 suppressPackageStartupMessages({
@@ -35,6 +36,8 @@ suppressPackageStartupMessages({
   library(dplyr)
   library(data.table)
   library(knitr)
+  library(reshape2)
+  library(ggplot2)
 })
 
 # set your working environment to the location where your current source file is saved into.
@@ -141,7 +144,10 @@ for (metabolite_list in ls(pattern = "sig.metabolites")){
       mutate(probabilities = dhyper(BiomarkersInPWs, TotalMetabolitesinPW, (length(query) - BiomarkersInPWs), length(query), log = FALSE)) %>% # Calculate hypergeometric density p-value for all pathways.
       arrange(desc(BiomarkersInPWs), probabilities)) %>%
     write.table(outputFile, sep = "\t" , quote = FALSE, row.names = FALSE)
-
+  
+  colnames(showresults_CombinePWs)[colnames(showresults_CombinePWs) == "BiomarkersInPWs"] <- paste0 ("BiomarkersInPWs", gsub ("sig.metabolites", "", metabolite_list))
+  colnames(showresults_CombinePWs)[colnames(showresults_CombinePWs) == "probabilities"] <- paste0 ("probabilities", gsub ("sig.metabolites", "", metabolite_list))
+  
   assign(paste0 ("CombinePWs", gsub ("sig.metabolites", "", metabolite_list)), showresults_CombinePWs)
   rm (sig.metabolites, IDsource, item3, query, split_query, showresults_CombinePWs, i, string, query_CombinePWs, results_CombinePWs, outputFile)
 }
@@ -179,3 +185,51 @@ MappingStats <- data.table(`  ` =  c("#significant metabolites with HMDB IDs for
 kable(MappingStats)
 ```
 
+## Combining pathways for the vidualization
+```{r Comparison, warning = FALSE, message = FALSE}
+CombinePWs_CD <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "Combin.*CD"), get), accumulate = F)
+CombinePWs_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "Combin.*UC"), get), accumulate = F)
+
+#CD
+CombinePWs_CD_toPlot <- CombinePWs_CD [, !grepl("probabilities|pathwayRes|pathwayTitle|TotalMetabolitesinPW", colnames (CombinePWs_CD))] %>% select (pathway, BiomarkersInPWs.HMDB_CD, BiomarkersInPWs.ChEBI_BridgeDb_CD, BiomarkersInPWs.HMDB_PriID_BridgeDb_CD, BiomarkersInPWs.ChEBI_PriID_BridgeDb_CD)
+colnames(CombinePWs_CD_toPlot) <- gsub ("BiomarkersInPWs.|_CD", "", colnames(CombinePWs_CD_toPlot))
+all_the_same <- apply(CombinePWs_CD_toPlot[-c(1, 2)], 1, function(x) all(x == x[1]))
+CombinePWs_CD_toPlot <- CombinePWs_CD_toPlot %>%
+  filter(!all_the_same) %>%
+  reshape2::melt() %>%
+  mutate(pathway = paste0(pathway, ":", CombinePWs_CD$pathwayTitle[match(pathway, CombinePWs_CD$pathway)]),
+         value = ifelse (is.na(value), 0, value))
+ggplot(CombinePWs_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1) +
+  coord_fixed() +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(y = NULL, x = NULL) +
+  geom_text(aes(label = value), color = "black", size = 4) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+        legend.position = "none") +
+  ggtitle("CD")
+
+#UC
+CombinePWs_UC_toPlot <- CombinePWs_UC [, !grepl("probabilities|pathwayRes|pathwayTitle|TotalMetabolitesinPW", colnames (CombinePWs_UC))] %>% select (pathway, BiomarkersInPWs.HMDB_UC, BiomarkersInPWs.ChEBI_BridgeDb_UC, BiomarkersInPWs.HMDB_PriID_BridgeDb_UC, BiomarkersInPWs.ChEBI_PriID_BridgeDb_UC)
+colnames(CombinePWs_UC_toPlot) <- gsub ("BiomarkersInPWs.|_UC", "", colnames(CombinePWs_UC_toPlot))
+all_the_same <- apply(CombinePWs_UC_toPlot[-c(1, 2)], 1, function(x) all(x == x[1]))
+CombinePWs_UC_toPlot <- CombinePWs_UC_toPlot %>%
+  filter(!all_the_same) %>%
+  reshape2::melt() %>%
+  mutate(pathway = paste0(pathway, ":", CombinePWs_UC$pathwayTitle[match(pathway, CombinePWs_UC$pathway)]),
+         value = ifelse (is.na(value), 0, value))
+ggplot(CombinePWs_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1) +
+  coord_fixed() +
+  scale_fill_gradient(low = "white", high = "red") +
+  labs(y = NULL, x = NULL) +
+  geom_text(aes(label = value), color = "black", size = 4) +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+        legend.position = "none") +
+  ggtitle("UC")
+
+```
