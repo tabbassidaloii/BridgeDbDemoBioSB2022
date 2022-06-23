@@ -72,18 +72,6 @@ resultsMetadata <- SPARQL(endpointwp,queryMetadata,curl_args=list(useragent=R.ve
 showresultsMetadata <- resultsMetadata$results
 remove(queryMetadata, resultsMetadata)
 
-
-## Create a list of HMDB IDs according to filtering criteria from step 8.
-list_Relevant_HMDB_IDs <- list(mSet$relevant_ids)
-vector_HMDB <- unlist(list_Relevant_HMDB_IDs) #convert list to array, for traversing the data to a SPARQL query later on
-vector_HMDB <- vector_HMDB[!is.na(vector_HMDB)]
-##Add the HMDb prefix IRI in front of all IDs.
-query_HMDBs <- paste("ch:", vector_HMDB, sep="")
-##Merge the individual entries in the vector into one string, separated by a space
-string_HMDB <- paste(c(query_HMDBs), collapse=' ' )
-
-##TODO: add ChEBI ID mapping option to compare to HMDB.
-
 #For now, filter out Reactome PWs due to visualization issues in Cytoscape.
 item1 = "PREFIX ch: <https://identifiers.org/hmdb/>
 PREFIX ce: <https://identifiers.org/chebi/>
@@ -111,11 +99,27 @@ item4=
   ?pathwayRes wp:ontologyTag cur:AnalysisCollection .   		
 }
 ORDER BY DESC(?BiomarkersInPWs)"
-query_CombinePWs <- paste(item1,string_HMDB,item2,item3_HMDB,item4)
 
-results_CombinePWs <- SPARQL(endpointwp,query_CombinePWs,curl_args=list(useragent=R.version.string))
-showresults_CombinePWs <- results_CombinePWs$results
+##@Tooba: start for-loop here.
 
+  if (IDsource == "HMDB") query <- paste0("ch:", sig.metabolites)
+  if (IDsource == "CHEBI") query <- paste0("ce:", sig.metabolites)
+
+
+###OLD code:
+
+## Create a list of HMDB IDs according to filtering criteria from step 8.
+#list_Relevant_HMDB_IDs <- list(mSet$relevant_ids)
+#vector_HMDB <- unlist(list_Relevant_HMDB_IDs) #convert list to array, for traversing the data to a SPARQL query later on
+#vector_HMDB <- vector_HMDB[!is.na(vector_HMDB)]
+##Add the HMDb prefix IRI in front of all IDs.
+#query_HMDBs <- paste("ch:", vector_HMDB, sep="")
+##Merge the individual entries in the vector into one string, separated by a space
+#string_HMDB <- paste(c(query_HMDBs), collapse=' ' )
+
+#query_CombinePWs <- paste(item1,string_HMDB,item2,item3_HMDB,item4)
+#results_CombinePWs <- SPARQL(endpointwp,query_CombinePWs,curl_args=list(useragent=R.version.string))
+#showresults_CombinePWs <- results_CombinePWs$results
 ```
 
 Calculate the ORA score for each pathway, using the Fishers exact test.
