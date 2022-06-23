@@ -110,7 +110,7 @@ item4=
 ORDER BY DESC(?BiomarkersInPWs)"
 
 
-##Split significant metabolites into list of max. 220 entries (number based on Ensembl which has longest ID structure), to avoid SPARQL endpoint trowing a 414 error. 
+##Split significant metabolites into list of max. 220 entries, to avoid SPARQL endpoint trowing a 414 error. 
 ##Merge the content of the split content back together for the output of the PW Analysis.
 
 for (metabolite_list in ls(pattern = "sig.metabolites")){
