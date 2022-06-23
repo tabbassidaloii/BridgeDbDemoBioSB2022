@@ -1,9 +1,10 @@
 ---
-title: "metabolomics_analysis"
+title: "Pathway analysis (metabolomics)"
 author: 
 - "DeniseSl22"
+- "tabbassidaloii"
 - "ddedesener"
-date: "25/04/2022"
+date: "23/06/2022"
 output:
  md_document:
     variant: markdown_github
@@ -11,50 +12,57 @@ always_allow_html: true
 ---
 
 ## Introduction
-In this workflow, we link the metabolites of interest to pathway data from WikiPathways, based on their HMDB identifier.
+In this workflow, we link the metabolites of interest to pathway data from WikiPathways, based on their HMDB and ChEBI identifiers.
 
-
-## Setup
+## R environment setup
 ```{r setup, warning=FALSE, message=FALSE}
-# check if libraries are already installed, otherwise install it
-if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
-if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
-if(!"SPARQL" %in% installed.packages()){  install.packages("SPARQL")}
+# empty the R environment
+rm (list = ls())
 
-#load libraries
-library(rstudioapi)
-library(RCy3)#connect cytoscape via R
-library(SPARQL)
+# check if libraries are already installed, otherwise install it
+if(!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
+if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
+if(!"SPARQL" %in% installed.packages()) install.packages("SPARQL")
+if(!"dplyr" %in% installed.packages()) install.packages("dplyr")
+if(!"RCy3" %in% installed.packages()) BiocManager::install("RCy3")
+
+#loading installed libraries
+suppressPackageStartupMessages({
+  library(rstudioapi)
+  library(RCy3)#connect cytoscape via R
+  library(SPARQL)
+  library(dplyr)
+})
+
 # set your working environment to the location where your current source file is saved into.
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ```
 
+## Importing dataset and creating the identifier lists for the pathway analysis
+```{r dataset, warning = FALSE, message = FALSE}
+#We have two datasets (CD and UC disorders)
+mbx_dataset_CD <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_CD")
+mbx_dataset_UC <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_UC")
 
-```{r data_import,warning=FALSE, message=FALSE}
-#Obtain data (based on ID mapping step)
-mSet_CD <- read.csv("data/mbxData_CD.csv", na.strings=c("", "NA"))
-mSet_UC <- read.csv("data/mbxData_UC.csv", na.strings=c("", "NA"))
-
-##TODO: work with data from step 3!
-#dataset_CD <- read.delim("../3-identifier_mapping_metabolomics/results/mbxData_CD.csv")
-#dataset_UC <- read.delim("../3-identifier_mapping_metabolomics/results/mbxData_UC.csv")
-
-# Set Working Directory back to current folder
-setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-work_DIR <- getwd()
-
-## Select a disorder to analyse (options; CD or UC)
-disorder <- "CD"
-
-if (disorder == "CD") {
-  mSet = mSet_CD 
-  print("Selected disorder is Crohn's disease")}else if(disorder == "UC"){ 
-    mSet = mSet_UC
-    print("Selected disorder is Ulcerative Colitis")}else{print("Disorder not Recognised")}
+#make list of metabolites for the pathway analysis
+### HMDB IDs:
+sig.metabolites.HMDB_CD <- na.omit(unique(mbx_dataset_CD$HMDBID)) #CD
+sig.metabolites.HMDB_UC <- na.omit(unique(mbx_dataset_UC$HMDBID)) #UC
+## BridgeDb
+### ChEBI IDs:
+sig.metabolites.ChEBI_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$ChEBI_BridgeDb)) #CD
+sig.metabolites.ChEBI_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_BridgeDb)) #UC
+## Primary id mapping, BridgeDb,
+### primary HMDB IDs:
+sig.metabolites.HMDB_PriID_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$Current_HMDBID)) #CD
+sig.metabolites.HMDB_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$Current_HMDBID)) #UC
+### ChEBI IDs:
+sig.metabolites.ChEBI_PriID_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$ChEBI_PriID_BridgeDb)) #CD
+sig.metabolites.ChEBI_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_PriID_BridgeDb)) #UC
 ```
 
-Find pathways based on relevant IDs column
-```{r pathway_retrieval,warning=FALSE, message=FALSE}
+Find pathways for each dataset, based on different IDs.
+```{r pathway_retrieval, warning =FALSE, message = FALSE}
 ##Connect to Endpoint WikiPathways
 endpointwp <- "https://sparql.wikipathways.org/sparql"
 ## 1. Query metadata:
@@ -66,27 +74,16 @@ WHERE {
    dcterms:license ?license ;
    pav:createdOn ?date .
  }"
- #below code should be performed first to handle the ssl certificate error
-options(RCurlOptions = list(cainfo = paste0( tempdir() , "/cacert.pem" ), ssl.verifypeer = FALSE))
-resultsMetadata <- SPARQL(endpointwp,queryMetadata,curl_args=list(useragent=R.version.string))
+
+#below code should be performed first to handle the ssl certificate error
+options(RCurlOptions = list(cainfo = paste0(tempdir(), "/cacert.pem" ), ssl.verifypeer = FALSE))
+resultsMetadata <- SPARQL(endpointwp, queryMetadata, curl_args = list(useragent = R.version.string))
 showresultsMetadata <- resultsMetadata$results
 remove(queryMetadata, resultsMetadata)
 
-
-## Create a list of HMDB IDs according to filtering criteria from step 8.
-list_Relevant_HMDB_IDs <- list(mSet$relevant_ids)
-vector_HMDB <- unlist(list_Relevant_HMDB_IDs) #convert list to array, for traversing the data to a SPARQL query later on
-vector_HMDB <- vector_HMDB[!is.na(vector_HMDB)]
-##Add the HMDb prefix IRI in front of all IDs.
-query_HMDBs <- paste("ch:", vector_HMDB, sep="")
-##Merge the individual entries in the vector into one string, separated by a space
-string_HMDB <- paste(c(query_HMDBs), collapse=' ' )
-
-##TODO: add ChEBI ID mapping option to compare to HMDB.
-
 #For now, filter out Reactome PWs due to visualization issues in Cytoscape.
 item1 = "PREFIX ch: <https://identifiers.org/hmdb/>
-PREFIX ce: <https://identifiers.org/chebi/>
+PREFIX ce: <https://identifiers.org/chebi/CHEBI:>
 PREFIX cur: <http://vocabularies.wikipathways.org/wp#Curation:>
 select distinct ?pathwayRes (str(?wpid) as ?pathway) (str(?title) as ?pathwayTitle) (count(distinct ?metaboliteID) AS ?BiomarkersInPWs) (count(distinct ?metaboliteDatanode) AS ?TotalMetabolitesinPW) where {
 VALUES ?metaboliteID {"
@@ -98,7 +95,7 @@ item2 = "}
  ?datanode	dcterms:isPartOf ?pathwayRes ;   "
 item3_HMDB= "
     wp:bdbHmdb  ?metaboliteID ."
-item3_CHEBI= "
+item3_ChEBI= "
      wp:bdbChEBI ?metaboliteID ." 
 
 item4=
@@ -111,11 +108,40 @@ item4=
   ?pathwayRes wp:ontologyTag cur:AnalysisCollection .   		
 }
 ORDER BY DESC(?BiomarkersInPWs)"
-query_CombinePWs <- paste(item1,string_HMDB,item2,item3_HMDB,item4)
 
-results_CombinePWs <- SPARQL(endpointwp,query_CombinePWs,curl_args=list(useragent=R.version.string))
-showresults_CombinePWs <- results_CombinePWs$results
 
+##Split significant metabolites into list of max. 220 entries (number based on Ensembl which has longest ID structure), to avoid SPARQL endpoint trowing a 414 error. 
+##Merge the content of the split content back together for the output of the PW Analysis.
+
+for (metabolite_list in ls(pattern = "sig.metabolites")){
+  sig.metabolites = get (metabolite_list)
+  IDsource = gsub ("_.*", "", gsub (".*\\.", "", metabolite_list))
+  item3 <- get (ls (pattern = paste0("item3_", IDsource)))
+  if (IDsource == "HMDB") query <- paste0("ch:", sig.metabolites)
+  # if (IDsource == "ChEBI") query <- paste0("CHEBI:", sig.metabolites)
+  if (IDsource == "ChEBI") query <- gsub ("CHEBI", "ce", sig.metabolites)
+  # if (IDsource == "ChEBI") query <- sig.metabolites
+
+  split_query <- split(query, ceiling(seq_along(query) / 220))
+  
+  showresults_CombinePWs <- c()
+  for (i in 1:length (split_query)) {
+    string <- paste(split_query[[i]], collapse=' ')
+    query_CombinePWs <- paste(item1, string, item2, item3, item4)
+    results_CombinePWs <- SPARQL(endpointwp, query_CombinePWs, curl_args = list(useragent = R.version.string))
+    showresults_CombinePWs <- rbind (showresults_CombinePWs, results_CombinePWs$results)
+  }
+  outputFile = paste0 ("results/CombinePWs", gsub ("sig.metabolites", "", metabolite_list))
+  showresults_CombinePWs %>% 
+  group_by(pathwayRes, pathway, pathwayTitle, TotalMetabolitesinPW) %>% 
+  summarise(BiomarkersInPWs = sum(BiomarkersInPWs)) %>%
+  arrange(desc(BiomarkersInPWs)) #%>%
+  # write.table(outputFile, 
+          # sep = "\t" , quote = FALSE, row.names = FALSE)
+
+  assign(paste0 ("CombinePWs", gsub ("sig.metabolites", "", metabolite_list)), showresults_CombinePWs)
+  rm (sig.metabolites, IDsource, item3, query, split_query, showresults_CombinePWs, i, string, query_CombinePWs, results_CombinePWs, outputFile)
+}
 ```
 
 Calculate the ORA score for each pathway, using the Fishers exact test.
