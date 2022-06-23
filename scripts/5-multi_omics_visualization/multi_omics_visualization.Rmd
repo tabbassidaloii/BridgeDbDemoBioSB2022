@@ -68,7 +68,7 @@ for(df in dfs)
 
 ##Merge two OMICS types together:
 combined_CD_ileum_multi <- rbind(tSet_CD_ileum_multi,mSet_CD_multi)
-combined_CD_rectum_multi <- rbind(tSet_CD_ileum_multi,mSet_CD_multi)
+combined_CD_rectum_multi <- rbind(tSet_CD_rectum_multi,mSet_CD_multi)
 combined_UC_ileum_multi <- rbind(tSet_UC_ileum_multi,mSet_UC_multi)
 combined_UC_rectum_multi <- rbind(tSet_UC_rectum_multi,mSet_UC_multi)
 
@@ -102,6 +102,8 @@ if(!"WikiPathways" %in% commandsHelp("")){
 }
 #pathway IDs to be visualized
 pathway.id <- "WP4726"# Sphingolipid metabolism: integrated pathway 
+##Select a dataset to visualize on the pathway:
+i <- 2 #(options are 1,  2, 3 and 4)
 #import pathways as pathway in cytoscape
 RCy3::commandsRun(paste0('wikipathways import-as-pathway id=',pathway.id )) 
 ```
@@ -118,11 +120,6 @@ ID.cols$Ensembl <- ifelse(is.na(ID.cols$Ensembl), ID.cols$ChEBI, ID.cols$Ensembl
 ID.cols <- data.frame(ID.cols[,c(1,2)])
 #change column name
 colnames(ID.cols)[2] <- "omics.ID"
-
-##Select a dataset to visualize on the pathway:
-i <- 1 #(other options are 2, 3 and 4)
-#data_visualized <- dfs[[i]]
-
 #merge two data frames for adding xrefid to the combined data frame
 data <- merge(dfs[[i]], ID.cols, by.x = "Identifier", by.y = "omics.ID" )
 #remove duplicate rows
