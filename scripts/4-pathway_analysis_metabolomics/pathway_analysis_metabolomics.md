@@ -213,7 +213,8 @@ ggplot(CombinePWs_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
   scale_fill_gradient(low = "white", high = "red") +
   labs(y = NULL, x = NULL) +
   geom_text(aes(label = value), color = "black", size = 4) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 16),
+        axis.text.y = element_text(size = 16),
         legend.position = "none") +
   ggtitle("CD")
 ```

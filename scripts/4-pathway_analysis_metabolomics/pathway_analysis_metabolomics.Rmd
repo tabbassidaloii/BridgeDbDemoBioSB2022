@@ -186,7 +186,7 @@ kable(MappingStats)
 ```
 
 ## Combining pathways for the vidualization
-```{r Comparison, warning = FALSE, message = FALSE, fig.height = 18, fig.width = 18}
+```{r Comparison, warning = FALSE, message = FALSE, fig.height = 16, fig.width = 14}
 CombinePWs_CD <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "Combin.*CD"), get), accumulate = F)
 CombinePWs_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "Combin.*UC"), get), accumulate = F)
 
@@ -208,7 +208,8 @@ ggplot(CombinePWs_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
   scale_fill_gradient(low = "white", high = "red") +
   labs(y = NULL, x = NULL) +
   geom_text(aes(label = value), color = "black", size = 4) +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1),
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 16),
+        axis.text.y = element_text(size = 16),
         legend.position = "none") +
   ggtitle("CD")
 
