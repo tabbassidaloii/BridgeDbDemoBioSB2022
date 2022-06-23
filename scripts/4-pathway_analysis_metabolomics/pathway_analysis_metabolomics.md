@@ -1,21 +1,11 @@
----
-title: "Pathway analysis (metabolomics)"
-author: 
-- "DeniseSl22"
-- "tabbassidaloii"
-- "ddedesener"
-date: "23/06/2022"
-output:
- md_document:
-    variant: markdown_github
-always_allow_html: true
----
-
 ## Introduction
-In this workflow, we link the metabolites of interest to pathway data from WikiPathways, based on their HMDB and ChEBI identifiers.
+
+In this workflow, we link the metabolites of interest to pathway data
+from WikiPathways, based on their HMDB and ChEBI identifiers.
 
 ## R environment setup
-```{r setup, warning=FALSE, message=FALSE}
+
+``` r
 # empty the R environment
 rm (list = ls())
 
@@ -42,7 +32,8 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ```
 
 ## Importing dataset and creating the identifier lists for the pathway analysis
-```{r dataset, warning = FALSE, message = FALSE}
+
+``` r
 #We have two datasets (CD and UC disorders)
 mbx_dataset_CD <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_CD")
 mbx_dataset_UC <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_UC")
@@ -65,7 +56,8 @@ sig.metabolites.ChEBI_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_P
 ```
 
 ## Find pathways for each dataset, based on different IDs.
-```{r pathway_retrieval, warning =FALSE, message = FALSE}
+
+``` r
 ##Connect to Endpoint WikiPathways
 endpointwp <- "https://sparql.wikipathways.org/sparql"
 ## 1. Query metadata:
@@ -92,10 +84,10 @@ select distinct ?pathwayRes (str(?wpid) as ?pathway) (str(?title) as ?pathwayTit
 VALUES ?metaboliteID {"
 item2 = "}
  
- ?metaboliteDatanode	a wp:Metabolite ;
+ ?metaboliteDatanode    a wp:Metabolite ;
                         dcterms:isPartOf ?pathwayRes .
  
- ?datanode	dcterms:isPartOf ?pathwayRes ;   "
+ ?datanode  dcterms:isPartOf ?pathwayRes ;   "
 item3_HMDB= "
     wp:bdbHmdb  ?metaboliteID ."
 item3_ChEBI= "
@@ -104,11 +96,11 @@ item3_ChEBI= "
 item4=
  " ?pathwayRes a wp:Pathway ;
              wp:organismName 'Homo sapiens' ; 
-    		dcterms:identifier ?wpid ;
-    		dc:title ?title .
+            dcterms:identifier ?wpid ;
+            dc:title ?title .
 
   #?pathwayRes wp:ontologyTag cur:Reactome_Approved . 
-  ?pathwayRes wp:ontologyTag cur:AnalysisCollection .   		
+  ?pathwayRes wp:ontologyTag cur:AnalysisCollection .           
 }
 ORDER BY DESC(?BiomarkersInPWs)"
 
@@ -148,7 +140,8 @@ for (metabolite_list in ls(pattern = "sig.metabolites")){
 ```
 
 ##Pathway Mapping stats:
-```{r mapping_stats_Pathways, warning = FALSE, message = FALSE}
+
+``` r
 MappingStats <- data.table(`  ` =  c("#significant metabolites with HMDB IDs for CD (primary in PrimaryID_BridgeDb)" ,
                                      "#pathways with HMDB IDs for CD (primary in PrimaryID_BridgeDb)",
                                      "#significant metabolites with HMDB IDs for UC (primary in PrimaryID_BridgeDb)",
@@ -179,3 +172,13 @@ MappingStats <- data.table(`  ` =  c("#significant metabolites with HMDB IDs for
 kable(MappingStats)
 ```
 
+|                                                                               | BridgeDb | PrimaryID_BridgeDb |
+|:---------------------------------------------------|------:|-------------:|
+| #significant metabolites with HMDB IDs for CD (primary in PrimaryID_BridgeDb) |      438 |                436 |
+| #pathways with HMDB IDs for CD (primary in PrimaryID_BridgeDb)                |      229 |                229 |
+| #significant metabolites with HMDB IDs for UC (primary in PrimaryID_BridgeDb) |      437 |                435 |
+| #pathways with HMDB IDs for UC (primary in PrimaryID_BridgeDb)                |      229 |                229 |
+| #significant metabolites with ChEBI IDs for CD                                |      363 |                366 |
+| #pathways with ChEBI IDs for CD                                               |      228 |                228 |
+| #significant metabolites with ChEBI IDs for UC                                |      362 |                365 |
+| #pathways with ChEBI IDs for UC                                               |      228 |                228 |
