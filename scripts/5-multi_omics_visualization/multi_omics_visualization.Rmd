@@ -75,19 +75,20 @@ mSet_UC <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMappin
   filter(!is.na(Identifier))
 
 ##Merge two OMICS types together:
-CombineGenes_ileum_CD_multi <- rbind(tSet_ileum_CD, mSet_CD)
-CombineGenes_rectum_CD_multi <- rbind(tSet_rectum_CD, mSet_CD)
-CombineGenes_ileum_UC_multi <- rbind(tSet_ileum_UC, mSet_UC)
-CombineGenes_rectum_UC_multi <- rbind(tSet_rectum_UC, mSet_UC)
+Combine_ileum_CD_multi <- rbind(tSet_ileum_CD, mSet_CD)
+Combine_rectum_CD_multi <- rbind(tSet_rectum_CD, mSet_CD)
+Combine_ileum_UC_multi <- rbind(tSet_ileum_UC, mSet_UC)
+Combine_rectum_UC_multi <- rbind(tSet_rectum_UC, mSet_UC)
 
 ##Remove NA values for missing IDs.
-dfs <- c("CombineGenes_ileum_CD_multi", "CombineGenes_rectum_CD_multi", "CombineGenes_ileum_UC_multi", "CombineGenes_rectum_UC_multi")
+dfs <- c("Combine_ileum_CD_multi", "Combine_rectum_CD_multi", "Combine_ileum_UC_multi", "Combine_rectum_UC_multi")
 rm(list = setdiff(ls(), dfs)) # removing variables that are not required
 names_of_dataframes <- ls.str(mode = "list")
 dfs <- sapply(ls(), get)
 ```
 
 ## Select relevant pathway based on step 2 (Transcriptomics pathway analysis) and 4 (Metabolomics pathway analysis)
+Please run steps 2 and 4 first, in order to retrieve updated data for the following step.
 ```{r}
 # Significant pathways (changes due to disease)
 ### Transcriptomics
@@ -158,10 +159,6 @@ Int_PWs_rectum_UC <- unique(c(Int_PWs_rectum_UC_transcriptomics, Int_PWs_UC_meta
 (CombinePWs_rectum_UC_multi <- merge (CombinePWs_UC_metabolomics, CombinePWs_rectum_UC_transcriptomics) %>% 
   arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
   write.table("results/CombinePWs_rectum_UC_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
-
-
-
-
 ```
 
 ## Import pathway
@@ -178,14 +175,17 @@ if(!"WikiPathways" %in% commandsHelp("")){
   installApp("WikiPathways")
 }
 #pathway IDs to be visualized
-pathway.id <- "WP4726"# Sphingolipid metabolism: integrated pathway 
+pathway.id <- "WP4726"# Sphingolipid metabolism: integrated pathway --> Selected based on overlap between important PWs for both transcriptomics and metabolomic 
 ##Select a dataset to visualize on the pathway:
-i <- 2 #(options are 1,  2, 3 and 4)
+i <- 4 #(options are 1:Combine_ileum_CD_multi,  2:Combine_ileum_UC_multi, 3:Combine_rectum_CD_multi and 4:Combine_rectum_UC_multi)
 #import pathways as pathway in cytoscape
 RCy3::commandsRun(paste0('wikipathways import-as-pathway id=',pathway.id )) 
 ```
 
-## Data upload
+## Data upload with regular xRef ID mapping:
+
+
+## Data upload with multiomics unified and harmonized mappings:
 ```{r data_upload, warning=FALSE, message=FALSE}
 #get node table from imported pathway in cytoscape
 ID.cols <- getTableColumns(table ="node", columns = c("XrefId","Ensembl", "ChEBI"))
@@ -197,16 +197,17 @@ ID.cols$Ensembl <- ifelse(is.na(ID.cols$Ensembl), ID.cols$ChEBI, ID.cols$Ensembl
 ID.cols <- data.frame(ID.cols[,c(1,2)])
 #change column name
 colnames(ID.cols)[2] <- "omics.ID"
-#merge two data frames for adding xrefid to the combined data frame
-data <- merge(dfs[[i]], ID.cols, by.x = "Identifier", by.y = "omics.ID" )
+#load all the multi-omics IDs in cytoscape by key column as XrefId
+loadTableData(table = "node", data = ID.cols, data.key.column = "XrefId", table.key.column = "XrefId")
+
+#select dataset to visualize
+data <- dfs[[i]]
 #remove duplicate rows
 data <- data %>% distinct(Identifier, .keep_all = TRUE)
-#change column order
-data <- data [,c(1,2,3,4)]
-colnames(data)[2] <- "log2FC"
-#load data to the imported pathway in cytoscape by key column as XrefId
-loadTableData(table = "node", data = data, data.key.column = "XrefId", table.key.column = "XrefId")
+#load data to the imported pathway in cytoscape by key column as omics.ID
+loadTableData(table = "node", data = data, data.key.column = "Identifier", table.key.column = "omics.ID")
 ```
+
 ## Visualization options
 ```{r visualization, warning=FALSE, message=FALSE}
 #new visual style is created
@@ -220,6 +221,7 @@ RCy3::lockNodeDimensions(TRUE, style.name="pathwayStyle")
 RCy3::setNodeShapeMapping('Type',c('GeneProduct','Protein', 'Metabolite'),c('ELLIPSE','ELLIPSE','RECTANGLE'),style.name="pathwayStyle")
 #change node height
 RCy3::setNodeHeightMapping('Type',c('GeneProduct','Protein', 'Metabolite'), c(23,23,25), mapping.type = "d", style.name = "pathwayStyle")
+##TODO: check if this is necessary, or if we can use some of the columns from the GPML for the width, because some nodes are overlapping now.
 #change node width
 RCy3::setNodeWidthMapping('Type',c('GeneProduct','Protein', 'Metabolite'), c(60,60,175), mapping.type = "d", style.name = "pathwayStyle")
 
@@ -232,7 +234,7 @@ setNodeColorMapping("log2FC", c(-1,0,1), node.colors, default.color = "#D3D3D3",
 pvalues  = getTableColumns(table = 'node',columns = c('name','pvalue'))  
 min.pval = min(pvalues[,2],na.rm=TRUE)
 #get non-significant nodes (p-value>0.05)
-nonsign.nodes <- pvalues  %>% filter(pvalue < 0.05, na.rm = TRUE)
+nonsign.nodes <- pvalues  %>% filter(pvalue > 0.05, na.rm = TRUE)
 #filter out duplicated rows
 nonsign.nodes <- unique(nonsign.nodes)
 
