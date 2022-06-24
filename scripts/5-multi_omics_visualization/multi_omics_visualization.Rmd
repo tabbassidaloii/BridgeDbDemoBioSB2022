@@ -160,7 +160,7 @@ setNodeColorMapping("log2FC", c(-1,0,1), node.colors, default.color = "#D3D3D3",
 pvalues  = getTableColumns(table = 'node',columns = c('name','pvalue'))  
 min.pval = min(pvalues[,2],na.rm=TRUE)
 #get non-significant nodes (p-value>0.05)
-nonsign.nodes <- pvalues  %>% filter(pvalue > 0.05, na.rm = TRUE)
+nonsign.nodes <- pvalues  %>% filter(pvalue < 0.05, na.rm = TRUE)
 #filter out duplicated rows
 nonsign.nodes <- unique(nonsign.nodes)
 
