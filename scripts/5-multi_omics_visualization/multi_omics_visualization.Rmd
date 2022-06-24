@@ -221,9 +221,8 @@ RCy3::lockNodeDimensions(TRUE, style.name="pathwayStyle")
 RCy3::setNodeShapeMapping('Type',c('GeneProduct','Protein', 'Metabolite'),c('ELLIPSE','ELLIPSE','RECTANGLE'),style.name="pathwayStyle")
 #change node height
 RCy3::setNodeHeightMapping('Type',c('GeneProduct','Protein', 'Metabolite'), c(23,23,25), mapping.type = "d", style.name = "pathwayStyle")
-##TODO: check if this is necessary, or if we can use some of the columns from the GPML for the width, because some nodes are overlapping now.
 #change node width
-RCy3::setNodeWidthMapping('Type',c('GeneProduct','Protein', 'Metabolite'), c(60,60,175), mapping.type = "d", style.name = "pathwayStyle")
+RCy3::setNodeWidthMapping('Type',c('GeneProduct','Protein', 'Metabolite'), c(60,60,100), mapping.type = "d", style.name = "pathwayStyle")
 
 #set node color based on log2FC for both genes and metabolites
 node.colors <- c(rev(brewer.pal(3, "RdBu")))
