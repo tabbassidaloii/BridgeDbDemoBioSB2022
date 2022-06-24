@@ -183,10 +183,59 @@ RCy3::commandsRun(paste0('wikipathways import-as-pathway id=',pathway.id ))
 ```
 
 ## Data upload with regular xRef ID mapping:
+```{r data_upload, warning=FALSE, message=FALSE}
+#select dataset to visualize
+data <- dfs[[i]]
+#remove duplicate rows
+data <- data %>% distinct(Identifier, .keep_all = TRUE)
+#load data to the imported pathway in cytoscape by key column as omics.ID
+loadTableData(table = "node", data = data, data.key.column = "Identifier", table.key.column = "XrefId")
+```
 
+## Visualization options
+```{r visualization, warning=FALSE, message=FALSE}
+#new visual style is created
+RCy3::copyVisualStyle("default","pathwayStyle")
+#set new style as the current style
+RCy3::setVisualStyle("pathwayStyle")
+#set node dimensions as fixed sizes
+RCy3::lockNodeDimensions(TRUE, style.name="pathwayStyle")
+
+#node shape mapping
+RCy3::setNodeShapeMapping('Type',c('GeneProduct','Protein', 'Metabolite'),c('ELLIPSE','ELLIPSE','RECTANGLE'),style.name="pathwayStyle")
+#change node height
+RCy3::setNodeHeightMapping('Type',c('GeneProduct','Protein', 'Metabolite'), c(23,23,25), mapping.type = "d", style.name = "pathwayStyle")
+#change node width
+RCy3::setNodeWidthMapping('Type',c('GeneProduct','Protein', 'Metabolite'), c(60,60,100), mapping.type = "d", style.name = "pathwayStyle")
+
+#set node color based on log2FC for both genes and metabolites
+node.colors <- c(rev(brewer.pal(3, "RdBu")))
+setNodeColorMapping("log2FC", c(-1,0,1), node.colors, default.color = "#D3D3D3", style.name = "pathwayStyle")
+
+#set node border width and color based on p-value
+#first we need to get all p-values from node table
+pvalues  = getTableColumns(table = 'node',columns = 'pvalue')
+pvalues <- na.omit(pvalues)
+##Create a range for all sign. p-values, and one for all not significant.
+significant_pvalues <- pvalues[(pvalues < 0.05)]
+not.significant_pvalues <- pvalues[(pvalues >= 0.05)]
+significant_pvalues.colors <- rep("#2e9d1d", length(significant_pvalues))
+not.significant_pvalues.colors <- rep("#FFFFFF", length(not.significant_pvalues))
+
+setNodeBorderWidthMapping('pvalue', table.column.values = NULL , c(6,6) , mapping.type = "c", style.name = "pathwayStyle")
+setNodeBorderColorMapping('pvalue', c(significant_pvalues,not.significant_pvalues), c(significant_pvalues.colors, not.significant_pvalues.colors), default.color = "#AAAAAA", mapping.type = "d", style.name = "pathwayStyle")
+
+#save output 
+filename_multiomics <- paste0("results/", pathway.id, "_", names_of_dataframes[i], "_regular_visualization.png")
+png.file <- file.path(getwd(), filename_multiomics)
+exportImage(png.file,'PNG', zoom = 500)
+```
 
 ## Data upload with multiomics unified and harmonized mappings:
 ```{r data_upload, warning=FALSE, message=FALSE}
+#Open a new pathway in Cytoscape for enhanced visualization.
+RCy3::commandsRun(paste0('wikipathways import-as-pathway id=',pathway.id )) 
+
 #get node table from imported pathway in cytoscape
 ID.cols <- getTableColumns(table ="node", columns = c("XrefId","Ensembl", "ChEBI"))
 #filter out rows which contain NA value for columns Ensembl and ChEBI
@@ -242,7 +291,7 @@ setNodeBorderWidthMapping('pvalue', table.column.values = NULL , c(6,6) , mappin
 setNodeBorderColorMapping('pvalue', c(significant_pvalues,not.significant_pvalues), c(significant_pvalues.colors, not.significant_pvalues.colors), default.color = "#AAAAAA", mapping.type = "d", style.name = "pathwayStyle")
 
 #save output 
-filename_multiomics <- paste0("results/", pathway.id, "_", names_of_dataframes[i], "omics_visualization.png")
+filename_multiomics <- paste0("results/", pathway.id, "_", names_of_dataframes[i], "_omics_visualization.png")
 png.file <- file.path(getwd(), filename_multiomics)
 exportImage(png.file,'PNG', zoom = 500)
 ```
