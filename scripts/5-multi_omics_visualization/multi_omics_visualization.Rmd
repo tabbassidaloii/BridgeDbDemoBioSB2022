@@ -230,21 +230,16 @@ setNodeColorMapping("log2FC", c(-1,0,1), node.colors, default.color = "#D3D3D3",
 
 #set node border width and color based on p-value
 #first we need to get all p-values from node table
-pvalues  = getTableColumns(table = 'node',columns = c('name','pvalue'))  
-min.pval = min(pvalues[,2],na.rm=TRUE)
-#get non-significant nodes (p-value>0.05)
-nonsign.nodes <- pvalues  %>% filter(pvalue > 0.05, na.rm = TRUE)
-#filter out duplicated rows
-nonsign.nodes <- unique(nonsign.nodes)
+pvalues  = getTableColumns(table = 'node',columns = 'pvalue')
+pvalues <- na.omit(pvalues)
+##Create a range for all sign. p-values, and one for all not significant.
+significant_pvalues <- pvalues[(pvalues < 0.05)]
+not.significant_pvalues <- pvalues[(pvalues >= 0.05)]
+significant_pvalues.colors <- rep("#2e9d1d", length(significant_pvalues))
+not.significant_pvalues.colors <- rep("#FFFFFF", length(not.significant_pvalues))
 
-#set node border width for all nodes which has a p-value
-setNodeBorderWidthMapping('pvalue', c(min.pval,0.05), c(6,6) , mapping.type = "c", style.name = "pathwayStyle")
-#set node border color for all nodes which has a p-value
-setNodeBorderColorMapping('pvalue', c(min.pval,0.05), c('#00C400','#00C400'), style.name = "pathwayStyle")
-
-#filter out non-sign nodes from the visualization
-RCy3::setNodeBorderWidthBypass(nonsign.nodes$name, new.sizes = 2)
-RCy3::setNodeBorderColorBypass(nonsign.nodes$name, new.colors = "#D3D3D3")
+setNodeBorderWidthMapping('pvalue', table.column.values = NULL , c(6,6) , mapping.type = "c", style.name = "pathwayStyle")
+setNodeBorderColorMapping('pvalue', c(significant_pvalues,not.significant_pvalues), c(significant_pvalues.colors, not.significant_pvalues.colors), default.color = "#AAAAAA", mapping.type = "d", style.name = "pathwayStyle")
 
 #save output 
 filename_multiomics <- paste0("results/", pathway.id, "_", names_of_dataframes[i], "omics_visualization.png")
