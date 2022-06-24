@@ -44,6 +44,8 @@ if(!"rmarkdown" %in% installed.packages())install.packages("rmarkdown")
 if(!"data.table" %in% installed.packages())install.packages("data.table")
 if(!"knitr" %in% installed.packages())install.packages("knitr")
 if(!"downloader" %in% installed.packages())install.packages("downloader")
+if(!"reshape2" %in% installed.packages()) install.packages("reshape2")
+if(!"ggplot2" %in% installed.packages()) install.packages("ggplot2")
 
 #load installed libraries
 suppressPackageStartupMessages({
@@ -55,6 +57,8 @@ suppressPackageStartupMessages({
   library(rmarkdown)
   library(data.table)
   library(knitr)
+  library(reshape2)
+  library(ggplot2)
 })
 
 # set your working environment to the location where your current source file is saved into.
@@ -373,31 +377,30 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 ```
 
 ##Mapping stats:
-```{r mappingStats, warning = FALSE, message = FALSE, echo = FALSE}
-library(data.table)
-library(knitr)
-##HGNC_originalData
-paste0("The total number of HGNC Symbol in the transcriptomics dataset is: ", nrow(dataset_CD))
-
-MappingStats <- data.table(`  ` =  c("The total number of unique Entrez IDs",
-                                     "The total number of missing mappings for HGNC Symbol to Entrez IDs",
-                                     "The total number of one-to-many mappings for Entrez IDs",
-                                     "The total number of unique Ensembl IDs",
-                                     "The total number of missing mappings for HGNC Symbol to Ensembl IDs",
-                                     "The total number of one-to-many mappings for Ensembl IDs"),
-                           org.Hs = c(sum(!is.na(dataset_CD$ENTREZ.ID_org.Hs)), 
+```{r mappingStats, warning = FALSE, message = FALSE, echo = FALSE, fig.height = 10, fig.width = 10}
+MappingStats <- data.table(stats =  c("#HGNC Symbol in the transcriptomics dataset",
+                                     "#unique Entrez IDs",
+                                     "#missing mappings for HGNC Symbol to Entrez IDs",
+                                     "#one-to-many mappings for Entrez IDs",
+                                     "#unique Ensembl IDs",
+                                     "#missing mappings for HGNC Symbol to Ensembl IDs",
+                                     "#one-to-many mappings for Ensembl IDs"),
+                           org.Hs = c(nrow(dataset_CD),
+                                      sum(!is.na(dataset_CD$ENTREZ.ID_org.Hs)), 
                                       sum(is.na(dataset_CD$ENTREZ.ID_org.Hs)),
                                       entrezID_doubles_Hs,
                                       sum(!is.na(dataset_CD$Ensembl.ID_org.Hs)), 
                                       sum(is.na(dataset_CD$Ensembl.ID_org.Hs)), 
                                       ensemblID_doubles_Hs),
-                           BridgeDb = c(sum(!is.na(dataset_CD$ENTREZ.ID_BridgeDb)),
+                           BridgeDb = c(nrow(dataset_CD),
+                                        sum(!is.na(dataset_CD$ENTREZ.ID_BridgeDb)),
                                         sum(is.na(dataset_CD$ENTREZ.ID_BridgeDb)), 
                                         entrezID_doubles_BridgeDb,
                                         sum(!is.na(dataset_CD$Ensembl.ID_BridgeDb)), 
                                         sum(is.na(dataset_CD$Ensembl.ID_BridgeDb)),
                                         ensemblID_doubles_BridgeDb),
-                           PrimaryID_BridgeDb = c(sum(!is.na(dataset_CD$ENTREZ.ID_PriID_BridgeDb)),
+                           PrimaryID_BridgeDb = c(nrow(dataset_CD),
+                                                  sum(!is.na(dataset_CD$ENTREZ.ID_PriID_BridgeDb)),
                                                   sum(is.na(dataset_CD$ENTREZ.ID_PriID_BridgeDb)),
                                                   entrezID_doubles_PriID_BridgeDb,
                                                   sum(!is.na(dataset_CD$Ensembl.ID_PriID_BridgeDb)), 
@@ -405,11 +408,35 @@ MappingStats <- data.table(`  ` =  c("The total number of unique Entrez IDs",
                                                   ensemblID_doubles_PriID_BridgeDb))
 
 kable(MappingStats)
-##Citation org.Hs:
-citation("org.Hs.eg.db")
 
-##Citation BridgeDb:
-citation("BridgeDbR")
+#ID mapping visualization
+order <- c("#HGNC Symbol in the transcriptomics dataset" = 1,
+           "#unique Entrez IDs" = 2,
+           "#missing mappings for HGNC Symbol to Entrez IDs" = 3, 
+           "#one-to-many mappings for Entrez IDs" = 4,
+           "#unique Ensembl IDs" = 5, 
+           "#missing mappings for HGNC Symbol to Ensembl IDs" = 6, 
+           "#one-to-many mappings for Ensembl IDs" = 7)
+
+MappingStats_toPlot <- MappingStats %>%
+  reshape2::melt() %>%
+  mutate(order=order[match(stats,names(order))])
+
+ggplot(MappingStats_toPlot, aes(x = variable, y = reorder(stats, -order), fill = value)) +
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1) +
+  coord_fixed() +
+  scale_fill_gradient(low = "white", high = "lightblue") +
+    theme_bw() +
+
+  labs(y = NULL, x = NULL) +
+  geom_text(aes(label = value), color = "black", size = 4) +
+  scale_x_discrete(position = "top", 
+                   labels = c("org.Hs", "BridgeDb", "PrimaryID\nBridgeDb")) + 
+  theme(axis.text.x.top = element_text(vjust = 0.5, size = 16, face = "bold"),
+        axis.text.y = element_text(size = 16),
+        legend.position = "none") 
 ```
 
 ##Save data, print session info and remove datasets:
@@ -422,6 +449,12 @@ write.table(dataset_CD, file = "results/IDMapping_CD",
 #UC
 write.table(dataset_UC, file = "results/IDMapping_UC", 
             sep = "\t" , quote = FALSE, row.names = FALSE)
+
+##Citation org.Hs:
+citation("org.Hs.eg.db")
+
+##Citation BridgeDb:
+citation("BridgeDbR")
 
 ##Print session info:
 sessionInfo()

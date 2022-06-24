@@ -181,12 +181,12 @@ rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing varia
 
 ##Mapping stats:
 ```{r mappingStats, warning = FALSE, message = FALSE, echo = FALSE}
-MappingStats <- data.table(`  ` =  c("The total number of unique HMDB IDs (CD)",
-                                     "The total number of unique HMDB IDs (UC)",
-                                     "The total number of unique ChEBI IDs (CD)",
-                                     "The total number of unique ChEBI IDs (UC)",
-                                     "The total number of missing mappings for HMDB IDs to ChEBI IDs (CD)",
-                                     "The total number of missing mappings for HMDB IDs to ChEBI IDs (UC)"),
+MappingStats <- data.table(stats =  c("#unique HMDB IDs in CD dataset\n(primary IDs for PrimaryID-nBridgeDb)",
+                                     "#unique HMDB IDs in UC dataset\n(primary IDs for PrimaryID-nBridgeDb)",
+                                     "#unique ChEBI IDs in CD dataset",
+                                     "#unique ChEBI IDs in UC dataset",
+                                     "#missing mappings for HMDB IDs to ChEBI IDs in CD dataset",
+                                     "#missing mappings for HMDB IDs to ChEBI IDs in UC dataset"),
                            BridgeDb = c(length(unique(mbx_dataset_CD$HMDBID)),
                                         length(unique(mbx_dataset_UC$HMDBID)),
                                         length(na.omit(unique(mbx_dataset_CD$ChEBI_BridgeDb))),
@@ -201,6 +201,35 @@ MappingStats <- data.table(`  ` =  c("The total number of unique HMDB IDs (CD)",
                                         sum(is.na(unique(mbx_dataset_UC %>% select(HMDBID, ChEBI_PriID_BridgeDb)) %>% .$ChEBI_PriID_BridgeDb))))
 
 kable(MappingStats)
+
+#ID mapping visualization
+order <- c("#unique HMDB IDs in CD dataset\n(primary IDs for PrimaryID-nBridgeDb)" = 1,
+           "#unique ChEBI IDs in CD dataset" = 2,
+           "#missing mappings for HMDB IDs to ChEBI IDs in CD dataset" = 3, 
+           "#unique HMDB IDs in UC dataset\n(primary IDs for PrimaryID-nBridgeDb)" = 4,
+           "#unique ChEBI IDs in UC dataset" = 5, 
+           "#missing mappings for HMDB IDs to ChEBI IDs in UC dataset" = 6)
+
+MappingStats_toPlot <- MappingStats %>%
+  reshape2::melt() %>%
+  mutate(order=order[match(stats,names(order))])
+
+ggplot(MappingStats_toPlot, aes(x = variable, y = reorder(stats, -order), fill = value)) +
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1) +
+  coord_fixed() +
+  scale_fill_gradient(low = "white", high = "orange") +
+    theme_bw() +
+
+  labs(y = NULL, x = NULL) +
+  geom_text(aes(label = value), color = "black", size = 4) +
+  scale_x_discrete(position = "top", 
+                   labels = c("BridgeDb", "PrimaryID\nBridgeDb")) + 
+  theme(axis.text.x.top = element_text(vjust = 0.5, size = 16, face = "bold"),
+        axis.text.y = element_text(size = 16),
+        legend.position = "none") 
+
 ```
 
 ##Save data, print session info, and citation
