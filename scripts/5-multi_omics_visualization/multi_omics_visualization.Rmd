@@ -130,7 +130,7 @@ colnames(CombinePWs_UC_metabolomics)[colnames(CombinePWs_UC_metabolomics) == "pr
 
 (CombinePWs_rectum_CD_multi <- merge (CombinePWs_CD_metabolomics, CombinePWs_rectum_CD_transcriptomics) %>% 
   arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
-  write.table("results/CombinePWs_ileum_CD_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+  write.table("results/CombinePWs_rectum_CD_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 
 (CombinePWs_ileum_UC_multi <- merge (CombinePWs_UC_metabolomics, CombinePWs_ileum_UC_transcriptomics) %>% 
   arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
@@ -138,7 +138,7 @@ colnames(CombinePWs_UC_metabolomics)[colnames(CombinePWs_UC_metabolomics) == "pr
 
 (CombinePWs_rectum_UC_multi <- merge (CombinePWs_UC_metabolomics, CombinePWs_rectum_UC_transcriptomics) %>% 
   arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
-  write.table("results/CombinePWs_ileum_UC_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+  write.table("results/CombinePWs_rectum_UC_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 ```
 
 ## Import pathway
