@@ -122,11 +122,30 @@ CombinePWs_UC_metabolomics <- read.delim("../4-pathway_analysis_metabolomics/res
 colnames(CombinePWs_UC_metabolomics) <- gsub (".ChEBI_PriID_BridgeDb_UC", "", colnames(CombinePWs_UC_metabolomics))
 colnames(CombinePWs_UC_metabolomics)[colnames(CombinePWs_UC_metabolomics) == "probabilities"] = "probabilities_metabolomics"
 
+##Interesting pathways 
+##Transcriptomics
+Int_PWs_ileum_CD_transcriptomics <- read.csv("../2-pathway_analysis_transcriptomics/results/Int_PWs_ileum_CD.txt")$x
+Int_PWs_rectum_CD_transcriptomics <- read.csv("../2-pathway_analysis_transcriptomics/results/Int_PWs_rectum_CD.txt")$x
+Int_PWs_ileum_UC_transcriptomics <- read.csv("../2-pathway_analysis_transcriptomics/results/Int_PWs_ileum_UC.txt")$x
+Int_PWs_rectum_UC_transcriptomics <- read.csv("../2-pathway_analysis_transcriptomics/results/Int_PWs_rectum_UC.txt")$x
+
+## Metabolomics
+Int_PWs_CD_metabolomics <- read.csv("../4-pathway_analysis_metabolomics/results/Int_PWs_CD_mbx.txt")$x
+Int_PWs_UC_metabolomics <- read.csv("../4-pathway_analysis_metabolomics/results/Int_PWs_UC_mbx.txt")$x
+
+## Merge interesting pathways for both data types
+Int_PWs_ileum_CD <- unique(c(Int_PWs_ileum_CD_transcriptomics, Int_PWs_CD_metabolomics))
+Int_PWs_rectum_CD <- unique(c(Int_PWs_rectum_CD_transcriptomics, Int_PWs_CD_metabolomics))
+Int_PWs_ileum_UC <- unique(c(Int_PWs_ileum_UC_transcriptomics, Int_PWs_UC_metabolomics))
+Int_PWs_rectum_UC <- unique(c(Int_PWs_rectum_UC_transcriptomics, Int_PWs_UC_metabolomics))
 
 ##Merge two OMICS types together:
 (CombinePWs_ileum_CD_multi <- merge (CombinePWs_CD_metabolomics, CombinePWs_ileum_CD_transcriptomics) %>% 
   arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
   write.table("results/CombinePWs_ileum_CD_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+(Int_CombinePWs_ileum_CD_multi <- CombinePWs_ileum_CD_multi %>%
+    filter(pathway %in% Int_PWs_ileum_CD)) %>% 
+  write.table("results/Int_CombinePWs_ileum_CD_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 
 (CombinePWs_rectum_CD_multi <- merge (CombinePWs_CD_metabolomics, CombinePWs_rectum_CD_transcriptomics) %>% 
   arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
@@ -139,6 +158,7 @@ colnames(CombinePWs_UC_metabolomics)[colnames(CombinePWs_UC_metabolomics) == "pr
 (CombinePWs_rectum_UC_multi <- merge (CombinePWs_UC_metabolomics, CombinePWs_rectum_UC_transcriptomics) %>% 
   arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
   write.table("results/CombinePWs_rectum_UC_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
 
 
 
