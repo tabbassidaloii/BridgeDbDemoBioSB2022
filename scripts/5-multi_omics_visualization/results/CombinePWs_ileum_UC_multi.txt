@@ -1,0 +1,22 @@
+pathwayRes	pathway	pathwayTitle	TotalMetabolitesinPW	BiomarkersInPWs	probabilities_metabolomics	TotalGenesinPW	GenesInPWs	probabilities_transcriptome
+<https://identifiers.org/wikipathways/WP5083_r120385>	WP5083	Neuroinflammation and glutamatergic signaling	27	3	2.59763104608839e-35	140	2	2.39547366540677e-68
+<https://identifiers.org/wikipathways/WP4917_r119111>	WP4917	Proximal tubule transport	28	1	7.30061281607687e-41	57	2	2.02111568829649e-41
+<https://identifiers.org/wikipathways/WP5055_r122621>	WP5055	Burn wound healing	4	1	4.85530228140943e-07	109	2	4.10369771436191e-60
+<https://identifiers.org/wikipathways/WP497_r119105>	WP497	Urea cycle and metabolism of amino groups	31	13	6.30026661704353e-23	37	1	4.37983849424406e-33
+<https://identifiers.org/wikipathways/WP4584_r119306>	WP4584	Biomarkers for pyrimidine metabolism disorders	35	7	1.24918872503731e-36	19	1	7.9248941402585e-21
+<https://identifiers.org/wikipathways/WP2289_r120498>	WP2289	Drug induction of bile acid pathway	27	5	1.96032824524104e-31	17	1	3.59169178871365e-19
+<https://identifiers.org/wikipathways/WP4657_r120007>	WP4657	22q11.2 copy number variation syndrome	31	5	6.43198590322018e-36	154	1	9.8941803299268e-74
+<https://identifiers.org/wikipathways/WP5176_r122283>	WP5176	Disorders of bile acid synthesis and biliary transport	44	5	3.30896549829331e-49	20	1	1.25791970480293e-21
+<https://identifiers.org/wikipathways/WP5166_r122169>	WP5166	Glyoxylate metabolism	16	4	1.26219817284145e-19	14	1	1.59841376587106e-16
+<https://identifiers.org/wikipathways/WP5190_r122630>	WP5190	Creatine pathway	18	4	2.69598805607549e-22	5	1	8.34863220184321e-07
+<https://identifiers.org/wikipathways/WP5224_r122740>	WP5224	2q37 copy number variation syndrome	27	3	2.59763104608839e-35	172	1	1.21941475584782e-77
+<https://identifiers.org/wikipathways/WP4142_r119292>	WP4142	Metabolism of spingolipids in ER and Golgi apparatus	37	2	2.697974571376e-48	31	1	2.01190934876462e-29
+<https://identifiers.org/wikipathways/WP4222_r107160>	WP4222	Phosphodiesterases in neuronal function	12	2	4.91536031309403e-18	52	1	5.33806631550073e-41
+<https://identifiers.org/wikipathways/WP455_r117740>	WP455	GPCRs, class A rhodopsin-like	9	2	1.94801873408309e-13	262	1	2.58879324628611e-93
+<https://identifiers.org/wikipathways/WP5044_r119244>	WP5044	Kynurenine pathway and links to cell senescence	26	2	2.88625671787598e-36	23	1	6.37410672612045e-24
+<https://identifiers.org/wikipathways/WP299_r117807>	WP299	Nuclear receptors in lipid metabolism and toxicity	12	1	2.61455335802875e-20	35	1	6.67695198679579e-32
+<https://identifiers.org/wikipathways/WP3301_r120029>	WP3301	MFAP5-mediated ovarian cancer cell motility and invasiveness	4	1	4.85530228140943e-07	13	1	1.3700689421752e-15
+<https://identifiers.org/wikipathways/WP4389_r116629>	WP4389	Bile acids synthesis and enterohepatic circulation 	4	1	4.85530228140943e-07	13	1	1.3700689421752e-15
+<https://identifiers.org/wikipathways/WP5087_r122659>	WP5087	Malignant pleural mesothelioma	13	1	9.01570123458187e-22	438	1	7.52839606077276e-114
+<https://identifiers.org/wikipathways/WP5110_r120392>	WP5110	Familial hyperlipidemia type 3	8	1	4.32893052018464e-14	13	1	1.3700689421752e-15
+<https://identifiers.org/wikipathways/WP5113_r119486>	WP5113	Antiviral and anti-inflammatory effects of Nrf2 on SARS-CoV-2 pathway	7	1	2.01295269188585e-12	41	1	2.37546952438849e-35

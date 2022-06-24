@@ -75,21 +75,70 @@ mSet_UC <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMappin
   filter(!is.na(Identifier))
 
 ##Merge two OMICS types together:
-combined_ileum_CD_multi <- rbind(tSet_ileum_CD, mSet_CD)
-combined_rectum_CD_multi <- rbind(tSet_rectum_CD, mSet_CD)
-combined_ileum_UC_multi <- rbind(tSet_ileum_UC, mSet_UC)
-combined_rectum_UC_multi <- rbind(tSet_rectum_UC, mSet_UC)
+CombineGenes_ileum_CD_multi <- rbind(tSet_ileum_CD, mSet_CD)
+CombineGenes_rectum_CD_multi <- rbind(tSet_rectum_CD, mSet_CD)
+CombineGenes_ileum_UC_multi <- rbind(tSet_ileum_UC, mSet_UC)
+CombineGenes_rectum_UC_multi <- rbind(tSet_rectum_UC, mSet_UC)
 
 ##Remove NA values for missing IDs.
-dfs <- c("combined_ileum_CD_multi", "combined_rectum_CD_multi", "combined_ileum_UC_multi", "combined_rectum_UC_multi")
+dfs <- c("CombineGenes_ileum_CD_multi", "CombineGenes_rectum_CD_multi", "CombineGenes_ileum_UC_multi", "CombineGenes_rectum_UC_multi")
 rm(list = setdiff(ls(), dfs)) # removing variables that are not required
 names_of_dataframes <- ls.str(mode = "list")
 dfs <- sapply(ls(), get)
 ```
 
-## Select relevant pathway based on overlap
+## Select relevant pathway based on step 2 (Transcriptomics pathway analysis) and 4 (Metabolomics pathway analysis)
 ```{r}
-##TODO: to be added; based on overlap visualization @Tooba?
+# Significant pathways (changes due to disease)
+### Transcriptomics
+CombinePWs_ileum_CD_transcriptomics <- read.delim("../2-pathway_analysis_transcriptomics/results/CombinePWs.ileum_CD.txt") %>%
+  select(pathwayRes, pathway, pathwayTitle, TotalGenesinPW, GenesInPWs.ileum_Ensembl_PriID_BridgeDb_CD, probabilities.ileum_Ensembl_PriID_BridgeDb_CD)
+colnames(CombinePWs_ileum_CD_transcriptomics) <- gsub (".ileum_Ensembl_PriID_BridgeDb_CD", "", colnames(CombinePWs_ileum_CD_transcriptomics))
+colnames(CombinePWs_ileum_CD_transcriptomics)[colnames(CombinePWs_ileum_CD_transcriptomics) == "probabilities"] = "probabilities_transcriptome"
+
+CombinePWs_rectum_CD_transcriptomics <- read.delim("../2-pathway_analysis_transcriptomics/results/CombinePWs.rectum_CD.txt") %>%
+  select(pathwayRes, pathway, pathwayTitle, TotalGenesinPW, GenesInPWs.rectum_Ensembl_PriID_BridgeDb_CD, probabilities.rectum_Ensembl_PriID_BridgeDb_CD)
+colnames(CombinePWs_rectum_CD_transcriptomics) <- gsub (".rectum_Ensembl_PriID_BridgeDb_CD", "", colnames(CombinePWs_rectum_CD_transcriptomics))
+colnames(CombinePWs_rectum_CD_transcriptomics)[colnames(CombinePWs_rectum_CD_transcriptomics) == "probabilities"] = "probabilities_transcriptome"
+
+CombinePWs_ileum_UC_transcriptomics <- read.delim("../2-pathway_analysis_transcriptomics/results/CombinePWs.ileum_UC.txt") %>%
+  select(pathwayRes, pathway, pathwayTitle, TotalGenesinPW, GenesInPWs.ileum_Ensembl_PriID_BridgeDb_UC, probabilities.ileum_Ensembl_PriID_BridgeDb_UC)
+colnames(CombinePWs_ileum_UC_transcriptomics) <- gsub (".ileum_Ensembl_PriID_BridgeDb_UC", "", colnames(CombinePWs_ileum_UC_transcriptomics))
+colnames(CombinePWs_ileum_UC_transcriptomics)[colnames(CombinePWs_ileum_UC_transcriptomics) == "probabilities"] = "probabilities_transcriptome"
+
+CombinePWs_rectum_UC_transcriptomics <- read.delim("../2-pathway_analysis_transcriptomics/results/CombinePWs.rectum_UC.txt") %>%
+  select(pathwayRes, pathway, pathwayTitle, TotalGenesinPW, GenesInPWs.rectum_Ensembl_PriID_BridgeDb_UC, probabilities.rectum_Ensembl_PriID_BridgeDb_UC)
+colnames(CombinePWs_rectum_UC_transcriptomics) <- gsub (".rectum_Ensembl_PriID_BridgeDb_UC", "", colnames(CombinePWs_rectum_UC_transcriptomics))
+colnames(CombinePWs_rectum_UC_transcriptomics)[colnames(CombinePWs_rectum_UC_transcriptomics) == "probabilities"] = "probabilities_transcriptome"
+
+## Metabolomics
+CombinePWs_CD_metabolomics <- read.delim("../4-pathway_analysis_metabolomics/results/CombinePWs_CD_mbx.txt") %>% 
+  select(pathwayRes, pathway, pathwayTitle, TotalMetabolitesinPW, BiomarkersInPWs.ChEBI_PriID_BridgeDb_CD, probabilities.ChEBI_PriID_BridgeDb_CD)
+colnames(CombinePWs_CD_metabolomics) <- gsub (".ChEBI_PriID_BridgeDb_CD", "", colnames(CombinePWs_CD_metabolomics))
+colnames(CombinePWs_CD_metabolomics)[colnames(CombinePWs_CD_metabolomics) == "probabilities"] = "probabilities_metabolomics"
+
+CombinePWs_UC_metabolomics <- read.delim("../4-pathway_analysis_metabolomics/results/CombinePWs_UC_mbx.txt") %>% 
+  select(pathwayRes, pathway, pathwayTitle, TotalMetabolitesinPW, BiomarkersInPWs.ChEBI_PriID_BridgeDb_UC, probabilities.ChEBI_PriID_BridgeDb_UC)
+colnames(CombinePWs_UC_metabolomics) <- gsub (".ChEBI_PriID_BridgeDb_UC", "", colnames(CombinePWs_UC_metabolomics))
+colnames(CombinePWs_UC_metabolomics)[colnames(CombinePWs_UC_metabolomics) == "probabilities"] = "probabilities_metabolomics"
+
+
+##Merge two OMICS types together:
+(CombinePWs_ileum_CD_multi <- merge (CombinePWs_CD_metabolomics, CombinePWs_ileum_CD_transcriptomics) %>% 
+  arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
+  write.table("results/CombinePWs_ileum_CD_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
+(CombinePWs_rectum_CD_multi <- merge (CombinePWs_CD_metabolomics, CombinePWs_rectum_CD_transcriptomics) %>% 
+  arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
+  write.table("results/CombinePWs_ileum_CD_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
+(CombinePWs_ileum_UC_multi <- merge (CombinePWs_UC_metabolomics, CombinePWs_ileum_UC_transcriptomics) %>% 
+  arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
+  write.table("results/CombinePWs_ileum_UC_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
+(CombinePWs_rectum_UC_multi <- merge (CombinePWs_UC_metabolomics, CombinePWs_rectum_UC_transcriptomics) %>% 
+  arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
+  write.table("results/CombinePWs_ileum_UC_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 ```
 
 ## Import pathway

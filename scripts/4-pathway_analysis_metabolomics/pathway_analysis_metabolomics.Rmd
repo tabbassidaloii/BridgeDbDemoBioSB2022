@@ -188,7 +188,9 @@ kable(MappingStats)
 ## Combining pathways for the vidualization
 ```{r Comparison, warning = FALSE, message = FALSE, fig.height = 16, fig.width = 14}
 CombinePWs_CD <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "Combin.*CD"), get), accumulate = F)
+CombinePWs_CD %>% write.table("results/CombinePWs_CD_mbx.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 CombinePWs_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "Combin.*UC"), get), accumulate = F)
+CombinePWs_UC %>% write.table("results/CombinePWs_UC_mbx.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 
 #CD
 CombinePWs_CD_toPlot <- CombinePWs_CD [, !grepl("probabilities|pathwayRes|pathwayTitle|TotalMetabolitesinPW", colnames (CombinePWs_CD))] %>% select (pathway, BiomarkersInPWs.HMDB_CD, BiomarkersInPWs.ChEBI_BridgeDb_CD, BiomarkersInPWs.HMDB_PriID_BridgeDb_CD, BiomarkersInPWs.ChEBI_PriID_BridgeDb_CD)

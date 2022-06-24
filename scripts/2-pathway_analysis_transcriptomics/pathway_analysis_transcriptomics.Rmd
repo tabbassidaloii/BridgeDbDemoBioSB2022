@@ -355,9 +355,13 @@ kable(MappingStats)
 ## Combining pathways for the vidualization
 ```{r Comparison, warning = FALSE, message = FALSE, fig.height = 16, fig.width = 14}
 CombinePWs_ileum_CD <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.ileum.*CD"), get), accumulate = F)
+CombinePWs_ileum_CD %>% write.table("results/CombinePWs.ileum_CD.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 CombinePWs_rectum_CD <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.rectum.*CD"), get), accumulate = F)
+CombinePWs_rectum_CD %>% write.table("results/CombinePWs.rectum_CD.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 CombinePWs_ileum_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.ileum.*UC"), get), accumulate = F)
+CombinePWs_ileum_UC %>% write.table("results/CombinePWs.ileum_UC.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 CombinePWs_rectum_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.rectum.*UC"), get), accumulate = F)
+CombinePWs_rectum_UC %>% write.table("results/CombinePWs.rectum_UC.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 
 #CD
 ##ileum
