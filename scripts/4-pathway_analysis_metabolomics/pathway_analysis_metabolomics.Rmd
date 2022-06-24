@@ -51,20 +51,23 @@ mbx_dataset_CD <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_I
 mbx_dataset_UC <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_UC")
 
 #make list of metabolites for the pathway analysis
+## Significant rows
+sig.rows_CD <- which((mbx_dataset_CD$log2FC >= 1 | mbx_dataset_CD$log2FC <= -1) & mbx_dataset_CD$pvalue < 0.05)
+sig.rows_UC <- which((mbx_dataset_UC$log2FC >= 1 | mbx_dataset_UC$log2FC <= -1) & mbx_dataset_UC$pvalue < 0.05)
 ### HMDB IDs:
-sig.metabolites.HMDB_CD <- na.omit(unique(mbx_dataset_CD$HMDBID)) #CD
-sig.metabolites.HMDB_UC <- na.omit(unique(mbx_dataset_UC$HMDBID)) #UC
+sig.metabolites.HMDB_CD <- na.omit(unique(mbx_dataset_CD$HMDBID[sig.rows_CD])) #CD
+sig.metabolites.HMDB_UC <- na.omit(unique(mbx_dataset_UC$HMDBID[sig.rows_UC])) #UC
 ## BridgeDb
 ### ChEBI IDs:
-sig.metabolites.ChEBI_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$ChEBI_BridgeDb)) #CD
-sig.metabolites.ChEBI_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_BridgeDb)) #UC
+sig.metabolites.ChEBI_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$ChEBI_BridgeDb[sig.rows_CD])) #CD
+sig.metabolites.ChEBI_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_BridgeDb[sig.rows_UC])) #UC
 ## Primary id mapping, BridgeDb,
 ### primary HMDB IDs:
-sig.metabolites.HMDB_PriID_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$Current_HMDBID)) #CD
-sig.metabolites.HMDB_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$Current_HMDBID)) #UC
+sig.metabolites.HMDB_PriID_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$Current_HMDBID[sig.rows_CD])) #CD
+sig.metabolites.HMDB_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$Current_HMDBID[sig.rows_UC])) #UC
 ### ChEBI IDs:
-sig.metabolites.ChEBI_PriID_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$ChEBI_PriID_BridgeDb)) #CD
-sig.metabolites.ChEBI_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_PriID_BridgeDb)) #UC
+sig.metabolites.ChEBI_PriID_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$ChEBI_PriID_BridgeDb[sig.rows_CD])) #CD
+sig.metabolites.ChEBI_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_PriID_BridgeDb[sig.rows_UC])) #UC
 ```
 
 ## Find pathways for each dataset, based on different IDs.
@@ -202,6 +205,11 @@ CombinePWs_CD_toPlot <- CombinePWs_CD_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_CD$pathwayTitle[match(pathway, CombinePWs_CD$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+(Int_PWs_CD <- unique(gsub (":.*", "", CombinePWs_CD_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_CD_mbx.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
+
 ggplot(CombinePWs_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,
@@ -225,6 +233,10 @@ CombinePWs_UC_toPlot <- CombinePWs_UC_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_UC$pathwayTitle[match(pathway, CombinePWs_UC$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+(Int_PWs_UC <- unique(gsub (":.*", "", CombinePWs_UC_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_UC_mbx.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
 ggplot(CombinePWs_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,

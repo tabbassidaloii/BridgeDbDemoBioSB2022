@@ -139,6 +139,9 @@ colnames(CombinePWs_UC_metabolomics)[colnames(CombinePWs_UC_metabolomics) == "pr
 (CombinePWs_rectum_UC_multi <- merge (CombinePWs_UC_metabolomics, CombinePWs_rectum_UC_transcriptomics) %>% 
   arrange (desc(GenesInPWs), desc(BiomarkersInPWs))) %>% 
   write.table("results/CombinePWs_rectum_UC_multi.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
+
+
 ```
 
 ## Import pathway

@@ -374,6 +374,10 @@ CombinePWs_ileum_CD_toPlot <- CombinePWs_ileum_CD_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_ileum_CD$pathwayTitle[match(pathway, CombinePWs_ileum_CD$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+(Int_PWs_ileum_CD <- unique(gsub (":.*", "", CombinePWs_ileum_CD_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_ileum_CD.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
 ggplot(CombinePWs_ileum_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,
@@ -396,6 +400,11 @@ CombinePWs_rectum_CD_toPlot <- CombinePWs_rectum_CD_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_rectum_CD$pathwayTitle[match(pathway, CombinePWs_rectum_CD$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+(Int_PWs_rectum_CD <- unique(gsub (":.*", "", CombinePWs_rectum_CD_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_rectum_CD.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
+
 ggplot(CombinePWs_rectum_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,
@@ -420,6 +429,10 @@ CombinePWs_ileum_UC_toPlot <- CombinePWs_ileum_UC_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_ileum_UC$pathwayTitle[match(pathway, CombinePWs_ileum_UC$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+(Int_PWs_ileum_UC <- unique(gsub (":.*", "", CombinePWs_ileum_UC_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_ileum_UC.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
 ggplot(CombinePWs_ileum_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,
@@ -442,6 +455,12 @@ CombinePWs_rectum_UC_toPlot <- CombinePWs_rectum_UC_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_rectum_UC$pathwayTitle[match(pathway, CombinePWs_rectum_UC$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+
+(Int_PWs_rectum_UC <- unique(gsub (":.*", "", CombinePWs_rectum_UC_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_rectum_UC.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
+
 ggplot(CombinePWs_rectum_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,
