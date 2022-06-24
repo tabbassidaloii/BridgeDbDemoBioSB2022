@@ -219,6 +219,9 @@ sessionInfo()
 
 ##Citation BridgeDb:
 citation("BridgeDbR")
+
+##Remove add the data objects
+rm (list = ls())
 ```
 
 ```{r writing_to_notebooks, warning = FALSE, message = FALSE, include = FALSE}

@@ -450,5 +450,13 @@ ggplot(CombinePWs_rectum_UC_toPlot, aes(x = variable, y = pathway, fill = value)
         axis.text.y = element_text(size = 16),
         legend.position = "none") +
   ggtitle("UC (rectum location)")
+```
 
+##Print session info and remove datasets:
+```{r print_session_info, echo = FALSE}
+##Print session info:
+sessionInfo()
+
+##Remove add the data objects
+rm (list = ls())
 ```

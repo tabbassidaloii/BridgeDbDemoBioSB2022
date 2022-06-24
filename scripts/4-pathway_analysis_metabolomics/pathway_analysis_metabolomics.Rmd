@@ -236,3 +236,12 @@ ggplot(CombinePWs_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
         legend.position = "none") +
   ggtitle("UC")
 ```
+
+##Print session info and remove datasets:
+```{r print_session_info, echo = FALSE}
+##Print session info:
+sessionInfo()
+
+##Remove add the data objects
+rm (list = ls())
+```

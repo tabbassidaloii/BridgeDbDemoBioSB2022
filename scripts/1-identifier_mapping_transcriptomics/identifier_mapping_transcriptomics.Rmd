@@ -412,7 +412,7 @@ citation("org.Hs.eg.db")
 citation("BridgeDbR")
 ```
 
-##Save data, print session info and remove large datasets:
+##Save data, print session info and remove datasets:
 ```{r print_session_info, echo = FALSE}
 ##Save data: exporting results to the file
 #CD
@@ -426,8 +426,8 @@ write.table(dataset_UC, file = "results/IDMapping_UC",
 ##Print session info:
 sessionInfo()
 
-##Remove data objects which are not needed for further processing:
-rm(list = setdiff(ls(), c("dataset_CD", "dataset_UC")))
+##Remove add the data objects
+rm (list = ls())
 ```
 
 ```{r writing_to_notebooks, warning = FALSE, message = FALSE, include = FALSE}
