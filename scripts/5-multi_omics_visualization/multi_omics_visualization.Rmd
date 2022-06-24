@@ -1,82 +1,87 @@
 ---
-title: "multi_omics_visualization"
+title: "Multi-omics visualization"
 author: 
 - "ddedesener"
+- "tabbassidaloii"
 - "DeniseSl22"
-date: "03/05/22"
+date: "24/05/22"
 output:
  md_document:
     variant: markdown_github
 always_allow_html: true
+editor_options: 
+  chunk_output_type: console
 ---
+
 ## Introduction
 In this script, we visualize multi-omics data in Cytoscape through the WikiPathways App for Cytoscape.
 Through this app, pathways from WikiPathways, Reactome and LIPID MAPS are available.
 Identifiers from these three pathway model databases are unified and harmonized to Ensembl and ChEBI IDs, to allow for multi-omics data visualization. 
 The transcriptomics data and metabolites data are combined to automatically visualize their respective log2FC and p-values. 
 
-## Setup
+## R environment setup
 ```{r setup, warning=FALSE, message=FALSE}
-# check if libraries are already installed > otherwise install it
+# check if libraries are already installed, otherwise install it
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"RCy3" %in% installed.packages()) BiocManager::install("RCy3")
 if(!"rWikiPathways" %in% installed.packages()) BiocManager::install("rWikiPathways")
-if(!"RColorBrewer" %in% installed.packages()) BiocManager::install("RColorBrewer")
-if(!"dplyr" %in% installed.packages()) BiocManager::install("dplyr")
-#load libraries
-library(rstudioapi)
-library(RCy3)#connect cytoscape via R
-library(rWikiPathways)#to get pathways from WikiPathways
-library(RColorBrewer)#to manage colors with R
-library(dplyr)
+if(!"RColorBrewer" %in% installed.packages()) install.packages("RColorBrewer")
+if(!"dplyr" %in% installed.packages()) install.packages("dplyr")
+
+#load installed libraries
+suppressPackageStartupMessages({
+  library(rstudioapi)
+  library(RCy3)#connect cytoscape via R
+  library(rWikiPathways)#to get pathways from WikiPathways
+  library(RColorBrewer)#to manage colors with R
+  library(dplyr)
+})
+
 # set your working environment to the location where your current source file is saved into.
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ```
 
-## Import data from step 1 and 3
+## Import data from step 1 (Transcriptomics identifier mapping) and 3 (Metabolomics identifier mapping)
 ```{r datasets_import, warning = FALSE, message = FALSE}
 ##TODO: start workflow on data in file from this folder (in case step 1 and 3 are not run yet?)
 
-##Transcriptomics
-tSet_CD <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_CD")
-tSet_UC <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_UC")
+##Transcriptomics and take a subset of data, which is relevant for the multiomics-visualization:
+tSet_ileum_CD <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_CD") %>%
+  select(Ensembl.ID_PriID_BridgeDb, log2FC_ileum, pvalue_ileum) %>%
+  rename(Identifier = Ensembl.ID_PriID_BridgeDb, log2FC = log2FC_ileum, pvalue = pvalue_ileum) %>%
+  filter(!is.na(Identifier))
+tSet_rectum_CD <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_CD") %>%
+  select(Ensembl.ID_PriID_BridgeDb, log2FC_rectum, pvalue_rectum) %>%
+  rename(Identifier = Ensembl.ID_PriID_BridgeDb, log2FC = log2FC_rectum, pvalue = pvalue_rectum) %>%
+  filter(!is.na(Identifier))
+tSet_ileum_UC <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_UC") %>%
+  select(Ensembl.ID_PriID_BridgeDb, log2FC_ileum, pvalue_ileum) %>%
+  rename(Identifier = Ensembl.ID_PriID_BridgeDb, log2FC = log2FC_ileum, pvalue = pvalue_ileum) %>%
+  filter(!is.na(Identifier))
+tSet_rectum_UC <- read.delim("../1-identifier_mapping_transcriptomics/results/IDMapping_UC") %>%
+  select(Ensembl.ID_PriID_BridgeDb, log2FC_rectum, pvalue_rectum) %>%
+  rename(Identifier = Ensembl.ID_PriID_BridgeDb, log2FC = log2FC_rectum, pvalue = pvalue_rectum) %>%
+  filter(!is.na(Identifier))
 
-##Take a subset of the transcriptomics data, which is relevant for the multiomics-visualization:
-tSet_CD_ileum_multi <- tSet_CD[,c('Ensembl.ID_PriID_BridgeDb', 'log2FC_ileum', 'pvalue_ileum')]
-tSet_CD_rectum_multi <- tSet_CD[,c('Ensembl.ID_PriID_BridgeDb', 'log2FC_rectum', 'pvalue_rectum')]
-tSet_UC_ileum_multi <- tSet_UC[,c('Ensembl.ID_PriID_BridgeDb', 'log2FC_ileum', 'pvalue_ileum')]
-tSet_UC_rectum_multi <- tSet_UC[,c('Ensembl.ID_PriID_BridgeDb', 'log2FC_rectum', 'pvalue_rectum')]
-
-##Rename the columns to be able to merge the data with metabolomics later:
-dfs <- c("tSet_CD_ileum_multi", "tSet_CD_rectum_multi", "tSet_UC_ileum_multi", "tSet_UC_rectum_multi")
-for(df in dfs)
-  assign(df, setNames(get(df),  c("Identifier","log2FC","pvalue")))
-
-##Metabolomics
-mSet_CD <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_CD")
-mSet_UC <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_UC")
-
-##Take a subset of the metabolomics data, which is relevant for the multiomics-visualization:
-mSet_CD_multi <- mSet_CD[,c('ChEBI_PriID_BridgeDb', 'log2FC', 'pvalue')]
-mSet_UC_multi <- mSet_UC[,c('ChEBI_PriID_BridgeDb', 'log2FC', 'pvalue')]
-
-##Rename the columns to be able to merge the data with metabolomics later:
-dfs <- c("mSet_CD_multi", "mSet_UC_multi")
-for(df in dfs)
-  assign(df, setNames(get(df),  c("Identifier","log2FC","pvalue")))
+##Metabolomics and take a subset of data, which is relevant for the multiomics-visualization:
+mSet_CD <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_CD") %>%
+  select(ChEBI_PriID_BridgeDb, log2FC, pvalue) %>%
+  rename(Identifier = ChEBI_PriID_BridgeDb) %>%
+  filter(!is.na(Identifier))
+mSet_UC <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_UC") %>%
+  select(ChEBI_PriID_BridgeDb, log2FC, pvalue) %>%
+  rename(Identifier = ChEBI_PriID_BridgeDb) %>%
+  filter(!is.na(Identifier))
 
 ##Merge two OMICS types together:
-combined_CD_ileum_multi <- rbind(tSet_CD_ileum_multi,mSet_CD_multi)
-combined_CD_rectum_multi <- rbind(tSet_CD_rectum_multi,mSet_CD_multi)
-combined_UC_ileum_multi <- rbind(tSet_UC_ileum_multi,mSet_UC_multi)
-combined_UC_rectum_multi <- rbind(tSet_UC_rectum_multi,mSet_UC_multi)
+combined_ileum_CD_multi <- rbind(tSet_ileum_CD, mSet_CD)
+combined_rectum_CD_multi <- rbind(tSet_rectum_CD, mSet_CD)
+combined_ileum_UC_multi <- rbind(tSet_ileum_UC, mSet_UC)
+combined_rectum_UC_multi <- rbind(tSet_rectum_UC, mSet_UC)
 
 ##Remove NA values for missing IDs.
-dfs <- c("combined_CD_ileum_multi", "combined_CD_rectum_multi", "combined_UC_ileum_multi", "combined_UC_rectum_multi")
-for(df in dfs)
-  assign(df, na.omit(get(df)))
-
+dfs <- c("combined_ileum_CD_multi", "combined_rectum_CD_multi", "combined_ileum_UC_multi", "combined_rectum_UC_multi")
 rm(list = setdiff(ls(), dfs)) # removing variables that are not required
 names_of_dataframes <- ls.str(mode = "list")
 dfs <- sapply(ls(), get)
