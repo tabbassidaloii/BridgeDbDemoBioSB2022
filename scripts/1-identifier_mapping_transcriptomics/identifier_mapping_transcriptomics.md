@@ -38,6 +38,8 @@ if(!"rmarkdown" %in% installed.packages())install.packages("rmarkdown")
 if(!"data.table" %in% installed.packages())install.packages("data.table")
 if(!"knitr" %in% installed.packages())install.packages("knitr")
 if(!"downloader" %in% installed.packages())install.packages("downloader")
+if(!"reshape2" %in% installed.packages()) install.packages("reshape2")
+if(!"ggplot2" %in% installed.packages()) install.packages("ggplot2")
 
 #load installed libraries
 suppressPackageStartupMessages({
@@ -49,6 +51,8 @@ suppressPackageStartupMessages({
   library(rmarkdown)
   library(data.table)
   library(knitr)
+  library(reshape2)
+  library(ggplot2)
 })
 
 # set your working environment to the location where your current source file is saved into.
@@ -460,16 +464,22 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 ##Mapping stats:
 
-    ## [1] "The total number of HGNC Symbol in the transcriptomics dataset is: 17670"
+| stats                                            | org.Hs | BridgeDb | PrimaryID_BridgeDb |
+|:----------------------------------------|------:|--------:|----------------:|
+| #HGNC Symbol in the transcriptomics dataset      |  17670 |    17670 |              17670 |
+| #unique Entrez IDs                               |  15022 |    14133 |              15032 |
+| #missing mappings for HGNC Symbol to Entrez IDs  |   2648 |     3537 |               2638 |
+| #one-to-many mappings for Entrez IDs             |      3 |       76 |                 79 |
+| #unique Ensembl IDs                              |  14596 |    15009 |              15997 |
+| #missing mappings for HGNC Symbol to Ensembl IDs |   3074 |     2661 |               1673 |
+| #one-to-many mappings for Ensembl IDs            |    835 |        6 |                  7 |
 
-|                                                                     | org.Hs | BridgeDb | PrimaryID_BridgeDb |
-|:---------------------------------------------|-----:|------:|-------------:|
-| The total number of unique Entrez IDs                               |  15022 |    14133 |              15032 |
-| The total number of missing mappings for HGNC Symbol to Entrez IDs  |   2648 |     3537 |               2638 |
-| The total number of one-to-many mappings for Entrez IDs             |      3 |       76 |                 79 |
-| The total number of unique Ensembl IDs                              |  14596 |    15009 |              15997 |
-| The total number of missing mappings for HGNC Symbol to Ensembl IDs |   3074 |     2661 |               1673 |
-| The total number of one-to-many mappings for Ensembl IDs            |    835 |        6 |                  7 |
+![](identifier_mapping_transcriptomics_files/figure-markdown_github/mappingStats-1.png)
+
+##Save data, print session info and remove datasets:
+
+    ## Warning in citation("org.Hs.eg.db"): no date field in DESCRIPTION file of
+    ## package 'org.Hs.eg.db'
 
     ## 
     ## To cite package 'org.Hs.eg.db' in publications use:
@@ -509,8 +519,6 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
     ##     url = {https://github.com/bridgedb/BridgeDbR},
     ##   }
 
-##Save data, print session info and remove large datasets:
-
     ## R version 4.1.2 (2021-11-01)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)
     ## Running under: Windows 10 x64 (build 22000)
@@ -529,27 +537,29 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
     ## [8] base     
     ## 
     ## other attached packages:
-    ##  [1] knitr_1.39           data.table_1.14.2    rmarkdown_2.14      
-    ##  [4] dplyr_1.0.9          BridgeDbR_2.7.2      rJava_1.0-6         
-    ##  [7] org.Hs.eg.db_3.14.0  AnnotationDbi_1.56.2 IRanges_2.28.0      
-    ## [10] S4Vectors_0.32.4     Biobase_2.54.0       BiocGenerics_0.40.0 
-    ## [13] rstudioapi_0.13     
+    ##  [1] ggplot2_3.3.6        reshape2_1.4.4       knitr_1.39          
+    ##  [4] data.table_1.14.2    rmarkdown_2.14       dplyr_1.0.9         
+    ##  [7] BridgeDbR_2.7.2      rJava_1.0-6          org.Hs.eg.db_3.14.0 
+    ## [10] AnnotationDbi_1.56.2 IRanges_2.28.0       S4Vectors_0.32.4    
+    ## [13] Biobase_2.54.0       BiocGenerics_0.40.0  rstudioapi_0.13     
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] KEGGREST_1.34.0        tidyselect_1.1.2       xfun_0.31             
-    ##  [4] purrr_0.3.4            vctrs_0.4.1            generics_0.1.2        
-    ##  [7] htmltools_0.5.2        yaml_2.3.5             utf8_1.2.2            
-    ## [10] blob_1.2.3             rlang_1.0.2            pillar_1.7.0          
-    ## [13] glue_1.6.2             DBI_1.1.2              bit64_4.0.5           
-    ## [16] GenomeInfoDbData_1.2.7 lifecycle_1.0.1        stringr_1.4.0         
-    ## [19] zlibbioc_1.40.0        Biostrings_2.62.0      memoise_2.0.1         
-    ## [22] evaluate_0.15          fastmap_1.1.0          GenomeInfoDb_1.30.1   
-    ## [25] curl_4.3.2             fansi_1.0.3            highr_0.9             
-    ## [28] Rcpp_1.0.8.3           BiocManager_1.30.18    cachem_1.0.6          
-    ## [31] XVector_0.34.0         bit_4.0.4              png_0.1-7             
-    ## [34] digest_0.6.29          stringi_1.7.6          cli_3.2.0             
-    ## [37] tools_4.1.2            bitops_1.0-7           magrittr_2.0.3        
-    ## [40] RCurl_1.98-1.6         RSQLite_2.2.14         tibble_3.1.7          
-    ## [43] crayon_1.5.1           pkgconfig_2.0.3        ellipsis_0.3.2        
-    ## [46] assertthat_0.2.1       httr_1.4.3             R6_2.5.1              
-    ## [49] compiler_4.1.2
+    ##  [1] Rcpp_1.0.8.3           png_0.1-7              Biostrings_2.62.0     
+    ##  [4] assertthat_0.2.1       digest_0.6.29          utf8_1.2.2            
+    ##  [7] R6_2.5.1               GenomeInfoDb_1.30.1    plyr_1.8.7            
+    ## [10] RSQLite_2.2.14         evaluate_0.15          highr_0.9             
+    ## [13] httr_1.4.3             pillar_1.7.0           zlibbioc_1.40.0       
+    ## [16] rlang_1.0.2            curl_4.3.2             blob_1.2.3            
+    ## [19] stringr_1.4.0          RCurl_1.98-1.6         bit_4.0.4             
+    ## [22] munsell_0.5.0          compiler_4.1.2         xfun_0.31             
+    ## [25] pkgconfig_2.0.3        htmltools_0.5.2        tidyselect_1.1.2      
+    ## [28] KEGGREST_1.34.0        tibble_3.1.7           GenomeInfoDbData_1.2.7
+    ## [31] fansi_1.0.3            withr_2.5.0            crayon_1.5.1          
+    ## [34] bitops_1.0-7           grid_4.1.2             gtable_0.3.0          
+    ## [37] lifecycle_1.0.1        DBI_1.1.3              magrittr_2.0.3        
+    ## [40] scales_1.2.0           cli_3.2.0              stringi_1.7.6         
+    ## [43] cachem_1.0.6           farver_2.1.0           XVector_0.34.0        
+    ## [46] ellipsis_0.3.2         generics_0.1.2         vctrs_0.4.1           
+    ## [49] tools_4.1.2            bit64_4.0.5            glue_1.6.2            
+    ## [52] purrr_0.3.4            fastmap_1.1.0          yaml_2.3.5            
+    ## [55] colorspace_2.0-3       BiocManager_1.30.18    memoise_2.0.1
