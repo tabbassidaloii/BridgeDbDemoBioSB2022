@@ -421,9 +421,13 @@ kable(MappingStats)
 
 ``` r
 CombinePWs_ileum_CD <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.ileum.*CD"), get), accumulate = F)
+CombinePWs_ileum_CD %>% write.table("results/CombinePWs.ileum_CD.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 CombinePWs_rectum_CD <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.rectum.*CD"), get), accumulate = F)
+CombinePWs_rectum_CD %>% write.table("results/CombinePWs.rectum_CD.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 CombinePWs_ileum_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.ileum.*UC"), get), accumulate = F)
+CombinePWs_ileum_UC %>% write.table("results/CombinePWs.ileum_UC.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 CombinePWs_rectum_UC <- Reduce(function(x, y) merge(x, y, all = T), lapply(ls(pattern = "CombinePWs.rectum.*UC"), get), accumulate = F)
+CombinePWs_rectum_UC %>% write.table("results/CombinePWs.rectum_UC.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
 
 #CD
 ##ileum
@@ -436,6 +440,10 @@ CombinePWs_ileum_CD_toPlot <- CombinePWs_ileum_CD_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_ileum_CD$pathwayTitle[match(pathway, CombinePWs_ileum_CD$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+(Int_PWs_ileum_CD <- unique(gsub (":.*", "", CombinePWs_ileum_CD_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_ileum_CD.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
 ggplot(CombinePWs_ileum_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,
@@ -463,6 +471,11 @@ CombinePWs_rectum_CD_toPlot <- CombinePWs_rectum_CD_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_rectum_CD$pathwayTitle[match(pathway, CombinePWs_rectum_CD$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+(Int_PWs_rectum_CD <- unique(gsub (":.*", "", CombinePWs_rectum_CD_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_rectum_CD.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
+
 ggplot(CombinePWs_rectum_CD_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,
@@ -491,6 +504,10 @@ CombinePWs_ileum_UC_toPlot <- CombinePWs_ileum_UC_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_ileum_UC$pathwayTitle[match(pathway, CombinePWs_ileum_UC$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+(Int_PWs_ileum_UC <- unique(gsub (":.*", "", CombinePWs_ileum_UC_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_ileum_UC.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
 ggplot(CombinePWs_ileum_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,
@@ -518,6 +535,12 @@ CombinePWs_rectum_UC_toPlot <- CombinePWs_rectum_UC_toPlot %>%
   reshape2::melt() %>%
   mutate(pathway = paste0(pathway, ":", CombinePWs_rectum_UC$pathwayTitle[match(pathway, CombinePWs_rectum_UC$pathway)]),
          value = ifelse (is.na(value), 0, value))
+
+
+(Int_PWs_rectum_UC <- unique(gsub (":.*", "", CombinePWs_rectum_UC_toPlot$pathway))) %>% 
+  write.table("results/Int_PWs_rectum_UC.txt", sep = "\t" , quote = FALSE, row.names = FALSE)
+
+
 ggplot(CombinePWs_rectum_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
   geom_tile(color = "white",
             lwd = 1.5,
@@ -529,7 +552,46 @@ ggplot(CombinePWs_rectum_UC_toPlot, aes(x = variable, y = pathway, fill = value)
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 16),
         axis.text.y = element_text(size = 16),
         legend.position = "none") +
-  ggtitle("UC (rectum location)")
+  ggtitle("UC (rectum location)") 
 ```
 
 ![](pathway_analysis_transcriptomics_files/figure-markdown_github/Comparison-4.png)
+
+##Print session info and remove datasets:
+
+    ## R version 4.1.2 (2021-11-01)
+    ## Platform: x86_64-w64-mingw32/x64 (64-bit)
+    ## Running under: Windows 10 x64 (build 22000)
+    ## 
+    ## Matrix products: default
+    ## 
+    ## locale:
+    ## [1] LC_COLLATE=English_United Kingdom.1252 
+    ## [2] LC_CTYPE=English_United Kingdom.1252   
+    ## [3] LC_MONETARY=English_United Kingdom.1252
+    ## [4] LC_NUMERIC=C                           
+    ## [5] LC_TIME=English_United Kingdom.1252    
+    ## 
+    ## attached base packages:
+    ## [1] stats     graphics  grDevices utils     datasets  methods   base     
+    ## 
+    ## other attached packages:
+    ## [1] ggplot2_3.3.6     reshape2_1.4.4    SPARQL_1.16       RCurl_1.98-1.6   
+    ## [5] XML_3.99-0.10     knitr_1.39        data.table_1.14.2 dplyr_1.0.9      
+    ## [9] rstudioapi_0.13  
+    ## 
+    ## loaded via a namespace (and not attached):
+    ##  [1] Rcpp_1.0.8.3        highr_0.9           pillar_1.7.0       
+    ##  [4] compiler_4.1.2      BiocManager_1.30.18 plyr_1.8.7         
+    ##  [7] bitops_1.0-7        tools_4.1.2         digest_0.6.29      
+    ## [10] gtable_0.3.0        evaluate_0.15       lifecycle_1.0.1    
+    ## [13] tibble_3.1.7        pkgconfig_2.0.3     rlang_1.0.2        
+    ## [16] cli_3.2.0           DBI_1.1.3           yaml_2.3.5         
+    ## [19] xfun_0.31           fastmap_1.1.0       withr_2.5.0        
+    ## [22] stringr_1.4.0       generics_0.1.2      vctrs_0.4.1        
+    ## [25] grid_4.1.2          tidyselect_1.1.2    glue_1.6.2         
+    ## [28] R6_2.5.1            fansi_1.0.3         rmarkdown_2.14     
+    ## [31] farver_2.1.0        purrr_0.3.4         magrittr_2.0.3     
+    ## [34] scales_1.2.0        ellipsis_0.3.2      htmltools_0.5.2    
+    ## [37] assertthat_0.2.1    colorspace_2.0-3    utf8_1.2.2         
+    ## [40] stringi_1.7.6       munsell_0.5.0       crayon_1.5.1

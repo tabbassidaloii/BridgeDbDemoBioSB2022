@@ -4,7 +4,7 @@ author:
 - "ddedesener"
 - "tabbassidaloii"
 - "DeniseSl22"
-date: "24/05/22"
+date: "27/06/22"
 output:
  md_document:
     variant: markdown_github
@@ -21,7 +21,9 @@ The transcriptomics data and metabolites data are combined to automatically visu
 
 ## R environment setup
 ```{r setup, warning=FALSE, message=FALSE}
-# check if libraries are already installed, otherwise install it
+# empty the R environment
+rm (list = ls())
+#Check if libraries are already installed, otherwise install it
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"RCy3" %in% installed.packages()) BiocManager::install("RCy3")
@@ -29,7 +31,7 @@ if(!"rWikiPathways" %in% installed.packages()) BiocManager::install("rWikiPathwa
 if(!"RColorBrewer" %in% installed.packages()) install.packages("RColorBrewer")
 if(!"dplyr" %in% installed.packages()) install.packages("dplyr")
 
-#load installed libraries
+#Load installed libraries
 suppressPackageStartupMessages({
   library(rstudioapi)
   library(RCy3)#connect cytoscape via R
@@ -38,7 +40,7 @@ suppressPackageStartupMessages({
   library(dplyr)
 })
 
-# set your working environment to the location where your current source file is saved into.
+#Set your working environment to the location where your current source file is saved into.
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ```
 

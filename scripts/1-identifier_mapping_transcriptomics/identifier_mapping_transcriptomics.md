@@ -464,15 +464,17 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 ##Mapping stats:
 
-| stats                                            | org.Hs | BridgeDb | PrimaryID_BridgeDb |
+| stats                                 | org.Hs | BridgeDb | PrimaryID_BridgeDb |
 |:----------------------------------------|------:|--------:|----------------:|
-| #HGNC Symbol in the transcriptomics dataset      |  17670 |    17670 |              17670 |
-| #unique Entrez IDs                               |  15022 |    14133 |              15032 |
-| #missing mappings for HGNC Symbol to Entrez IDs  |   2648 |     3537 |               2638 |
-| #one-to-many mappings for Entrez IDs             |      3 |       76 |                 79 |
-| #unique Ensembl IDs                              |  14596 |    15009 |              15997 |
-| #missing mappings for HGNC Symbol to Ensembl IDs |   3074 |     2661 |               1673 |
-| #one-to-many mappings for Ensembl IDs            |    835 |        6 |                  7 |
+| #HGNC Symbol in the dataset           |  17670 |    17670 |              17670 |
+| #unique Entrez IDs                    |  15022 |    14133 |              15032 |
+| #missing mappings for HGNC Symbol     |        |          |                    |
+| to Entrez IDs                         |   2648 |     3537 |               2638 |
+| #one-to-many mappings for Entrez IDs  |      3 |       76 |                 79 |
+| #unique Ensembl IDs                   |  14596 |    15009 |              15997 |
+| #missing mappings for HGNC Symbol     |        |          |                    |
+| to Ensembl IDs                        |   3074 |     2661 |               1673 |
+| #one-to-many mappings for Ensembl IDs |    835 |        6 |                  7 |
 
 ![](identifier_mapping_transcriptomics_files/figure-markdown_github/mappingStats-1.png)
 
