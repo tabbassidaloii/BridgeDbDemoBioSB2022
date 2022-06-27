@@ -25,6 +25,7 @@ if(!"data.table" %in% installed.packages())install.packages("data.table")
 if(!"knitr" %in% installed.packages())install.packages("knitr")
 if(!"rJava" %in% installed.packages()) install.packages("rJava")
 ## See https://www.r-bloggers.com/2018/02/installing-rjava-on-ubuntu/ if you have issues with this package on Ubuntu.
+if(!"ggplot2" %in% installed.packages()) install.packages("ggplot2")
 
 #load libraries
 suppressPackageStartupMessages({
@@ -34,6 +35,8 @@ suppressPackageStartupMessages({
   library(data.table)
   library(knitr)
   # library(rJava)
+  library(ggplot2)
+
 })
 
 # set your working environment to the location where your current source file is saved into.
@@ -200,14 +203,18 @@ rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing varia
 
 ##Mapping stats:
 
-|                                                                     | BridgeDb | PrimaryID_BridgeDb |
+| stats                                                     | BridgeDb | PrimaryID_BridgeDb |
 |:-------------------------------------------------|-------:|--------------:|
-| The total number of unique HMDB IDs (CD)                            |      438 |                438 |
-| The total number of unique HMDB IDs (UC)                            |      437 |                437 |
-| The total number of unique ChEBI IDs (CD)                           |      363 |                366 |
-| The total number of unique ChEBI IDs (UC)                           |      362 |                365 |
-| The total number of missing mappings for HMDB IDs to ChEBI IDs (CD) |       75 |                 70 |
-| The total number of missing mappings for HMDB IDs to ChEBI IDs (UC) |       75 |                 70 |
+| #unique HMDB IDs in CD dataset                            |          |                    |
+| (primary IDs for PrimaryID-nBridgeDb)                     |      438 |                438 |
+| #unique HMDB IDs in UC dataset                            |          |                    |
+| (primary IDs for PrimaryID-nBridgeDb)                     |      437 |                437 |
+| #unique ChEBI IDs in CD dataset                           |      363 |                366 |
+| #unique ChEBI IDs in UC dataset                           |      362 |                365 |
+| #missing mappings for HMDB IDs to ChEBI IDs in CD dataset |       75 |                 70 |
+| #missing mappings for HMDB IDs to ChEBI IDs in UC dataset |       75 |                 70 |
+
+![](identifier_mapping_metabolomics_files/figure-markdown_github/mappingStats-1.png)
 
 ##Save data, print session info, and citation
 
@@ -228,21 +235,25 @@ rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing varia
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ## [1] knitr_1.39        data.table_1.14.2 BridgeDbR_2.7.2   rJava_1.0-6      
-    ## [5] dplyr_1.0.9       rstudioapi_0.13  
+    ## [1] ggplot2_3.3.6     knitr_1.39        data.table_1.14.2 BridgeDbR_2.7.2  
+    ## [5] rJava_1.0-6       dplyr_1.0.9       rstudioapi_0.13  
     ## 
     ## loaded via a namespace (and not attached):
-    ##  [1] magrittr_2.0.3      tidyselect_1.1.2    R6_2.5.1           
-    ##  [4] rlang_1.0.2         fastmap_1.1.0       fansi_1.0.3        
-    ##  [7] highr_0.9           stringr_1.4.0       tools_4.1.2        
-    ## [10] xfun_0.31           utf8_1.2.2          DBI_1.1.2          
-    ## [13] cli_3.2.0           htmltools_0.5.2     ellipsis_0.3.2     
-    ## [16] assertthat_0.2.1    yaml_2.3.5          digest_0.6.29      
-    ## [19] tibble_3.1.7        lifecycle_1.0.1     crayon_1.5.1       
-    ## [22] purrr_0.3.4         BiocManager_1.30.18 vctrs_0.4.1        
-    ## [25] curl_4.3.2          glue_1.6.2          evaluate_0.15      
-    ## [28] rmarkdown_2.14      stringi_1.7.6       compiler_4.1.2     
-    ## [31] pillar_1.7.0        generics_0.1.2      pkgconfig_2.0.3
+    ##  [1] Rcpp_1.0.8.3        plyr_1.8.7          highr_0.9          
+    ##  [4] pillar_1.7.0        compiler_4.1.2      BiocManager_1.30.18
+    ##  [7] tools_4.1.2         digest_0.6.29       evaluate_0.15      
+    ## [10] lifecycle_1.0.1     tibble_3.1.7        gtable_0.3.0       
+    ## [13] pkgconfig_2.0.3     rlang_1.0.2         cli_3.2.0          
+    ## [16] DBI_1.1.3           curl_4.3.2          yaml_2.3.5         
+    ## [19] xfun_0.31           fastmap_1.1.0       withr_2.5.0        
+    ## [22] stringr_1.4.0       generics_0.1.2      vctrs_0.4.1        
+    ## [25] grid_4.1.2          tidyselect_1.1.2    glue_1.6.2         
+    ## [28] R6_2.5.1            fansi_1.0.3         rmarkdown_2.14     
+    ## [31] farver_2.1.0        reshape2_1.4.4      purrr_0.3.4        
+    ## [34] magrittr_2.0.3      scales_1.2.0        ellipsis_0.3.2     
+    ## [37] htmltools_0.5.2     assertthat_0.2.1    colorspace_2.0-3   
+    ## [40] utf8_1.2.2          stringi_1.7.6       munsell_0.5.0      
+    ## [43] crayon_1.5.1
 
     ## 
     ## To cite package 'BridgeDbR' in publications use:
