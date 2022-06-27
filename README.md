@@ -6,7 +6,7 @@ The scripts for the BioSB demo can be in this repository.
 
 ### Workflow
 <img src="MultiOmics_BioSB.drawio.svg"/>
-
+![Alt text here](MultiOmics_BioSB.drawio.svg)
 
 <!-- Clickable <img> element for Github README.md file -->
 <a target="_blank" rel="nofollow">
