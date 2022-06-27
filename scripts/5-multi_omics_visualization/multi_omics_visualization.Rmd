@@ -165,10 +165,10 @@ Int_PWs_rectum_UC <- unique(c(Int_PWs_rectum_UC_transcriptomics, Int_PWs_UC_meta
 
 ## Import pathway
 ```{r import, warning=FALSE, message=FALSE}
-#make sure to first launch Cytoscape outside of Rstudio, v.3.9.1
+#make sure to first launch Cytoscape outside of Rstudio, v.3.9.1 and the CyREST is installed
 cytoscapePing()
 ##check metadata of tool
-cytoscapeVersionInfo ()
+cytoscapeVersionInfo()
 #close all opened session before starting
 closeSession(FALSE)
 ##Set up WikiPathways app in Cytoscape, v.3.3.10

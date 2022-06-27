@@ -1,0 +1,11 @@
+pathwayRes	pathway	pathwayTitle	TotalMetabolitesinPW	BiomarkersInPWs	probabilities_metabolomics	TotalGenesinPW	GenesInPWs	probabilities_transcriptome
+<https://identifiers.org/wikipathways/WP5087_r122659>	WP5087	Malignant pleural mesothelioma	13	1	2.37840377444362e-14	438	80	0
+<https://identifiers.org/wikipathways/WP2431_r120812>	WP2431	Spinal cord injury	9	1	1.05898677540015e-10	117	29	2.19549803223356e-126
+<https://identifiers.org/wikipathways/WP706_r117178>	WP706	Sudden infant death syndrome (SIDS) susceptibility pathways	14	3	5.27212836668335e-12	166	24	4.54538294603513e-191
+<https://identifiers.org/wikipathways/WP15_r121694>	WP15	Selenium micronutrient network	110	6	6.0697842590103e-46	89	15	4.17433341483528e-118
+<https://identifiers.org/wikipathways/WP4341_r122900>	WP4341	Non-genomic actions of 1,25 dihydroxyvitamin D3	5	1	2.24628744841963e-06	93	14	1.90346459475205e-125
+<https://identifiers.org/wikipathways/WP3925_r117062>	WP3925	Amino acid metabolism	108	7	4.65352778242892e-44	94	9	9.78254504731932e-138
+<https://identifiers.org/wikipathways/WP4949_r115778>	WP4949	16p11.2 proximal deletion syndrome	42	3	9.35605148098179e-29	82	3	1.13652904865916e-136
+<https://identifiers.org/wikipathways/WP241_r120901>	WP241	One-carbon metabolism	25	2	2.66949702200039e-21	29	3	2.96456713078699e-55
+<https://identifiers.org/wikipathways/WP4288_r120407>	WP4288	MTHFR deficiency	23	1	9.43222281106804e-22	27	3	1.21133308247379e-51
+<https://identifiers.org/wikipathways/WP4726_r120323>	WP4726	Sphingolipid metabolism: integrated pathway	67	5	1.49000750112981e-35	26	2	1.34592564719308e-52

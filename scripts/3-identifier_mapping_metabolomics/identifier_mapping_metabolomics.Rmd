@@ -66,7 +66,7 @@ mbx_dataset_UC <- read.csv("data/mbxData_UC.csv") %>%
 ##Download the Metabolite mapping file (if it doesn't exist locally yet):
 checkfile <- paste0(getwd(), '/' ,"data/metabolites.bridge")
 if (!file.exists(checkfile)) {
-download.file("https://figshare.com/ndownloader/files/26001794", checkfile)
+  download.file("https://figshare.com/ndownloader/files/26001794", checkfile)
 }
 #Load the ID mapper:
 mapper <- loadDatabase(checkfile)
@@ -97,12 +97,14 @@ mbx_dataset_UC$ChEBI_BridgeDb <- chebiID$mapping[match(mbx_dataset_UC$HMDBID, ch
 
 ```{r hmdb-converting_PriSymbol_BridgeDb.1, warning = FALSE, message = FALSE}
 rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing variables that are not required
-##Download the mapping file (if it doesn't exist locally yet):
+#Download the mapping file (if it doesn't exist locally yet):
 checkfile <- paste0(getwd(), '/' ,"data/hmdb_secondaryToPrimaryIDs.bridge")
 if (!file.exists(checkfile)) {
-download.file("NOT YET UPLOADED ANYWHERE", checkfile)
+  #Download the human secondary derby database for BridgeDb
+  fileUrl <- "https://zenodo.org/record/6759307/files/hmdb_secondaryToPrimaryIDs.bridge?download=1"
+  require(downloader)
+  download(fileUrl, "data/hgnc_primaryToSecondaryIDs.bridge", mode = "wb")
 }
-
 #Load the ID mapper:
 mapper <- loadDatabase(checkfile)
 
@@ -203,7 +205,8 @@ MappingStats <- data.table(stats =  c("#unique HMDB IDs in CD dataset\n(primary 
                                         sum(is.na(unique(mbx_dataset_CD %>% select(HMDBID, ChEBI_PriID_BridgeDb)) %>% .$ChEBI_PriID_BridgeDb)),
                                         sum(is.na(unique(mbx_dataset_UC %>% select(HMDBID, ChEBI_PriID_BridgeDb)) %>% .$ChEBI_PriID_BridgeDb))))
 
-kable(MappingStats)
+MappingStats %>%
+  mutate(stats = gsub("\n", " ", stats)) %>% kable()
 
 #ID mapping visualization
 order <- c("#unique HMDB IDs in CD dataset\n(primary IDs for PrimaryID-nBridgeDb)" = 1,
@@ -227,11 +230,11 @@ MappingStats_toPlot <- MappingStats %>%
     scale_fill_gradient(low = "white", high = "orange") +
     theme_bw() +
     labs(y = NULL, x = NULL) +
-    geom_text(aes(label = value), color = "black", size = 1) +
+    geom_text(aes(label = value), color = "black", size = 4) +
     scale_x_discrete(position = "top", 
                      labels = c("BridgeDb", "PrimaryID\nBridgeDb")) + 
-    theme(axis.text.x.top = element_text(vjust = 0.5, size = 4, face = "bold"),
-          axis.text.y = element_text(size = 5, hjust = 0),
+    theme(axis.text.x.top = element_text(vjust = 0.5, size = 16, face = "bold"),
+          axis.text.y = element_text(size = 16, hjust = 0),
           legend.position = "none"))
 
 # ggsave(plot, device = "jpeg", units = "cm", width = 7, height = 6, filename = "figures/MappingStats_metabolomics.jpeg")
