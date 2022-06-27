@@ -192,8 +192,7 @@ kable(MappingStats)
 rm(list = setdiff(ls(), grep ("dataset_UC|dataset_CD|sig.genes", ls(), value = TRUE))) # removing variables that are not required
 ```
 
-Find pathways for each dataset, based on signifcantly changed genes and
-different IDs.
+## Find pathways for each dataset, based on signifcantly changed genes and different IDs.
 
 ``` r
 ##Connect to Endpoint WikiPathways
