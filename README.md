@@ -6,11 +6,6 @@ The scripts for the BioSB demo can be in this repository.
 
 ### Workflow
 <img src="MultiOmics_BioSB.drawio.svg"/>
-![Alt text here](MultiOmics_BioSB.drawio.svg)
 
-<!-- Clickable <img> element for Github README.md file -->
-<a target="_blank" rel="nofollow">
-    <img src="https://github.com/tabbassidaloii/BridgeDbDemoBioSB2022/blob/main/MultiOmics_BioSB.drawio.svg" alt="Twitter" width="30px" height="30px" />
-</a>
 
 
