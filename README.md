@@ -6,3 +6,5 @@ The scripts for the BioSB demo can be in this repository.
 
 ### Workflow
 ![Alt text](./MultiOmics_BioSB.drawio.svg?sanitize=true)
+<img src="MultiOmics_BioSB.drawio.svg"/>
+
