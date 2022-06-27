@@ -1,217 +1,58 @@
 pathwayRes	pathway	pathwayTitle	TotalMetabolitesinPW	BiomarkersInPWs	probabilities_metabolomics	TotalGenesinPW	GenesInPWs	probabilities_transcriptome
-<https://identifiers.org/wikipathways/WP5087_r122659>	WP5087	Malignant pleural mesothelioma	13	1	9.01570123458187e-22	438	171	0
-<https://identifiers.org/wikipathways/WP706_r117178>	WP706	Sudden infant death syndrome (SIDS) susceptibility pathways	14	7	1.8571111931592e-11	166	68	2.34701933697598e-171
-<https://identifiers.org/wikipathways/WP5083_r120385>	WP5083	Neuroinflammation and glutamatergic signaling	27	3	2.59763104608839e-35	140	56	1.98753172667542e-153
-<https://identifiers.org/wikipathways/WP455_r117740>	WP455	GPCRs, class A rhodopsin-like	9	2	1.94801873408309e-13	262	55	0
-<https://identifiers.org/wikipathways/WP5055_r122621>	WP5055	Burn wound healing	4	1	4.85530228140943e-07	109	54	9.91163475334967e-105
-<https://identifiers.org/wikipathways/WP5224_r122740>	WP5224	2q37 copy number variation syndrome	27	3	2.59763104608839e-35	172	52	3.88610042947611e-213
-<https://identifiers.org/wikipathways/WP536_r116854>	WP536	Calcium regulation in cardiac cells	14	1	3.3391486054007e-23	152	52	2.62432697505142e-181
-<https://identifiers.org/wikipathways/WP3915_r122574>	WP3915	Angiopoietin-like protein 8 regulatory pathway	10	NA	NA	134	52	1.03352748162205e-151
-<https://identifiers.org/wikipathways/WP3925_r117062>	WP3925	Amino acid metabolism	108	34	8.80293601011718e-58	94	47	1.61287288640832e-92
-<https://identifiers.org/wikipathways/WP2431_r120812>	WP2431	Spinal cord injury	9	1	1.04451406653249e-15	117	47	2.53644389274584e-133
-<https://identifiers.org/wikipathways/WP51_r116716>	WP51	Regulation of actin cytoskeleton	5	1	6.57900038131357e-09	151	47	3.35064780364922e-190
-<https://identifiers.org/wikipathways/WP4658_r119261>	WP4658	Small cell lung cancer	6	1	1.0668649266995e-10	96	44	1.46625944499981e-102
-<https://identifiers.org/wikipathways/WP4341_r122900>	WP4341	Non-genomic actions of 1,25 dihydroxyvitamin D3	5	1	6.57900038131357e-09	93	41	1.35912234669494e-103
-<https://identifiers.org/wikipathways/WP15_r121694>	WP15	Selenium micronutrient network	110	21	1.07388776794373e-74	89	40	1.96954837625037e-98
-<https://identifiers.org/wikipathways/WP4321_r106178>	WP4321	Thermogenesis	26	1	1.4801316501928e-38	108	40	1.06423328178338e-132
-<https://identifiers.org/wikipathways/WP4932_r118797>	WP4932	7q11.23 copy number variation syndrome	19	4	1.34799402803776e-23	117	37	4.80451880576875e-155
-<https://identifiers.org/wikipathways/WP1982_r116442>	WP1982	Sterol regulatory element-binding proteins (SREBP) signaling	5	3	0.000148895936629889	69	36	2.55813325722479e-69
-<https://identifiers.org/wikipathways/WP231_r120699>	WP231	TNF-alpha signaling pathway	3	1	4.46687809889667e-05	93	34	3.97544778682785e-119
-<https://identifiers.org/wikipathways/WP4255_r119279>	WP4255	Non-small cell lung cancer	11	1	8.19226718849008e-19	72	34	1.19502577576842e-79
-<https://identifiers.org/wikipathways/WP111_r117097>	WP111	Electron transport chain: OXPHOS system in mitochondria	12	1	2.61455335802875e-20	104	33	3.11084738857607e-141
-<https://identifiers.org/wikipathways/WP4657_r120007>	WP4657	22q11.2 copy number variation syndrome	31	5	6.43198590322018e-36	154	31	2.15394129060256e-230
-<https://identifiers.org/wikipathways/WP4718_r119764>	WP4718	Cholesterol metabolism with Bloch and Kandutsch-Russell pathways	46	3	5.01714844508819e-55	47	31	5.99071613637644e-36
-<https://identifiers.org/wikipathways/WP1530_r118120>	WP1530	miRNA regulation of DNA damage response	4	1	4.85530228140943e-07	96	31	1.97299721118087e-131
-<https://identifiers.org/wikipathways/WP4674_r117748>	WP4674	Head and neck squamous cell carcinoma	5	1	6.57900038131357e-09	74	30	1.18201624486178e-92
-<https://identifiers.org/wikipathways/WP707_r116541>	WP707	DNA damage response	4	1	4.85530228140943e-07	68	28	1.19271263762473e-85
-<https://identifiers.org/wikipathways/WP4022_r120306>	WP4022	Pyrimidine metabolism	40	10	8.80267487614146e-37	99	27	3.56763168969422e-146
-<https://identifiers.org/wikipathways/WP4313_r120500>	WP4313	Ferroptosis	38	4	3.41743445707623e-45	65	27	4.36408759393838e-82
-<https://identifiers.org/wikipathways/WP4216_r119088>	WP4216	Chromosomal and microsatellite instability in colorectal cancer 	3	1	4.46687809889667e-05	73	27	9.88349996264902e-98
-<https://identifiers.org/wikipathways/WP176_r121696>	WP176	Folate metabolism	70	9	1.21749598734784e-64	75	26	5.98840462786077e-104
-<https://identifiers.org/wikipathways/WP4290_r118611>	WP4290	Metabolic reprogramming in colon cancer	37	4	3.58830617992999e-44	42	26	6.63578257967145e-37
-<https://identifiers.org/wikipathways/WP1403_r121114>	WP1403	AMP-activated protein kinase (AMPK) signaling	7	2	3.73402724344828e-10	68	26	2.29325988835539e-90
-<https://identifiers.org/wikipathways/WP534_r117147>	WP534	Glycolysis and gluconeogenesis	18	3	2.83788216428999e-24	46	24	2.83819633261269e-50
-<https://identifiers.org/wikipathways/WP1533_r121695>	WP1533	Vitamin B12 metabolism	63	9	4.88256480775563e-59	57	23	1.39193216570267e-75
-<https://identifiers.org/wikipathways/WP98_r117172>	WP98	Prostaglandin synthesis and regulation	13	2	1.69945968271867e-19	46	22	4.00750538168344e-55
-<https://identifiers.org/wikipathways/WP5097_r119075>	WP5097	CCL18 signaling pathway	3	1	4.46687809889667e-05	131	22	7.41392252455596e-214
-<https://identifiers.org/wikipathways/WP3584_r117155>	WP3584	MECP2 and associated Rett syndrome	11	3	1.91494245530956e-14	73	21	3.43885884107273e-112
-<https://identifiers.org/wikipathways/WP5220_r122761>	WP5220	Metabolic reprogramming in pancreatic cancer	32	2	5.15079633219185e-43	43	20	1.27110520334541e-53
-<https://identifiers.org/wikipathways/WP3680_r117651>	WP3680	Physico-chemical features and toxicity-associated pathways	9	1	1.04451406653249e-15	67	20	5.75064098703495e-103
-<https://identifiers.org/wikipathways/WP3940_r119248>	WP3940	One-carbon metabolism and related pathways	41	12	1.07999484559934e-34	52	19	3.68727125928315e-75
-<https://identifiers.org/wikipathways/WP4545_r121824>	WP4545	Oxysterols derived from cholesterol	51	3	1.20596874508877e-59	52	19	3.68727125928315e-75
-<https://identifiers.org/wikipathways/WP2267_r117179>	WP2267	Synaptic vesicle pathway	7	2	3.73402724344828e-10	51	18	1.34727219089191e-75
-<https://identifiers.org/wikipathways/WP4969_r120081>	WP4969	RAS and bradykinin pathways in COVID-19	17	2	4.72980360715001e-25	31	18	5.9552826670203e-32
-<https://identifiers.org/wikipathways/WP4906_r115773>	WP4906	3q29 copy number variation syndrome	16	1	5.56447483194119e-26	75	18	1.5542804943676e-123
-<https://identifiers.org/wikipathways/WP5113_r119486>	WP5113	Antiviral and anti-inflammatory effects of Nrf2 on SARS-CoV-2 pathway	7	1	2.01295269188585e-12	41	18	2.67452922077111e-54
-<https://identifiers.org/wikipathways/WP465_r122957>	WP465	Tryptophan metabolism	63	6	3.29787898892665e-64	56	17	1.83745719701372e-88
-<https://identifiers.org/wikipathways/WP4949_r115778>	WP4949	16p11.2 proximal deletion syndrome	42	5	2.84745925321431e-47	82	17	2.18643045766149e-139
-<https://identifiers.org/wikipathways/WP2848_r120814>	WP2848	Pluripotent stem cell differentiation pathway	13	3	2.12998946900742e-17	50	17	4.75507832079489e-76
-<https://identifiers.org/wikipathways/WP430_r122069>	WP430	Statin inhibition of cholesterol production	17	2	4.72980360715001e-25	31	17	1.71704449793952e-34
-<https://identifiers.org/wikipathways/WP3998_r119303>	WP3998	Prader-Willi and Angelman syndrome	3	1	4.46687809889667e-05	74	17	3.7302731864822e-124
-<https://identifiers.org/wikipathways/WP4008_r117805>	WP4008	NO/cGMP/PKG mediated neuroprotection	15	3	3.15549543210365e-20	47	16	2.69498307010639e-72
-<https://identifiers.org/wikipathways/WP4756_r120634>	WP4756	Renin-angiotensin-aldosterone system (RAAS)	12	2	4.91536031309403e-18	44	16	6.7920782625062e-66
-<https://identifiers.org/wikipathways/WP4719_r116307>	WP4719	Eicosanoid metabolism via cyclooxygenases (COX)	37	1	1.34562322761893e-50	30	16	9.41605047257155e-35
-<https://identifiers.org/wikipathways/WP4721_r116526>	WP4721	Eicosanoid metabolism via lipooxygenases (LOX)	40	1	1.21876284458062e-53	29	16	1.95948010334215e-32
-<https://identifiers.org/wikipathways/WP4917_r119111>	WP4917	Proximal tubule transport	28	1	7.30061281607687e-41	57	16	4.52976005296365e-93
-<https://identifiers.org/wikipathways/WP3869_r118463>	WP3869	Cannabinoid receptor signaling	22	2	1.8136860766171e-31	31	15	1.1977194912613e-39
-<https://identifiers.org/wikipathways/WP143_r116506>	WP143	Fatty acid beta-oxidation	35	1	1.62040514797354e-48	34	15	1.76393852593275e-46
-<https://identifiers.org/wikipathways/WP1601_r120496>	WP1601	Fluoropyrimidine activity	20	1	3.02281012769517e-31	34	15	1.76393852593275e-46
-<https://identifiers.org/wikipathways/WP2371_r119919>	WP2371	Parkinson's disease pathway	4	1	4.85530228140943e-07	47	15	6.88703547703277e-75
-<https://identifiers.org/wikipathways/WP2525_r116582>	WP2525	Trans-sulfuration and one-carbon metabolism	34	13	3.96389831568246e-26	31	14	2.87636765432587e-42
-<https://identifiers.org/wikipathways/WP241_r120901>	WP241	One-carbon metabolism	25	5	4.17147797621929e-29	29	14	1.20641261660113e-37
-<https://identifiers.org/wikipathways/WP5122_r119484>	WP5122	Prostaglandin and leukotriene metabolism in senescence 	22	2	1.8136860766171e-31	32	14	1.47340747460266e-44
-<https://identifiers.org/wikipathways/WP2526_r121697>	WP2526	PDGF pathway	10	1	2.79281835971252e-17	41	14	1.28354073356996e-64
-<https://identifiers.org/wikipathways/WP4241_r106520>	WP4241	Type 2 papillary renal cell carcinoma	3	1	4.46687809889667e-05	34	14	4.23412992302631e-49
-<https://identifiers.org/wikipathways/WP4462_r102079>	WP4462	Platelet-mediated interactions with vascular and circulating cells	1	1	1	19	14	1.48439369749836e-13
-<https://identifiers.org/wikipathways/WP727_r116775>	WP727	Monoamine transport	14	3	7.93081185268727e-19	32	13	3.30148921966021e-47
-<https://identifiers.org/wikipathways/WP2447_r113794>	WP2447	Amyotrophic lateral sclerosis (ALS)	12	2	4.91536031309403e-18	38	13	1.09939381756446e-60
-<https://identifiers.org/wikipathways/WP167_r120547>	WP167	Eicosanoid synthesis	27	1	1.02208579425078e-39	28	13	5.82406090772946e-38
-<https://identifiers.org/wikipathways/WP197_r120482>	WP197	Cholesterol biosynthesis pathway	15	1	1.32156277258603e-24	15	13	5.40970392690382e-06
-<https://identifiers.org/wikipathways/WP4577_r118444>	WP4577	Neurodegeneration with brain iron accumulation (NBIA) subtypes pathway	23	1	5.58498075567246e-35	44	13	9.30737292173681e-74
-<https://identifiers.org/wikipathways/WP500_r121748>	WP500	Glycogen synthesis and degradation	7	1	2.01295269188585e-12	45	13	6.68953492218718e-76
-<https://identifiers.org/wikipathways/WP5121_r119472>	WP5121	Sphingolipid metabolism in senescence	14	1	3.3391486054007e-23	30	13	1.2990047471149e-42
-<https://identifiers.org/wikipathways/WP5193_r122440>	WP5193	Cholesterol synthesis disorders	17	1	2.48283653918637e-27	18	13	1.09376377710406e-13
-<https://identifiers.org/wikipathways/WP1422_r118359>	WP1422	Sphingolipid pathway	26	5	2.80980381817881e-30	36	12	6.35724865971749e-59
-<https://identifiers.org/wikipathways/WP2197_r117710>	WP2197	Endothelin pathways	14	3	7.93081185268727e-19	33	12	3.62640774583902e-52
-<https://identifiers.org/wikipathways/WP5044_r119244>	WP5044	Kynurenine pathway and links to cell senescence	26	2	2.88625671787598e-36	23	12	9.74893203810852e-29
-<https://identifiers.org/wikipathways/WP5064_r120384>	WP5064	7-oxo-C and 7-beta-HC pathways	27	2	1.99817772776029e-37	29	12	5.62902057083125e-43
-<https://identifiers.org/wikipathways/WP4304_r119229>	WP4304	Oligodendrocyte specification and differentiation, leading to myelin components for CNS	11	1	8.19226718849008e-19	31	12	1.34122999548697e-47
-<https://identifiers.org/wikipathways/WP4698_r119119>	WP4698	Vitamin D-sensitive calcium signaling in depression	16	1	5.56447483194119e-26	37	12	3.76108411272064e-61
-<https://identifiers.org/wikipathways/WP4222_r107160>	WP4222	Phosphodiesterases in neuronal function	12	2	4.91536031309403e-18	52	11	4.72545760994501e-96
-<https://identifiers.org/wikipathways/WP5046_r118987>	WP5046	NAD metabolism in oncogene-induced senescence and mitochondrial dysfunction-associated senescence	12	2	4.91536031309403e-18	28	11	2.32924989137847e-43
-<https://identifiers.org/wikipathways/WP299_r117807>	WP299	Nuclear receptors in lipid metabolism and toxicity	12	1	2.61455335802875e-20	35	11	2.11908288657246e-59
-<https://identifiers.org/wikipathways/WP3298_r120642>	WP3298	Melatonin metabolism and effects	18	1	1.16992297657995e-28	40	11	1.74613058408177e-70
-<https://identifiers.org/wikipathways/WP3965_r117154>	WP3965	Lipid metabolism pathway	13	1	9.01570123458187e-22	29	11	1.08129096926485e-45
-<https://identifiers.org/wikipathways/WP4522_r119310>	WP4522	Metabolic pathway of LDL, HDL and TG, including diseases	5	1	6.57900038131357e-09	20	11	4.28615677912074e-24
-<https://identifiers.org/wikipathways/WP5109_r120391>	WP5109	Familial hyperlipidemia type 2	10	1	2.79281835971252e-17	16	11	5.57605062837359e-14
-<https://identifiers.org/wikipathways/WP4224_r120400>	WP4224	Purine metabolism and related disorders	61	15	3.08102055122261e-48	24	10	1.26990412503651e-36
-<https://identifiers.org/wikipathways/WP4726_r120323>	WP4726	Sphingolipid metabolism: integrated pathway	67	13	5.23410947391417e-56	26	10	2.11684448461708e-41
-<https://identifiers.org/wikipathways/WP497_r119105>	WP497	Urea cycle and metabolism of amino groups	31	13	6.30026661704353e-23	37	10	1.26871163651973e-66
-<https://identifiers.org/wikipathways/WP4686_r122622>	WP4686	Leucine, isoleucine and valine metabolism	74	9	9.97276468681549e-68	25	10	5.08449761785905e-39
-<https://identifiers.org/wikipathways/WP4724_r117812>	WP4724	Omega-9 fatty acid synthesis	27	8	3.35543259712144e-26	14	10	1.59321706579214e-11
-<https://identifiers.org/wikipathways/WP3996_r107156>	WP3996	Ethanol effects on histone modifications	21	5	2.97195533740605e-24	31	10	4.5330096822989e-53
-<https://identifiers.org/wikipathways/WP2533_r120261>	WP2533	Glycerophospholipid biosynthetic pathway	58	3	8.33575943438069e-66	44	10	6.50436973006716e-82
-<https://identifiers.org/wikipathways/WP4900_r110333>	WP4900	Purinergic signaling	56	3	4.43716559365472e-64	33	10	1.22484771585811e-57
-<https://identifiers.org/wikipathways/WP4495_r117759>	WP4495	IL-10 anti-inflammatory signaling pathway 	4	2	8.93375619779333e-05	13	10	7.09322997934397e-09
-<https://identifiers.org/wikipathways/WP1584_r122869>	WP1584	Type II diabetes mellitus	4	1	4.85530228140943e-07	22	10	8.96497237085973e-32
-<https://identifiers.org/wikipathways/WP4941_r120578>	WP4941	GPR143 in melanocytes and retinal pigment epithelium cells	14	1	3.3391486054007e-23	36	10	2.14515135082908e-64
-<https://identifiers.org/wikipathways/WP722_r120570>	WP722	Serotonin HTR1 group and FOS pathway	4	1	4.85530228140943e-07	34	10	6.65997478637051e-60
-<https://identifiers.org/wikipathways/WP4723_r120315>	WP4723	Omega-3 / omega-6 fatty acid synthesis	38	8	5.07846627469707e-38	14	9	2.5556898713379e-14
-<https://identifiers.org/wikipathways/WP4210_r95880>	WP4210	Tryptophan catabolism leading to NAD+ production	23	7	3.58049857316065e-23	16	9	1.57752710191726e-19
-<https://identifiers.org/wikipathways/WP4595_r121755>	WP4595	Urea cycle and associated pathways	30	6	5.27319102355933e-33	24	9	2.03379904714365e-39
-<https://identifiers.org/wikipathways/WP3645_r118940>	WP3645	NAD+ biosynthetic pathways	14	3	7.93081185268727e-19	22	9	1.43623395880485e-34
-<https://identifiers.org/wikipathways/WP4288_r120407>	WP4288	MTHFR deficiency	23	3	1.39049265873977e-30	27	9	1.46480303718147e-46
-<https://identifiers.org/wikipathways/WP4725_r117175>	WP4725	Sphingolipid metabolism overview	26	3	3.74251287751247e-34	23	9	5.2912671876521e-37
-<https://identifiers.org/wikipathways/WP4142_r119292>	WP4142	Metabolism of spingolipids in ER and Golgi apparatus	37	2	2.697974571376e-48	31	9	7.25165522684172e-56
-<https://identifiers.org/wikipathways/WP1946_r122878>	WP1946	Cori cycle	28	1	7.30061281607687e-41	23	9	5.2912671876521e-37
-<https://identifiers.org/wikipathways/WP4159_r119288>	WP4159	GABA receptor signaling	10	1	2.79281835971252e-17	43	9	1.4782658477425e-82
-<https://identifiers.org/wikipathways/WP4482_r121703>	WP4482	Vitamin D in inflammatory diseases	2	1	0.00546448087431694	22	9	1.43623395880485e-34
-<https://identifiers.org/wikipathways/WP4483_r107927>	WP4483	Relationship between inflammation, COX-2 and EGFR	2	1	0.00546448087431694	26	9	3.38912021232319e-44
-<https://identifiers.org/wikipathways/WP5111_r119173>	WP5111	Familial hyperlipidemia type 4	11	1	8.19226718849008e-19	22	9	1.43623395880485e-34
-<https://identifiers.org/wikipathways/WP3580_r120915>	WP3580	Methionine de novo and salvage pathway	50	13	1.18783222983347e-41	22	8	2.07049585603772e-37
-<https://identifiers.org/wikipathways/WP2289_r120498>	WP2289	Drug induction of bile acid pathway	27	5	1.96032824524104e-31	17	8	6.2036479697801e-25
-<https://identifiers.org/wikipathways/WP4629_r119264>	WP4629	Aerobic glycolysis	20	2	5.80379544517478e-29	13	8	1.64294348871722e-14
-<https://identifiers.org/wikipathways/WP5194_r122165>	WP5194	Synthesis of ceramides and 1-deoxyceramides	24	2	6.70197690680696e-34	22	8	2.07049585603772e-37
-<https://identifiers.org/wikipathways/WP5108_r120390>	WP5108	Familial  hyperlipidemia type 1	10	1	2.79281835971252e-17	18	8	1.78980066446605e-27
-<https://identifiers.org/wikipathways/WP5110_r120392>	WP5110	Familial hyperlipidemia type 3	8	1	4.32893052018464e-14	13	8	1.64294348871722e-14
-<https://identifiers.org/wikipathways/WP698_r106827>	WP698	Glucuronidation	14	1	3.3391486054007e-23	26	8	4.88267679060479e-47
-<https://identifiers.org/wikipathways/WP4792_r119117>	WP4792	Purine metabolism	37	9	2.31099914131902e-35	15	7	1.13818694222022e-22
-<https://identifiers.org/wikipathways/WP4225_r120401>	WP4225	Pyrimidine metabolism and related diseases	37	7	1.06915079467307e-38	24	7	3.75410238903485e-45
-<https://identifiers.org/wikipathways/WP3644_r118983>	WP3644	NAD+ metabolism	15	4	2.97405444475769e-18	16	7	2.91936375048472e-25
-<https://identifiers.org/wikipathways/WP4722_r117144>	WP4722	Glycerolipids and glycerophospholipids	29	2	1.05858885833118e-39	22	7	2.65278136583951e-40
-<https://identifiers.org/wikipathways/WP5181_r122326>	WP5181	Roles of ceramides in the development of insulin resistance	7	2	3.73402724344828e-10	23	7	9.77005146746331e-43
-<https://identifiers.org/wikipathways/WP1531_r118354>	WP1531	Vitamin D metabolism	9	1	1.04451406653249e-15	11	7	5.25236395316088e-12
-<https://identifiers.org/wikipathways/WP325_r116669>	WP325	Triacylglyceride synthesis	11	1	8.19226718849008e-19	24	7	3.75410238903485e-45
-<https://identifiers.org/wikipathways/WP4521_r119311>	WP4521	Glycosylation and related congenital defects	29	1	5.38722065308481e-42	25	7	1.5023620894169e-47
-<https://identifiers.org/wikipathways/WP4838_r110282>	WP4838	Regucalcin in proximal tubule epithelial kidney cells	23	1	5.58498075567246e-35	44	7	1.90447160356262e-90
-<https://identifiers.org/wikipathways/WP5112_r119153>	WP5112	Familial hyperlipidemia type 5	10	1	2.79281835971252e-17	15	7	1.13818694222022e-22
-<https://identifiers.org/wikipathways/WP734_r117826>	WP734	Serotonin receptor 4/6/7 and NR3C signaling	2	1	0.00546448087431694	19	7	6.98569275651409e-33
-<https://identifiers.org/wikipathways/WP550_r119093>	WP550	Biogenic amine synthesis	17	11	3.55890035925419e-09	15	6	1.27722164083707e-25
-<https://identifiers.org/wikipathways/WP4584_r119306>	WP4584	Biomarkers for pyrimidine metabolism disorders	35	7	1.24918872503731e-36	19	6	7.83400341166293e-36
-<https://identifiers.org/wikipathways/WP4259_r119256>	WP4259	Disorders of folate metabolism and transport	26	5	2.80980381817881e-30	15	6	1.27722164083707e-25
-<https://identifiers.org/wikipathways/WP5176_r122283>	WP5176	Disorders of bile acid synthesis and biliary transport	44	5	3.30896549829331e-49	20	6	2.50969194671241e-38
-<https://identifiers.org/wikipathways/WP2436_r107129>	WP2436	Dopamine metabolism	34	3	4.86464098040344e-43	13	6	2.36629065287588e-20
-<https://identifiers.org/wikipathways/WP4846_r122702>	WP4846	SARS-CoV-2 and COVID-19 pathway	5	2	1.21382557035236e-06	50	6	4.00382821325549e-106
-<https://identifiers.org/wikipathways/WP1602_r117165>	WP1602	Nicotine effect on dopaminergic neurons	9	1	1.04451406653249e-15	21	6	8.44066798221658e-41
-<https://identifiers.org/wikipathways/WP3601_r117687>	WP3601	Lipid particles composition	10	1	2.79281835971252e-17	11	6	5.8977458569336e-15
-<https://identifiers.org/wikipathways/WP3963_r107557>	WP3963	Mevalonate pathway	11	1	8.19226718849008e-19	7	6	0.00112359550561817
-<https://identifiers.org/wikipathways/WP4942_r115789>	WP4942	15q13.3 copy number variation syndrome	4	1	4.85530228140943e-07	34	6	2.19207311425426e-71
-<https://identifiers.org/wikipathways/WP5171_r122629>	WP5171	Leukotriene metabolic pathway	19	1	5.80379544517469e-30	14	6	5.3115390636944e-23
-<https://identifiers.org/wikipathways/WP678_r116938>	WP678	Arachidonate epoxygenase / epoxide hydrolase	10	1	2.79281835971252e-17	7	6	0.00112359550561817
-<https://identifiers.org/wikipathways/WP732_r120591>	WP732	Serotonin receptor 2 and ELK-SRF/GATA4 signaling	3	1	4.46687809889667e-05	20	6	2.50969194671241e-38
-<https://identifiers.org/wikipathways/WP4583_r106803>	WP4583	Biomarkers for urea cycle disorders	22	9	1.18639949949887e-18	12	5	1.09213414748118e-20
-<https://identifiers.org/wikipathways/WP2453_r117835>	WP2453	TCA cycle and deficiency of pyruvate dehydrogenase complex (PDHc)	19	5	1.02447546130869e-21	16	5	3.14947326577743e-31
-<https://identifiers.org/wikipathways/WP4853_r122756>	WP4853	Linoleic acid metabolism affected by SARS-CoV-2	14	5	5.59122235614449e-15	13	5	2.27637388444043e-23
-<https://identifiers.org/wikipathways/WP78_r119082>	WP78	TCA cycle (aka Krebs or citric acid cycle)	24	5	6.42407608337777e-28	18	5	2.47389581420932e-36
-<https://identifiers.org/wikipathways/WP2485_r117161>	WP2485	NAD biosynthesis II (from tryptophan)	25	4	5.40346888111308e-31	8	5	1.38888419175966e-09
-<https://identifiers.org/wikipathways/WP58_r113950>	WP58	Monoamine GPCRs	7	4	4.24838949623324e-06	34	5	2.10170001366661e-74
-<https://identifiers.org/wikipathways/WP4157_r120415>	WP4157	GABA metabolism (aka GHB)	21	3	4.06265681162227e-28	12	5	1.09213414748118e-20
-<https://identifiers.org/wikipathways/WP100_r107114>	WP100	Glutathione metabolism	19	2	1.11142682775096e-27	37	5	3.99410987383192e-81
-<https://identifiers.org/wikipathways/WP1455_r117827>	WP1455	Serotonin transporter activity	3	2	0.00819672131147541	11	5	5.6754571197438e-18
-<https://identifiers.org/wikipathways/WP2456_r119185>	WP2456	HIF1A and PPARG regulation of glycolysis	10	2	5.22257033266244e-15	8	5	1.38888419175966e-09
-<https://identifiers.org/wikipathways/WP4507_r119314>	WP4507	Molybdenum cofactor (Moco) biosynthesis	11	2	1.53605009784189e-16	8	5	1.38888419175966e-09
-<https://identifiers.org/wikipathways/WP206_r117723>	WP206	Fatty acid omega-oxidation	4	1	4.85530228140943e-07	15	5	1.22829457365318e-28
-<https://identifiers.org/wikipathways/WP4297_r120409>	WP4297	Thiamine metabolic pathways	21	1	1.64880552419735e-32	10	5	3.21695228560015e-15
-<https://identifiers.org/wikipathways/WP4720_r120365>	WP4720	Eicosanoid metabolism via cytochrome P450 monooxygenases pathway	13	1	9.01570123458187e-22	9	5	2.00544805484324e-12
-<https://identifiers.org/wikipathways/WP5037_r120417>	WP5037	Riboflavin and CoQ disorders	27	1	1.02208579425078e-39	18	5	2.47389581420932e-36
-<https://identifiers.org/wikipathways/WP106_r114258>	WP106	Alanine and aspartate metabolism	22	7	5.93117372336609e-22	40	4	7.69183408183581e-91
-<https://identifiers.org/wikipathways/WP2333_r72015>	WP2333	Trans-sulfuration pathway	14	4	7.45496314152595e-17	10	4	2.57975323624717e-18
-<https://identifiers.org/wikipathways/WP4586_r119267>	WP4586	Metabolism of alpha-linolenic acid	20	4	7.07608413668114e-25	6	4	7.72814846700547e-07
-<https://identifiers.org/wikipathways/WP5213_r122577>	WP5213	Amino acid metabolism in triple-negative breast cancer cells	18	4	2.69598805607549e-22	9	4	1.60847614280008e-15
-<https://identifiers.org/wikipathways/WP1995_r116455>	WP1995	Effects of nitric oxide	7	3	4.6053002669195e-08	8	4	1.11413780824625e-12
-<https://identifiers.org/wikipathways/WP528_r120525>	WP528	Acetylcholine synthesis	10	3	6.49339578027693e-13	7	4	8.68052619849782e-10
-<https://identifiers.org/wikipathways/WP4688_r120418>	WP4688	Serine metabolism	26	2	2.88625671787598e-36	8	4	1.11413780824625e-12
-<https://identifiers.org/wikipathways/WP4919_r111814>	WP4919	Neuroinflammation	11	2	1.53605009784189e-16	18	4	1.98133574740453e-39
-<https://identifiers.org/wikipathways/WP4947_r118070>	WP4947	Nitric oxide metabolism in cystic fibrosis	9	2	1.94801873408309e-13	14	4	4.09431524551057e-29
-<https://identifiers.org/wikipathways/WP80_r111167>	WP80	Nucleotide GPCRs	2	2	1	11	4	4.55055894783824e-21
-<https://identifiers.org/wikipathways/WP1589_r122870>	WP1589	Folate-alcohol and cancer pathway hypotheses	13	1	9.01570123458187e-22	9	4	1.60847614280008e-15
-<https://identifiers.org/wikipathways/WP2435_r120750>	WP2435	Quercetin and Nf-kB / AP-1 induced apoptosis	9	1	1.04451406653249e-15	17	4	6.8719328172481e-37
-<https://identifiers.org/wikipathways/WP3944_r120596>	WP3944	Serotonin and anxiety-related events	2	1	0.00546448087431694	13	4	1.82460234405296e-26
-<https://identifiers.org/wikipathways/WP4271_r120408>	WP4271	Vitamin B12 disorders	19	1	5.80379544517469e-30	16	4	2.52321203795662e-34
-<https://identifiers.org/wikipathways/WP4389_r116629>	WP4389	Bile acids synthesis and enterohepatic circulation 	4	1	4.85530228140943e-07	13	4	1.82460234405296e-26
-<https://identifiers.org/wikipathways/WP4804_r117680>	WP4804	Cholesterol biosynthesis with skeletal dysplasias	15	1	1.32156277258603e-24	7	4	8.68052619849782e-10
-<https://identifiers.org/wikipathways/WP5050_r119012>	WP5050	TCA cycle in senescence	14	1	3.3391486054007e-23	10	4	2.57975323624717e-18
-<https://identifiers.org/wikipathways/WP3953_r106206>	WP3953	mRNA, protein, and metabolite inducation pathway by cyclosporin A	14	8	8.63556704819032e-10	8	3	7.14878285688919e-16
-<https://identifiers.org/wikipathways/WP4504_r119316>	WP4504	Cysteine and methionine catabolism	39	7	1.007862935212e-40	18	3	1.26927338078444e-42
-<https://identifiers.org/wikipathways/WP4228_r119281>	WP4228	Vitamin B6-dependent and responsive disorders	19	4	1.34799402803776e-23	6	3	4.96030068485593e-10
-<https://identifiers.org/wikipathways/WP4519_r119988>	WP4519	Cerebral organic acidurias, including diseases	28	4	1.81834173226184e-34	8	3	7.14878285688919e-16
-<https://identifiers.org/wikipathways/WP5166_r122169>	WP5166	Glyoxylate metabolism	16	4	1.26219817284145e-19	14	3	2.62456105481452e-32
-<https://identifiers.org/wikipathways/WP3933_r116372>	WP3933	Kennedy pathway from sphingolipids	20	3	7.40951218500634e-27	14	3	2.62456105481452e-32
-<https://identifiers.org/wikipathways/WP2868_r117183>	WP2868	TCA cycle nutrient use and invasiveness of ovarian cancer	4	2	8.93375619779333e-05	5	3	5.15209897800365e-07
-<https://identifiers.org/wikipathways/WP4571_r120383>	WP4571	Urea cycle and related diseases	14	2	6.31099086420734e-21	9	3	1.03190129449887e-18
-<https://identifiers.org/wikipathways/WP5137_r120230>	WP5137	Linoleic acid oxylipin metabolism	14	2	6.31099086420734e-21	3	3	1
-<https://identifiers.org/wikipathways/WP690_r117170>	WP690	Polyol pathway	11	2	1.53605009784189e-16	4	3	0.000642054574638953
-<https://identifiers.org/wikipathways/WP704_r117787>	WP704	Methylation pathways	5	2	1.21382557035236e-06	9	3	1.03190129449887e-18
-<https://identifiers.org/wikipathways/WP1600_r119518>	WP1600	Nicotine metabolism in liver cells	11	1	8.19226718849008e-19	6	3	4.96030068485593e-10
-<https://identifiers.org/wikipathways/WP3301_r120029>	WP3301	MFAP5-mediated ovarian cancer cell motility and invasiveness	4	1	4.85530228140943e-07	13	3	1.16980435586016e-29
-<https://identifiers.org/wikipathways/WP3585_r106742>	WP3585	Cytosine methylation	9	1	1.04451406653249e-15	9	3	1.03190129449887e-18
-<https://identifiers.org/wikipathways/WP3891_r106161>	WP3891	Benzene metabolism	10	1	2.79281835971252e-17	6	3	4.96030068485593e-10
-<https://identifiers.org/wikipathways/WP4269_r117715>	WP4269	Ethanol metabolism production of ROS by CYP2E1	17	1	2.48283653918637e-27	10	3	1.65474870830481e-21
-<https://identifiers.org/wikipathways/WP4589_r119266>	WP4589	Major receptors targeted by epinephrine and norepinephrine	8	1	4.32893052018464e-14	21	3	4.1567330537225e-50
-<https://identifiers.org/wikipathways/WP496_r119106>	WP496	Steroid biosynthesis	12	1	2.61455335802875e-20	11	3	2.91842805697492e-24
-<https://identifiers.org/wikipathways/WP5031_r122564>	WP5031	Biotin metabolism, including IMDs	15	1	1.32156277258603e-24	9	3	1.03190129449887e-18
-<https://identifiers.org/wikipathways/WP5136_r120082>	WP5136	ALA oxylipin metabolism	13	1	9.01570123458187e-22	3	3	1
-<https://identifiers.org/wikipathways/WP5175_r122904>	WP5175	Disorders in ketone body synthesis	13	1	9.01570123458187e-22	5	3	5.15209897800365e-07
-<https://identifiers.org/wikipathways/WP5179_r121899>	WP5179	Biosynthesis and turnover of 1-deoxy-sphingoid bases	20	1	3.02281012769517e-31	10	3	1.65474870830481e-21
-<https://identifiers.org/wikipathways/WP4661_r117646>	WP4661	Amino acid metabolism pathway excerpt: histidine catabolism extension	16	7	3.19498420351114e-14	6	2	2.38743816052768e-13
-<https://identifiers.org/wikipathways/WP4220_r120526>	WP4220	Neurotransmitter disorders	18	5	2.04355894650522e-20	4	2	3.09125938680219e-07
-<https://identifiers.org/wikipathways/WP5190_r122630>	WP5190	Creatine pathway	18	4	2.69598805607549e-22	5	2	2.48015034242795e-10
-<https://identifiers.org/wikipathways/WP1495_r117738>	WP1495	Glycine metabolism	13	3	2.12998946900742e-17	5	2	2.48015034242795e-10
-<https://identifiers.org/wikipathways/WP4523_r121849>	WP4523	Classical pathway of steroidogenesis with glucocorticoid and mineralocorticoid metabolism	30	3	1.05858885833117e-38	25	2	3.9698594004285e-63
-<https://identifiers.org/wikipathways/WP5169_r122351>	WP5169	Hemesynthesis defects and porphyrias	18	3	2.83788216428999e-24	9	2	4.96424612491445e-22
-<https://identifiers.org/wikipathways/WP4236_r120410>	WP4236	Krebs cycle disorders	21	2	3.17395063407991e-30	11	2	1.40354026465612e-27
-<https://identifiers.org/wikipathways/WP561_r117151>	WP561	Heme biosynthesis	18	2	2.23455288526772e-26	9	2	4.96424612491445e-22
-<https://identifiers.org/wikipathways/WP2513_r119820>	WP2513	Nanoparticle triggered regulated necrosis	8	1	4.32893052018464e-14	14	2	1.26160601897829e-35
-<https://identifiers.org/wikipathways/WP3853_r120593>	WP3853	ERK pathway in Huntington's disease	1	1	1	15	2	3.03173506643298e-38
-<https://identifiers.org/wikipathways/WP4153_r120394>	WP4153	Degradation pathway of sphingolipids, including diseases	19	1	5.80379544517469e-30	19	2	1.85479367047176e-48
-<https://identifiers.org/wikipathways/WP4966_r112070>	WP4966	Fluoroacetic acid toxicity	8	1	4.32893052018464e-14	6	2	2.38743816052768e-13
-<https://identifiers.org/wikipathways/WP5143_r120629>	WP5143	GDNF signaling	8	1	4.32893052018464e-14	135	2	7.14932240745017e-276
-<https://identifiers.org/wikipathways/WP733_r120590>	WP733	Serotonin receptor 2 and STAT3 signaling	1	1	1	4	2	3.09125938680219e-07
-<https://identifiers.org/wikipathways/WP4156_r121756>	WP4156	Biosynthesis and regeneration of tetrahydrobiopterin and catabolism of phenylalanine	22	6	1.08971695704889e-23	11	1	4.49924752253912e-31
-<https://identifiers.org/wikipathways/WP4292_r121757>	WP4292	Methionine metabolism leading to sulfur amino acids and related disorders	23	4	1.33834918403705e-28	16	1	2.48877133487148e-44
-<https://identifiers.org/wikipathways/WP4506_r120405>	WP4506	Tyrosine metabolism	18	4	2.69598805607549e-22	4	1	9.92060136971183e-11
-<https://identifiers.org/wikipathways/WP3633_r118462>	WP3633	Caffeine and theobromine metabolism	11	3	1.91494245530956e-14	4	1	9.92060136971183e-11
-<https://identifiers.org/wikipathways/WP2596_r122782>	WP2596	Gastric acid production	6	2	1.97370011439407e-08	14	1	4.04231342191063e-39
-<https://identifiers.org/wikipathways/WP2597_r117821>	WP2597	Secretion of hydrochloric acid in parietal cells	9	2	1.94801873408309e-13	5	1	7.95812720175891e-14
-<https://identifiers.org/wikipathways/WP521_r111034>	WP521	Amino acid conjugation of benzoic acid	10	2	5.22257033266244e-15	4	1	9.92060136971183e-11
-<https://identifiers.org/wikipathways/WP4518_r122628>	WP4518	Gamma-glutamyl cycle for the biosynthesis and degradation of glutathione, including diseases	11	1	8.19226718849008e-19	6	1	7.65941020380987e-17
+<https://identifiers.org/wikipathways/WP706_r117178>	WP706	Sudden infant death syndrome (SIDS) susceptibility pathways	14	2	2.47623905438083e-12	166	68	2.34701933697598e-171
+<https://identifiers.org/wikipathways/WP3925_r117062>	WP3925	Amino acid metabolism	108	2	4.4017017756167e-45	94	47	1.61287288640832e-92
+<https://identifiers.org/wikipathways/WP2431_r120812>	WP2431	Spinal cord injury	9	1	6.69536944319127e-10	117	47	2.53644389274584e-133
+<https://identifiers.org/wikipathways/WP4341_r122900>	WP4341	Non-genomic actions of 1,25 dihydroxyvitamin D3	5	1	5.78368330401007e-06	93	41	1.35912234669494e-103
+<https://identifiers.org/wikipathways/WP15_r121694>	WP15	Selenium micronutrient network	110	5	1.50412752225485e-40	89	40	1.96954837625037e-98
+<https://identifiers.org/wikipathways/WP231_r120699>	WP231	TNF-alpha signaling pathway	3	1	0.00135685210312076	93	34	3.97544778682785e-119
+<https://identifiers.org/wikipathways/WP4022_r120306>	WP4022	Pyrimidine metabolism	40	2	3.39768334633798e-26	99	27	3.56763168969422e-146
+<https://identifiers.org/wikipathways/WP4313_r120500>	WP4313	Ferroptosis	38	2	2.28820905362991e-25	65	27	4.36408759393838e-82
+<https://identifiers.org/wikipathways/WP4216_r119088>	WP4216	Chromosomal and microsatellite instability in colorectal cancer 	3	1	0.00135685210312076	73	27	9.88349996264902e-98
+<https://identifiers.org/wikipathways/WP98_r117172>	WP98	Prostaglandin synthesis and regulation	13	1	3.53748436340119e-13	46	22	4.00750538168344e-55
+<https://identifiers.org/wikipathways/WP3940_r119248>	WP3940	One-carbon metabolism and related pathways	41	2	1.33947131922939e-26	52	19	3.68727125928315e-75
+<https://identifiers.org/wikipathways/WP4969_r120081>	WP4969	RAS and bradykinin pathways in COVID-19	17	1	5.06041375749508e-16	31	18	5.9552826670203e-32
+<https://identifiers.org/wikipathways/WP4949_r115778>	WP4949	16p11.2 proximal deletion syndrome	42	3	1.87525984692113e-25	82	17	2.18643045766149e-139
+<https://identifiers.org/wikipathways/WP2848_r120814>	WP2848	Pluripotent stem cell differentiation pathway	13	1	3.53748436340119e-13	50	17	4.75507832079489e-76
+<https://identifiers.org/wikipathways/WP465_r122957>	WP465	Tryptophan metabolism	63	1	5.42771522383214e-36	56	17	1.83745719701372e-88
+<https://identifiers.org/wikipathways/WP4719_r116307>	WP4719	Eicosanoid metabolism via cyclooxygenases (COX)	37	1	1.20432055454205e-26	30	16	9.41605047257155e-35
+<https://identifiers.org/wikipathways/WP4721_r116526>	WP4721	Eicosanoid metabolism via lipooxygenases (LOX)	40	1	6.5340064352653e-28	29	16	1.95948010334215e-32
+<https://identifiers.org/wikipathways/WP1601_r120496>	WP1601	Fluoropyrimidine activity	20	1	6.05439704834431e-18	34	15	1.76393852593275e-46
+<https://identifiers.org/wikipathways/WP3869_r118463>	WP3869	Cannabinoid receptor signaling	22	1	3.82644519334484e-19	31	15	1.1977194912613e-39
+<https://identifiers.org/wikipathways/WP2525_r116582>	WP2525	Trans-sulfuration and one-carbon metabolism	34	4	9.82164424226307e-21	31	14	2.87636765432587e-42
+<https://identifiers.org/wikipathways/WP241_r120901>	WP241	One-carbon metabolism	25	2	3.44859872440955e-19	29	14	1.20641261660113e-37
+<https://identifiers.org/wikipathways/WP5122_r119484>	WP5122	Prostaglandin and leukotriene metabolism in senescence 	22	2	1.64537143313827e-17	32	14	1.47340747460266e-44
+<https://identifiers.org/wikipathways/WP2526_r121697>	WP2526	PDGF pathway	10	1	9.04779654485306e-11	41	14	1.28354073356996e-64
+<https://identifiers.org/wikipathways/WP167_r120547>	WP167	Eicosanoid synthesis	27	1	6.64256576130248e-22	28	13	5.82406090772946e-38
+<https://identifiers.org/wikipathways/WP2197_r117710>	WP2197	Endothelin pathways	14	1	6.34933090866883e-14	33	12	3.62640774583902e-52
+<https://identifiers.org/wikipathways/WP4726_r120323>	WP4726	Sphingolipid metabolism: integrated pathway	67	5	8.32047032952564e-31	26	10	2.11684448461708e-41
+<https://identifiers.org/wikipathways/WP497_r119105>	WP497	Urea cycle and metabolism of amino groups	31	3	9.77131050394492e-21	37	10	1.26871163651973e-66
+<https://identifiers.org/wikipathways/WP2533_r120261>	WP2533	Glycerophospholipid biosynthetic pathway	58	1	1.96319207908404e-34	44	10	6.50436973006716e-82
+<https://identifiers.org/wikipathways/WP3996_r107156>	WP3996	Ethanol effects on histone modifications	21	1	1.49579221194387e-18	31	10	4.5330096822989e-53
+<https://identifiers.org/wikipathways/WP4723_r120315>	WP4723	Omega-3 / omega-6 fatty acid synthesis	38	6	6.22839063352788e-20	14	9	2.5556898713379e-14
+<https://identifiers.org/wikipathways/WP4288_r120407>	WP4288	MTHFR deficiency	23	1	1.01158895916013e-19	27	9	1.46480303718147e-46
+<https://identifiers.org/wikipathways/WP4483_r107927>	WP4483	Relationship between inflammation, COX-2 and EGFR	2	1	0.0303030303030303	26	9	3.38912021232319e-44
+<https://identifiers.org/wikipathways/WP3580_r120915>	WP3580	Methionine de novo and salvage pathway	50	2	5.62131653469734e-30	22	8	2.07049585603772e-37
+<https://identifiers.org/wikipathways/WP4722_r117144>	WP4722	Glycerolipids and glycerophospholipids	29	1	6.30407129286772e-23	22	7	2.65278136583951e-40
+<https://identifiers.org/wikipathways/WP550_r119093>	WP550	Biogenic amine synthesis	17	2	2.04946757178551e-14	15	6	1.27722164083707e-25
+<https://identifiers.org/wikipathways/WP4259_r119256>	WP4259	Disorders of folate metabolism and transport	26	1	2.23879068251303e-21	15	6	1.27722164083707e-25
+<https://identifiers.org/wikipathways/WP4584_r119306>	WP4584	Biomarkers for pyrimidine metabolism disorders	35	1	9.13186006071691e-26	19	6	7.83400341166293e-36
+<https://identifiers.org/wikipathways/WP5171_r122629>	WP5171	Leukotriene metabolic pathway	19	1	2.5428467603046e-17	14	6	5.3115390636944e-23
+<https://identifiers.org/wikipathways/WP678_r116938>	WP678	Arachidonate epoxygenase / epoxide hydrolase	10	1	9.04779654485306e-11	7	6	0.00112359550561817
+<https://identifiers.org/wikipathways/WP4853_r122756>	WP4853	Linoleic acid metabolism affected by SARS-CoV-2	14	2	2.47623905438083e-12	13	5	2.27637388444043e-23
+<https://identifiers.org/wikipathways/WP4583_r106803>	WP4583	Biomarkers for urea cycle disorders	22	1	3.82644519334484e-19	12	5	1.09213414748118e-20
+<https://identifiers.org/wikipathways/WP4720_r120365>	WP4720	Eicosanoid metabolism via cytochrome P450 monooxygenases pathway	13	1	3.53748436340119e-13	9	5	2.00544805484324e-12
+<https://identifiers.org/wikipathways/WP4586_r119267>	WP4586	Metabolism of alpha-linolenic acid	20	2	2.5428467603046e-16	6	4	7.72814846700547e-07
+<https://identifiers.org/wikipathways/WP528_r120525>	WP528	Acetylcholine synthesis	10	2	3.34768472159563e-09	7	4	8.68052619849782e-10
+<https://identifiers.org/wikipathways/WP106_r114258>	WP106	Alanine and aspartate metabolism	22	1	3.82644519334484e-19	40	4	7.69183408183581e-91
+<https://identifiers.org/wikipathways/WP2333_r72015>	WP2333	Trans-sulfuration pathway	14	1	6.34933090866883e-14	10	4	2.57975323624717e-18
+<https://identifiers.org/wikipathways/WP2435_r120750>	WP2435	Quercetin and Nf-kB / AP-1 induced apoptosis	9	1	6.69536944319127e-10	17	4	6.8719328172481e-37
+<https://identifiers.org/wikipathways/WP3933_r116372>	WP3933	Kennedy pathway from sphingolipids	20	1	6.05439704834431e-18	14	3	2.62456105481452e-32
+<https://identifiers.org/wikipathways/WP4228_r119281>	WP4228	Vitamin B6-dependent and responsive disorders	19	1	2.5428467603046e-17	6	3	4.96030068485593e-10
+<https://identifiers.org/wikipathways/WP4504_r119316>	WP4504	Cysteine and methionine catabolism	39	1	1.69884167316898e-27	18	3	1.26927338078444e-42
+<https://identifiers.org/wikipathways/WP1600_r119518>	WP1600	Nicotine metabolism in liver cells	11	NA	NA	6	3	4.96030068485593e-10
+<https://identifiers.org/wikipathways/WP1495_r117738>	WP1495	Glycine metabolism	13	1	3.53748436340119e-13	5	2	2.48015034242795e-10
+<https://identifiers.org/wikipathways/WP2513_r119820>	WP2513	Nanoparticle triggered regulated necrosis	8	1	5.43068854836625e-09	14	2	1.26160601897829e-35
+<https://identifiers.org/wikipathways/WP4220_r120526>	WP4220	Neurotransmitter disorders	18	1	1.11082253213306e-16	4	2	3.09125938680219e-07
+<https://identifiers.org/wikipathways/WP5190_r122630>	WP5190	Creatine pathway	18	1	1.11082253213306e-16	5	2	2.48015034242795e-10
+<https://identifiers.org/wikipathways/WP4156_r121756>	WP4156	Biosynthesis and regeneration of tetrahydrobiopterin and catabolism of phenylalanine	22	1	3.82644519334484e-19	11	1	4.49924752253912e-31
+<https://identifiers.org/wikipathways/WP4292_r121757>	WP4292	Methionine metabolism leading to sulfur amino acids and related disorders	23	1	1.01158895916013e-19	16	1	2.48877133487148e-44

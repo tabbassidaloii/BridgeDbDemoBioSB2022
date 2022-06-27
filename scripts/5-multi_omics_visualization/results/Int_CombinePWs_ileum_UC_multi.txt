@@ -1,0 +1,1 @@
+pathwayRes	pathway	pathwayTitle	TotalMetabolitesinPW	BiomarkersInPWs	probabilities_metabolomics	TotalGenesinPW	GenesInPWs	probabilities_transcriptome

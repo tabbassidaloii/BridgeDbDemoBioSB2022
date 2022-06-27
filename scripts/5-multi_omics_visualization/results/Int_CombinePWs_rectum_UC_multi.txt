@@ -1,0 +1,16 @@
+pathwayRes	pathway	pathwayTitle	TotalMetabolitesinPW	BiomarkersInPWs	probabilities_metabolomics	TotalGenesinPW	GenesInPWs	probabilities_transcriptome
+<https://identifiers.org/wikipathways/WP706_r117178>	WP706	Sudden infant death syndrome (SIDS) susceptibility pathways	14	2	2.47623905438083e-12	166	68	2.34701933697598e-171
+<https://identifiers.org/wikipathways/WP3925_r117062>	WP3925	Amino acid metabolism	108	2	4.4017017756167e-45	94	47	1.61287288640832e-92
+<https://identifiers.org/wikipathways/WP2431_r120812>	WP2431	Spinal cord injury	9	1	6.69536944319127e-10	117	47	2.53644389274584e-133
+<https://identifiers.org/wikipathways/WP4341_r122900>	WP4341	Non-genomic actions of 1,25 dihydroxyvitamin D3	5	1	5.78368330401007e-06	93	41	1.35912234669494e-103
+<https://identifiers.org/wikipathways/WP15_r121694>	WP15	Selenium micronutrient network	110	5	1.50412752225485e-40	89	40	1.96954837625037e-98
+<https://identifiers.org/wikipathways/WP3940_r119248>	WP3940	One-carbon metabolism and related pathways	41	2	1.33947131922939e-26	52	19	3.68727125928315e-75
+<https://identifiers.org/wikipathways/WP4949_r115778>	WP4949	16p11.2 proximal deletion syndrome	42	3	1.87525984692113e-25	82	17	2.18643045766149e-139
+<https://identifiers.org/wikipathways/WP465_r122957>	WP465	Tryptophan metabolism	63	1	5.42771522383214e-36	56	17	1.83745719701372e-88
+<https://identifiers.org/wikipathways/WP2525_r116582>	WP2525	Trans-sulfuration and one-carbon metabolism	34	4	9.82164424226307e-21	31	14	2.87636765432587e-42
+<https://identifiers.org/wikipathways/WP4726_r120323>	WP4726	Sphingolipid metabolism: integrated pathway	67	5	8.32047032952564e-31	26	10	2.11684448461708e-41
+<https://identifiers.org/wikipathways/WP497_r119105>	WP497	Urea cycle and metabolism of amino groups	31	3	9.77131050394492e-21	37	10	1.26871163651973e-66
+<https://identifiers.org/wikipathways/WP2533_r120261>	WP2533	Glycerophospholipid biosynthetic pathway	58	1	1.96319207908404e-34	44	10	6.50436973006716e-82
+<https://identifiers.org/wikipathways/WP4288_r120407>	WP4288	MTHFR deficiency	23	1	1.01158895916013e-19	27	9	1.46480303718147e-46
+<https://identifiers.org/wikipathways/WP4722_r117144>	WP4722	Glycerolipids and glycerophospholipids	29	1	6.30407129286772e-23	22	7	2.65278136583951e-40
+<https://identifiers.org/wikipathways/WP106_r114258>	WP106	Alanine and aspartate metabolism	22	1	3.82644519334484e-19	40	4	7.69183408183581e-91

@@ -14,9 +14,9 @@ We use one tool for this mapping: BridgeDb
 ## Setup
 
 ``` r
-# empty the R environment
+#Empty the R environment
 rm (list = ls())
-# check if libraries are already installed, otherwise install it
+#Check if libraries are already installed, otherwise install it
 if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"dplyr" %in% installed.packages()) BiocManager::install("dplyr")
@@ -24,10 +24,10 @@ if(!"BridgeDbR" %in% installed.packages()) BiocManager::install("BridgeDbR")
 if(!"data.table" %in% installed.packages())install.packages("data.table")
 if(!"knitr" %in% installed.packages())install.packages("knitr")
 if(!"rJava" %in% installed.packages()) install.packages("rJava")
-## See https://www.r-bloggers.com/2018/02/installing-rjava-on-ubuntu/ if you have issues with this package on Ubuntu.
+#See https://www.r-bloggers.com/2018/02/installing-rjava-on-ubuntu/ if you have issues with this package on Ubuntu.
 if(!"ggplot2" %in% installed.packages()) install.packages("ggplot2")
 
-#load libraries
+#Load libraries
 suppressPackageStartupMessages({
   library(rstudioapi)
   library(dplyr)
@@ -36,10 +36,9 @@ suppressPackageStartupMessages({
   library(knitr)
   # library(rJava)
   library(ggplot2)
-
 })
 
-# set your working environment to the location where your current source file is saved into.
+#Set your working environment to the location where your current source file is saved into.
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ```
 
@@ -49,44 +48,44 @@ The data will be read for two diseases
 
 ``` r
 mbx_dataset_CD <- read.csv("data/mbxData_CD.csv") %>% 
-  select (HMDB_ID, Compound_Name, foldchange_disorder, p_values_disorder) %>% #filter out unused columns
-  rename (HMDBID = HMDB_ID, log2FC = foldchange_disorder, pvalue = p_values_disorder) #change column names
+  select (HMDB_ID, Compound_Name, foldchange_disorder, p_values_disorder) %>% #Filter out unused columns
+  rename (HMDBID = HMDB_ID, log2FC = foldchange_disorder, pvalue = p_values_disorder) #Change column names
 mbx_dataset_UC <- read.csv("data/mbxData_UC.csv") %>%
-  select (HMDB_ID, Compound_Name, foldchange_disorder, p_values_disorder) %>% #filter out unused columns
-  rename (HMDBID = HMDB_ID, log2FC = foldchange_disorder, pvalue = p_values_disorder) #change column names
+  select (HMDB_ID, Compound_Name, foldchange_disorder, p_values_disorder) %>% #Filter out unused columns
+  rename (HMDBID = HMDB_ID, log2FC = foldchange_disorder, pvalue = p_values_disorder) #Change column names
 ```
 
 ## Converting HMDB IDs to ChEBI IDs (BridgeDb)
 
 ``` r
-##Download the Metabolite mapping file (if it doesn't exist locally yet):
+#Download the Metabolite mapping file (if it doesn't exist locally yet):
 checkfile <- paste0(getwd(), '/' ,"data/metabolites.bridge")
 if (!file.exists(checkfile)) {
-download.file("https://figshare.com/ndownloader/files/26001794", checkfile)
+  download.file("https://figshare.com/ndownloader/files/26001794", checkfile)
 }
 #Load the ID mapper:
 mapper <- loadDatabase(checkfile)
 
-## Obtain the System codes for the databases HMDB (source database of dataset) and ChEBI (intended output database)
+#Obtain the System codes for the databases HMDB (source database of dataset) and ChEBI (intended output database)
 code_mappingFrom <- getSystemCode("HMDB")
 code_mappingTo <- getSystemCode("ChEBI")
 
 # TODO:: there are duplicated HMDB IDs in the datasets, maybe it should first be fixed based on the metabolite names
-## Create a data frame with the mappings and the correct SystemCode
+#Create a data frame with the mappings and the correct SystemCode
 input <- data.frame(
     source = rep(code_mappingFrom, length(unique(c(mbx_dataset_CD$HMDBID, mbx_dataset_UC$HMDBID)))),
     identifier = unique(c(mbx_dataset_CD$HMDBID, mbx_dataset_UC$HMDBID)))
 #Obtain all mappings from HMDB to ChEBI
 chebiID <- maps(mapper, input, code_mappingTo) %>%
-  filter(grepl("CHEBI", mapping, fixed = TRUE)) #remove all rows in the mapped data which do not include the prefix "CHEBI"
-# checking the one-to-multiple mappings
+  filter(grepl("CHEBI", mapping, fixed = TRUE)) #Remove all rows in the mapped data which do not include the prefix "CHEBI"
+#Check the one-to-multiple mappings
 if(!all(table(chebiID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
 ```
 
     ## [1] "There is no one-to-multiple mapping."
 
 ``` r
-# add chebi IDs for each metabolite in the dataset
+#Add ChEBI IDs for each metabolite in the dataset
 mbx_dataset_CD$ChEBI_BridgeDb <- chebiID$mapping[match(mbx_dataset_CD$HMDBID, chebiID$identifier)]
 mbx_dataset_UC$ChEBI_BridgeDb <- chebiID$mapping[match(mbx_dataset_UC$HMDBID, chebiID$identifier)]
 ```
@@ -96,35 +95,37 @@ mbx_dataset_UC$ChEBI_BridgeDb <- chebiID$mapping[match(mbx_dataset_UC$HMDBID, ch
 ### mapping the HMDB IDs to primary HMDB IDs
 
 ``` r
-rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing variables that are not required
-##Download the mapping file (if it doesn't exist locally yet):
+rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) #Remove objects that are not required
+#Download the mapping file (if it doesn't exist locally yet):
 checkfile <- paste0(getwd(), '/' ,"data/hmdb_secondaryToPrimaryIDs.bridge")
 if (!file.exists(checkfile)) {
-download.file("NOT YET UPLOADED ANYWHERE", checkfile)
+  #Download the human secondary derby database for BridgeDb
+  fileUrl <- "https://zenodo.org/record/6759307/files/hmdb_secondaryToPrimaryIDs.bridge?download=1"
+  require(downloader)
+  download(fileUrl, "data/hgnc_primaryToSecondaryIDs.bridge", mode = "wb")
 }
-
 #Load the ID mapper:
 mapper <- loadDatabase(checkfile)
 
-## Obtain the System codes for the databases HMDB 
+#Obtain the System codes for the databases HMDB 
 code_mapping <- getSystemCode("HMDB")
 
-## Create a data frame with the mappings and the correct SystemCode
+#Create a data frame with the mappings and the correct SystemCode
 input <- data.frame(source= rep(code_mapping, length(unique(c(mbx_dataset_CD$HMDBID, mbx_dataset_UC$HMDBID)))),
                     identifier = gsub("\\*", "", unique(c(mbx_dataset_CD$HMDBID, mbx_dataset_UC$HMDBID))))
 
-#converting secondary HMDB IDs to primary HMDB IDs 
+#Convert secondary HMDB IDs to primary HMDB IDs 
 hmdbID <- maps(mapper = mapper, input, target = code_mapping) %>% 
-    filter(isPrimary == "T") # Keeping only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
+    filter(isPrimary == "T") #Keep only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
 
-# check the one-to-multiple mappings
+#Check the one-to-multiple mappings
 if(!all(table(hmdbID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
 ```
 
     ## [1] "There is no one-to-multiple mapping."
 
 ``` r
-# add HMDB id for each gene symbol in the dataset
+#Add HMDB id for each gene symbol in the dataset
 mbx_dataset_CD$Current_HMDBID <- hmdbID$mapping[match(mbx_dataset_CD$HMDBID, hmdbID$identifier)]
 mbx_dataset_UC$Current_HMDBID <- hmdbID$mapping[match(mbx_dataset_UC$HMDBID, hmdbID$identifier)]
 ```
@@ -144,17 +145,17 @@ There is only one metabolite with no primary ID. We try to finding a
 primary HMDB IDs for metabolites using the compound name
 
 ``` r
-# Get the metabolite name 
-input <- c (mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], sub("(.)", "\\U\\1", mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], perl=TRUE)) #making sure that the metabolite would be mapped if in the database it starts with a capital letter
+#Get the metabolite name 
+input <- c (mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], sub("(.)", "\\U\\1", mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], perl=TRUE)) #Make sure that the metabolite would be mapped if in the database it starts with a capital letter
 
-## Create a data frame with the mappings and the correct SystemCode
-# When we created the derby database, the system code we used for the metabolite name was "O" as there was no defined system code for it
+#Create a data frame with the mappings and the correct SystemCode
+#When we created the derby database, the system code we used for the metabolite name was "O" as there was no defined system code for it
 input <- data.frame(source = rep("O", length(input)), 
                     identifier = input)
 
-#converting primary metabolite name to primary HMDB IDs 
+#Convert primary metabolite name to primary HMDB IDs 
 (hmdbID <- maps(mapper = mapper, input, target = code_mapping) %>%
-    filter(isPrimary == "T")) # Keeping only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
+    filter(isPrimary == "T")) #Keep only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
 ```
 
     ##                  source       identifier target     mapping isPrimary
@@ -166,57 +167,55 @@ mbx_dataset_CD
 ``` r
 mbx_dataset_CD$Current_HMDBID[mbx_dataset_CD$Compound_Name == "diacetylspermine"] = hmdbID$mapping
 mbx_dataset_UC$Current_HMDBID[mbx_dataset_UC$Compound_Name == "diacetylspermine"] = hmdbID$mapping
-rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) #Remove objects that are not required
 ```
 
 ## Converting `primary` HMDB IDs to the corresponding ChEBI IDs (BridgeDb)
 
 ``` r
-rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) #Remove objects that are not required
 #Load the ID mapper:
 mapper <- loadDatabase(paste0(getwd(), '/' ,"data/metabolites.bridge"))
 
-## Obtain the System codes for the databases HMDB (source database of dataset) and ChEBI (intended output database)
+#Obtain the System codes for the databases HMDB (source database of dataset) and ChEBI (intended output database)
 code_mappingFrom <- getSystemCode("HMDB")
 code_mappingTo <- getSystemCode("ChEBI")
 
 # TODO:: there are duplicated HMDB IDs in the datasets, maybe it should first be fixed based on the metabolite names
-## Create a data frame with the mappings and the correct SystemCode
+#Create a data frame with the mappings and the correct SystemCode
 input <- data.frame(
     source = rep(code_mappingFrom, length(unique(c(mbx_dataset_CD$Current_HMDBID, mbx_dataset_UC$Current_HMDBID)))),
     identifier = unique(c(mbx_dataset_CD$Current_HMDBID, mbx_dataset_UC$Current_HMDBID)))
 #Obtain all mappings from primary HMDB ID to ChEBI ID
 chebiID <- maps(mapper, input, code_mappingTo) %>%
   filter(grepl("CHEBI", mapping, fixed = TRUE)) #remove all rows in the mapped data which do not include the prefix "CHEBI"
-# checking the one-to-multiple mappings
+#Check the one-to-multiple mappings
 if(!all(table(chebiID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
 ```
 
     ## [1] "There is no one-to-multiple mapping."
 
 ``` r
-# add chebi IDs for each metabolite in the dataset
+#Add ChEBI IDs for each metabolite in the dataset
 mbx_dataset_CD$ChEBI_PriID_BridgeDb <- chebiID$mapping[match(mbx_dataset_CD$Current_HMDBID, chebiID$identifier)]
 mbx_dataset_UC$ChEBI_PriID_BridgeDb <- chebiID$mapping[match(mbx_dataset_UC$Current_HMDBID, chebiID$identifier)]
-rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) #Remove objects that are not required
 ```
 
-##Mapping stats:
+## Mapping stats:
 
-| stats                                                     | BridgeDb | PrimaryID_BridgeDb |
+| stats                                                                | BridgeDb | PrimaryID_BridgeDb |
 |:-------------------------------------------------|-------:|--------------:|
-| #unique HMDB IDs in CD dataset                            |          |                    |
-| (primary IDs for PrimaryID-nBridgeDb)                     |      438 |                438 |
-| #unique HMDB IDs in UC dataset                            |          |                    |
-| (primary IDs for PrimaryID-nBridgeDb)                     |      437 |                437 |
-| #unique ChEBI IDs in CD dataset                           |      363 |                366 |
-| #unique ChEBI IDs in UC dataset                           |      362 |                365 |
-| #missing mappings for HMDB IDs to ChEBI IDs in CD dataset |       75 |                 70 |
-| #missing mappings for HMDB IDs to ChEBI IDs in UC dataset |       75 |                 70 |
+| #unique HMDB IDs in CD dataset (primary IDs for PrimaryID-nBridgeDb) |      438 |                438 |
+| #unique HMDB IDs in UC dataset (primary IDs for PrimaryID-nBridgeDb) |      437 |                437 |
+| #unique ChEBI IDs in CD dataset                                      |      363 |                366 |
+| #unique ChEBI IDs in UC dataset                                      |      362 |                365 |
+| #missing mappings for HMDB IDs to ChEBI IDs in CD dataset            |       75 |                 70 |
+| #missing mappings for HMDB IDs to ChEBI IDs in UC dataset            |       75 |                 70 |
 
 ![](identifier_mapping_metabolomics_files/figure-markdown_github/mappingStats-1.png)
 
-##Save data, print session info, and citation
+## Saving data, printing session info, and citation
 
     ## R version 4.1.2 (2021-11-01)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)

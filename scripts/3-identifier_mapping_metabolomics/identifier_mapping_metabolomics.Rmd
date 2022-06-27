@@ -81,11 +81,11 @@ input <- data.frame(
     identifier = unique(c(mbx_dataset_CD$HMDBID, mbx_dataset_UC$HMDBID)))
 #Obtain all mappings from HMDB to ChEBI
 chebiID <- maps(mapper, input, code_mappingTo) %>%
-  filter(grepl("CHEBI", mapping, fixed = TRUE)) #remove all rows in the mapped data which do not include the prefix "CHEBI"
-# checking the one-to-multiple mappings
+  filter(grepl("CHEBI", mapping, fixed = TRUE)) #Remove all rows in the mapped data which do not include the prefix "CHEBI"
+#Check the one-to-multiple mappings
 if(!all(table(chebiID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
 
-# add chebi IDs for each metabolite in the dataset
+#Add ChEBI IDs for each metabolite in the dataset
 mbx_dataset_CD$ChEBI_BridgeDb <- chebiID$mapping[match(mbx_dataset_CD$HMDBID, chebiID$identifier)]
 mbx_dataset_UC$ChEBI_BridgeDb <- chebiID$mapping[match(mbx_dataset_UC$HMDBID, chebiID$identifier)]
 ```
@@ -107,21 +107,21 @@ if (!file.exists(checkfile)) {
 #Load the ID mapper:
 mapper <- loadDatabase(checkfile)
 
-## Obtain the System codes for the databases HMDB 
+#Obtain the System codes for the databases HMDB 
 code_mapping <- getSystemCode("HMDB")
 
-## Create a data frame with the mappings and the correct SystemCode
+#Create a data frame with the mappings and the correct SystemCode
 input <- data.frame(source= rep(code_mapping, length(unique(c(mbx_dataset_CD$HMDBID, mbx_dataset_UC$HMDBID)))),
                     identifier = gsub("\\*", "", unique(c(mbx_dataset_CD$HMDBID, mbx_dataset_UC$HMDBID))))
 
-#converting secondary HMDB IDs to primary HMDB IDs 
+#Convert secondary HMDB IDs to primary HMDB IDs 
 hmdbID <- maps(mapper = mapper, input, target = code_mapping) %>% 
-    filter(isPrimary == "T") # Keeping only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
+    filter(isPrimary == "T") #Keep only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
 
-# check the one-to-multiple mappings
+#Check the one-to-multiple mappings
 if(!all(table(hmdbID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
 
-# add HMDB id for each gene symbol in the dataset
+#Add HMDB id for each gene symbol in the dataset
 mbx_dataset_CD$Current_HMDBID <- hmdbID$mapping[match(mbx_dataset_CD$HMDBID, hmdbID$identifier)]
 mbx_dataset_UC$Current_HMDBID <- hmdbID$mapping[match(mbx_dataset_UC$HMDBID, hmdbID$identifier)]
 ```
@@ -135,17 +135,17 @@ mbx_dataset_CD[is.na(mbx_dataset_CD$Current_HMDBID), ]
 There is only one metabolite with no primary ID.
 We try to finding a primary HMDB IDs for metabolites using the compound name
 ```{r hmdb-converting_PriSymbol_BridgeDb.3, warning = FALSE, message = FALSE}
-# Get the metabolite name 
-input <- c (mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], sub("(.)", "\\U\\1", mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], perl=TRUE)) #making sure that the metabolite would be mapped if in the database it starts with a capital letter
+#Get the metabolite name 
+input <- c (mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], sub("(.)", "\\U\\1", mbx_dataset_CD$Compound_Name[is.na(mbx_dataset_CD$Current_HMDBID)], perl=TRUE)) #Make sure that the metabolite would be mapped if in the database it starts with a capital letter
 
-## Create a data frame with the mappings and the correct SystemCode
-# When we created the derby database, the system code we used for the metabolite name was "O" as there was no defined system code for it
+#Create a data frame with the mappings and the correct SystemCode
+#When we created the derby database, the system code we used for the metabolite name was "O" as there was no defined system code for it
 input <- data.frame(source = rep("O", length(input)), 
                     identifier = input)
 
-#converting primary metabolite name to primary HMDB IDs 
+#Convert primary metabolite name to primary HMDB IDs 
 (hmdbID <- maps(mapper = mapper, input, target = code_mapping) %>%
-    filter(isPrimary == "T")) # Keeping only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
+    filter(isPrimary == "T")) #Keep only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
 ```
 
 And the current id is HMDB0002172. Adding the current id to the mbx_dataset_CD
@@ -162,35 +162,35 @@ rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) #Remove objects 
 #Load the ID mapper:
 mapper <- loadDatabase(paste0(getwd(), '/' ,"data/metabolites.bridge"))
 
-## Obtain the System codes for the databases HMDB (source database of dataset) and ChEBI (intended output database)
+#Obtain the System codes for the databases HMDB (source database of dataset) and ChEBI (intended output database)
 code_mappingFrom <- getSystemCode("HMDB")
 code_mappingTo <- getSystemCode("ChEBI")
 
 # TODO:: there are duplicated HMDB IDs in the datasets, maybe it should first be fixed based on the metabolite names
-## Create a data frame with the mappings and the correct SystemCode
+#Create a data frame with the mappings and the correct SystemCode
 input <- data.frame(
     source = rep(code_mappingFrom, length(unique(c(mbx_dataset_CD$Current_HMDBID, mbx_dataset_UC$Current_HMDBID)))),
     identifier = unique(c(mbx_dataset_CD$Current_HMDBID, mbx_dataset_UC$Current_HMDBID)))
 #Obtain all mappings from primary HMDB ID to ChEBI ID
 chebiID <- maps(mapper, input, code_mappingTo) %>%
   filter(grepl("CHEBI", mapping, fixed = TRUE)) #remove all rows in the mapped data which do not include the prefix "CHEBI"
-# checking the one-to-multiple mappings
+#Check the one-to-multiple mappings
 if(!all(table(chebiID$identifier) == 1)) {print ("There are one-to-multiple mappings.")} else  print ("There is no one-to-multiple mapping.")
 
-# add chebi IDs for each metabolite in the dataset
+#Add ChEBI IDs for each metabolite in the dataset
 mbx_dataset_CD$ChEBI_PriID_BridgeDb <- chebiID$mapping[match(mbx_dataset_CD$Current_HMDBID, chebiID$identifier)]
 mbx_dataset_UC$ChEBI_PriID_BridgeDb <- chebiID$mapping[match(mbx_dataset_UC$Current_HMDBID, chebiID$identifier)]
 rm(list = setdiff(ls(), c("mbx_dataset_CD", "mbx_dataset_UC"))) #Remove objects that are not required
 ```
 
-##Mapping stats:
+## Mapping stats:
 ```{r mappingStats, warning = FALSE, message = FALSE, echo = FALSE}
 MappingStats <- data.table(stats =  c("#unique HMDB IDs in CD dataset\n(primary IDs for PrimaryID-nBridgeDb)",
-                                     "#unique HMDB IDs in UC dataset\n(primary IDs for PrimaryID-nBridgeDb)",
-                                     "#unique ChEBI IDs in CD dataset",
-                                     "#unique ChEBI IDs in UC dataset",
-                                     "#missing mappings for HMDB IDs to ChEBI IDs in CD dataset",
-                                     "#missing mappings for HMDB IDs to ChEBI IDs in UC dataset"),
+                                      "#unique HMDB IDs in UC dataset\n(primary IDs for PrimaryID-nBridgeDb)",
+                                      "#unique ChEBI IDs in CD dataset",
+                                      "#unique ChEBI IDs in UC dataset",
+                                      "#missing mappings for HMDB IDs to ChEBI IDs in CD dataset",
+                                      "#missing mappings for HMDB IDs to ChEBI IDs in UC dataset"),
                            BridgeDb = c(length(unique(mbx_dataset_CD$HMDBID)),
                                         length(unique(mbx_dataset_UC$HMDBID)),
                                         length(na.omit(unique(mbx_dataset_CD$ChEBI_BridgeDb))),
@@ -239,9 +239,9 @@ MappingStats_toPlot <- MappingStats %>%
 # ggsave(plot, device = "jpeg", units = "cm", width = 7, height = 6, filename = "figures/MappingStats_metabolomics.jpeg")
 ```
 
-##Save data, print session info, and citation
+## Saving data, printing session info, and citation
 ```{r print_session_info, echo = FALSE}
-##Save data: exporting results to the file
+#Save data: exporting results to the file
 #CD
 write.table(mbx_dataset_CD, file = "results/mbx_IDMapping_CD", 
             sep = "\t" , quote = FALSE, row.names = FALSE)
@@ -250,13 +250,13 @@ write.table(mbx_dataset_CD, file = "results/mbx_IDMapping_CD",
 write.table(mbx_dataset_UC, file = "results/mbx_IDMapping_UC", 
             sep = "\t" , quote = FALSE, row.names = FALSE)
 
-##Print session info:
+#Print session info:
 sessionInfo()
 
-##Citation BridgeDb:
+#Citation BridgeDb:
 citation("BridgeDbR")
 
-##Remove add the data objects
+#Remove all the data objects
 rm (list = ls())
 ```
 

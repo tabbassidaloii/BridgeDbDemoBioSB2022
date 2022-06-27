@@ -6,10 +6,10 @@ from WikiPathways, based on their HMDB and ChEBI identifiers.
 ## R environment setup
 
 ``` r
-# empty the R environment
+#Empty the R environment
 rm (list = ls())
 
-# check if libraries are already installed, otherwise install it
+#Check if libraries are already installed, otherwise install it
 if(!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"SPARQL" %in% installed.packages()) install.packages("SPARQL")
@@ -19,7 +19,7 @@ if(!"knitr" %in% installed.packages()) install.packages("knitr")
 if(!"reshape2" %in% installed.packages()) install.packages("reshape2")
 if(!"ggplot2" %in% installed.packages()) install.packages("ggplot2")
 
-#loading installed libraries
+#Load installed libraries
 suppressPackageStartupMessages({
   library(rstudioapi)
   library(SPARQL)
@@ -30,7 +30,7 @@ suppressPackageStartupMessages({
   library(ggplot2)
 })
 
-# set your working environment to the location where your current source file is saved into.
+#Set your working environment to the location where your current source file is saved into.
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ```
 
@@ -41,32 +41,32 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 mbx_dataset_CD <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_CD")
 mbx_dataset_UC <- read.delim("../3-identifier_mapping_metabolomics/results/mbx_IDMapping_UC")
 
-#make list of metabolites for the pathway analysis
-## Significant rows
+#Make list of metabolites for the pathway analysis
+#Significant rows
 sig.rows_CD <- which((mbx_dataset_CD$log2FC >= 1 | mbx_dataset_CD$log2FC <= -1) & mbx_dataset_CD$pvalue < 0.05)
 sig.rows_UC <- which((mbx_dataset_UC$log2FC >= 1 | mbx_dataset_UC$log2FC <= -1) & mbx_dataset_UC$pvalue < 0.05)
-### HMDB IDs:
+#HMDB IDs:
 sig.metabolites.HMDB_CD <- na.omit(unique(mbx_dataset_CD$HMDBID[sig.rows_CD])) #CD
 sig.metabolites.HMDB_UC <- na.omit(unique(mbx_dataset_UC$HMDBID[sig.rows_UC])) #UC
-## BridgeDb
-### ChEBI IDs:
+#BridgeDb
+##ChEBI IDs:
 sig.metabolites.ChEBI_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$ChEBI_BridgeDb[sig.rows_CD])) #CD
 sig.metabolites.ChEBI_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_BridgeDb[sig.rows_UC])) #UC
-## Primary id mapping, BridgeDb,
-### primary HMDB IDs:
+#Primary id mapping, BridgeDb,
+##Primary HMDB IDs:
 sig.metabolites.HMDB_PriID_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$Current_HMDBID[sig.rows_CD])) #CD
 sig.metabolites.HMDB_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$Current_HMDBID[sig.rows_UC])) #UC
-### ChEBI IDs:
+##ChEBI IDs:
 sig.metabolites.ChEBI_PriID_BridgeDb_CD <- na.omit(unique(mbx_dataset_CD$ChEBI_PriID_BridgeDb[sig.rows_CD])) #CD
 sig.metabolites.ChEBI_PriID_BridgeDb_UC <- na.omit(unique(mbx_dataset_UC$ChEBI_PriID_BridgeDb[sig.rows_UC])) #UC
 ```
 
-## Find pathways for each dataset, based on different IDs.
+## Finding pathways for each dataset, based on different IDs.
 
 ``` r
-##Connect to Endpoint WikiPathways
+#Connect to Endpoint WikiPathways
 endpointwp <- "https://sparql.wikipathways.org/sparql"
-## 1. Query metadata:
+#Query metadata
 queryMetadata <-
 "SELECT DISTINCT ?dataset (str(?titleLit) as ?title) ?date ?license 
 WHERE {
@@ -76,7 +76,7 @@ WHERE {
    pav:createdOn ?date .
  }"
 
-#below code should be performed first to handle the ssl certificate error
+#Below code should be performed first to handle the ssl certificate error
 options(RCurlOptions = list(cainfo = paste0(tempdir(), "/cacert.pem" ), ssl.verifypeer = FALSE))
 resultsMetadata <- SPARQL(endpointwp, queryMetadata, curl_args = list(useragent = R.version.string))
 showresultsMetadata <- resultsMetadata$results
@@ -111,8 +111,8 @@ item4=
 ORDER BY DESC(?BiomarkersInPWs)"
 
 
-##Split significant metabolites into list of max. 220 entries, to avoid SPARQL endpoint trowing a 414 error. 
-##Merge the content of the split content back together for the output of the PW Analysis.
+#Split significant metabolites into list of max. 220 entries, to avoid SPARQL endpoint trowing a 414 error. 
+#Merge the content of the split content back together for the output of the PW Analysis.
 
 for (metabolite_list in ls(pattern = "sig.metabolites")){
   sig.metabolites = get (metabolite_list)
@@ -136,7 +136,7 @@ for (metabolite_list in ls(pattern = "sig.metabolites")){
   (showresults_CombinePWs <- showresults_CombinePWs %>% 
       group_by(pathwayRes, pathway, pathwayTitle, TotalMetabolitesinPW) %>% 
       summarise(BiomarkersInPWs = sum(BiomarkersInPWs)) %>%
-      mutate(probabilities = dhyper(BiomarkersInPWs, TotalMetabolitesinPW, (length(query) - BiomarkersInPWs), length(query), log = FALSE)) %>% # Calculate hypergeometric density p-value for all pathways.
+      mutate(probabilities = dhyper(BiomarkersInPWs, TotalMetabolitesinPW, (length(query) - BiomarkersInPWs), length(query), log = FALSE)) %>% #Calculate hypergeometric density p-value for all pathways.
       arrange(desc(BiomarkersInPWs), probabilities)) %>%
     write.table(outputFile, sep = "\t" , quote = FALSE, row.names = FALSE)
   
@@ -148,7 +148,7 @@ for (metabolite_list in ls(pattern = "sig.metabolites")){
 }
 ```
 
-##Pathway Mapping stats:
+## Pathway mapping stats
 
 ``` r
 MappingStats <- data.table(`  ` =  c("#significant metabolites with HMDB IDs for CD (primary in PrimaryID_BridgeDb)" ,
@@ -262,7 +262,7 @@ ggplot(CombinePWs_UC_toPlot, aes(x = variable, y = pathway, fill = value)) +
 
 ![](pathway_analysis_metabolomics_files/figure-markdown_github/Comparison-2.png)
 
-##Print session info and remove datasets:
+## Printing session info and removing datasets
 
     ## R version 4.1.2 (2021-11-01)
     ## Platform: x86_64-w64-mingw32/x64 (64-bit)

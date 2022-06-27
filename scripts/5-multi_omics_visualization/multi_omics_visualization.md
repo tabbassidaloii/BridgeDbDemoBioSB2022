@@ -1,26 +1,16 @@
----
-title: "Multi-omics visualization"
-author: 
-- "ddedesener"
-- "tabbassidaloii"
-- "DeniseSl22"
-date: "27/06/22"
-output:
- md_document:
-    variant: markdown_github
-always_allow_html: true
-editor_options: 
-  chunk_output_type: console
----
-
 ## Introduction
-In this script, we visualize multi-omics data in Cytoscape through the WikiPathways App for Cytoscape.
-Through this app, pathways from WikiPathways, Reactome and LIPID MAPS are available.
-Identifiers from these three pathway model databases are unified and harmonized to Ensembl and ChEBI IDs, to allow for multi-omics data visualization. 
-The transcriptomics data and metabolites data are combined to automatically visualize their respective log2FC and p-values. 
+
+In this script, we visualize multi-omics data in Cytoscape through the
+WikiPathways App for Cytoscape. Through this app, pathways from
+WikiPathways, Reactome and LIPID MAPS are available. Identifiers from
+these three pathway model databases are unified and harmonized to
+Ensembl and ChEBI IDs, to allow for multi-omics data visualization. The
+transcriptomics data and metabolites data are combined to automatically
+visualize their respective log2FC and p-values.
 
 ## R environment setup
-```{r setup, warning=FALSE, message=FALSE}
+
+``` r
 #Empty the R environment
 rm (list = ls())
 #Check if libraries are already installed, otherwise install it
@@ -45,7 +35,8 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ```
 
 ## Importing data from step 1 (Transcriptomics identifier mapping) and 3 (Metabolomics identifier mapping)
-```{r datasets_import, warning = FALSE, message = FALSE}
+
+``` r
 ##TODO: start workflow on data in file from this folder (in case step 1 and 3 are not run yet?)
 
 #Transcriptomics and take a subset of data, which is relevant for the multiomics-visualization:
@@ -84,8 +75,11 @@ Combine_rectum_UC_multi <- rbind(tSet_rectum_UC, mSet_UC)
 ```
 
 ## Selecting relevant pathway based on step 2 (Transcriptomics pathway analysis) and 4 (Metabolomics pathway analysis)
-Please run steps 2 and 4 first, in order to retrieve updated data for the following step.
-```{r pathways_import, warning = FALSE, message = FALSE}
+
+Please run steps 2 and 4 first, in order to retrieve updated data for
+the following step.
+
+``` r
 #Significant pathways (changes due to disease)
 #Transcriptomics
 CombinePWs_ileum_CD_transcriptomics <- read.delim("../2-pathway_analysis_transcriptomics/results/CombinePWs.ileum_CD.txt") %>%
@@ -167,17 +161,34 @@ Int_PWs_rectum_UC <- unique(c(Int_PWs_rectum_UC_transcriptomics, Int_PWs_UC_meta
 ```
 
 ## Importing pathway in Cytoscape
-```{r import_Cytoscape, warning = FALSE, message = FALSE}
+
+``` r
 #Make sure to first launch Cytoscape outside of Rstudio, v.3.9.1 and the CyREST is installed
 cytoscapePing()
 #Check metadata of tool
 cytoscapeVersionInfo()
+```
+
+    ##       apiVersion cytoscapeVersion 
+    ##             "v1"          "3.9.1"
+
+``` r
 #Close all opened session before starting
 closeSession(FALSE)
 #Set up WikiPathways app in Cytoscape, v.3.3.10
 if("WikiPathways" %in% commandsHelp("")) print("Success: the WikiPathways app is installed") else print("Warning: WikiPathways app is not installed. Please install the WikiPathways app before proceeding.")
-if(!"WikiPathways" %in% commandsHelp("")) installApp("WikiPathways")
+```
 
+    ## [1] "Available namespaces:"
+    ## [1] "Warning: WikiPathways app is not installed. Please install the WikiPathways app before proceeding."
+
+``` r
+if(!"WikiPathways" %in% commandsHelp("")) installApp("WikiPathways")
+```
+
+    ## [1] "Available namespaces:"
+
+``` r
 #Pathway IDs to be visualized
 pathway.id <- "WP4726"# Sphingolipid metabolism: integrated pathway --> Selected based on overlap between important PWs for both transcriptomics and metabolomic 
 #Select a dataset to visualize on the pathway:
@@ -187,7 +198,8 @@ RCy3::commandsRun(paste0('wikipathways import-as-pathway id=',pathway.id))
 ```
 
 ## Data upload with regular xRef ID mapping
-```{r data_upload_regular, warning = FALSE, message = FALSE}
+
+``` r
 #Select dataset to visualize
 dataset <- get (names_of_dataframes)
 #Remove duplicate rows
@@ -196,26 +208,53 @@ dataset <- dataset %>% distinct(Identifier, .keep_all = TRUE)
 loadTableData(table = "node", data = dataset, data.key.column = "Identifier", table.key.column = "XrefId")
 ```
 
+    ## [1] "Success: Data loaded in defaultnode table"
+
 ## Visualization options
-```{r visualization_regular, warning=FALSE, message=FALSE}
+
+``` r
 #New visual style is created
 RCy3::copyVisualStyle("default", "pathwayStyle")
 #Set new style as the current style
 RCy3::setVisualStyle("pathwayStyle")
+```
+
+    ##                 message 
+    ## "Visual Style applied."
+
+``` r
 #Set node dimensions as fixed sizes
 RCy3::lockNodeDimensions(TRUE, style.name="pathwayStyle")
 
 #Node shape mapping
 RCy3::setNodeShapeMapping('Type', c('GeneProduct','Protein', 'Metabolite'), c('ELLIPSE','ELLIPSE','RECTANGLE'), style.name = "pathwayStyle")
+```
+
+    ## NULL
+
+``` r
 #Change node height
 RCy3::setNodeHeightMapping('Type', c('GeneProduct','Protein', 'Metabolite'), c(23, 23, 25), mapping.type = "d", style.name = "pathwayStyle")
+```
+
+    ## NULL
+
+``` r
 #Change node width
 RCy3::setNodeWidthMapping('Type', c('GeneProduct','Protein', 'Metabolite'), c(60, 60, 100), mapping.type = "d", style.name = "pathwayStyle")
+```
 
+    ## NULL
+
+``` r
 #Set node color based on log2FC for both genes and metabolites
 node.colors <- c(rev(brewer.pal(3, "RdBu")))
 setNodeColorMapping("log2FC", c(-1, 0, 1), node.colors, default.color = "#D3D3D3", style.name = "pathwayStyle")
+```
 
+    ## NULL
+
+``` r
 #Set node border width and color based on p-value
 #First we need to get all p-values from node table
 pvalues <- getTableColumns(table = 'node', columns = 'pvalue')
@@ -227,16 +266,29 @@ significant_pvalues.colors <- rep("#2e9d1d", length(significant_pvalues))
 not.significant_pvalues.colors <- rep("#FFFFFF", length(not.significant_pvalues))
 
 setNodeBorderWidthMapping('pvalue', table.column.values = NULL , c(6,6) , mapping.type = "c", style.name = "pathwayStyle")
-setNodeBorderColorMapping('pvalue', c(significant_pvalues,not.significant_pvalues), c(significant_pvalues.colors, not.significant_pvalues.colors), default.color = "#AAAAAA", mapping.type = "d", style.name = "pathwayStyle")
+```
 
+    ## NULL
+
+``` r
+setNodeBorderColorMapping('pvalue', c(significant_pvalues,not.significant_pvalues), c(significant_pvalues.colors, not.significant_pvalues.colors), default.color = "#AAAAAA", mapping.type = "d", style.name = "pathwayStyle")
+```
+
+    ## NULL
+
+``` r
 #Save output 
 filename_multiomics <- paste0("results/", pathway.id, "_", names_of_dataframes, "_regular_visualization.png")
 png.file <- file.path(getwd(), filename_multiomics)
 exportImage(png.file, 'PNG', zoom = 500)
 ```
 
+    ##                                                                                                                                           file 
+    ## "D:\\bridgeDb\\BridgeDbDemoBioSB2022\\scripts\\5-multi_omics_visualization\\results\\WP4726_Combine_rectum_UC_multi_regular_visualization.png"
+
 ## Data upload with multiomics unified and harmonized mappings:
-```{r data_upload_unified, warning = FALSE, message = FALSE}
+
+``` r
 #Open a new pathway in Cytoscape for enhanced visualization.
 RCy3::commandsRun(paste0('wikipathways import-as-pathway id=', pathway.id)) 
 
@@ -252,7 +304,11 @@ ID.cols <- data.frame(ID.cols[, c(1, 2)])
 colnames(ID.cols)[2] <- "omics.ID"
 #Load all the multi-omics IDs in cytoscape by key column as XrefId
 loadTableData(table = "node", data = ID.cols, data.key.column = "XrefId", table.key.column = "XrefId")
+```
 
+    ## [1] "Success: Data loaded in defaultnode table"
+
+``` r
 #Select dataset to visualize
 dataset <- get (names_of_dataframes)
 #Remove duplicate rows
@@ -261,26 +317,53 @@ dataset <- dataset %>% distinct(Identifier, .keep_all = TRUE)
 loadTableData(table = "node", data = dataset, data.key.column = "Identifier", table.key.column = "omics.ID")
 ```
 
+    ## [1] "Success: Data loaded in defaultnode table"
+
 ## Visualization options
-```{r visualization_unified, warning = FALSE, message = FALSE}
+
+``` r
 #New visual style is created
 RCy3::copyVisualStyle("default", "pathwayStyle")
 #Set new style as the current style
 RCy3::setVisualStyle("pathwayStyle")
+```
+
+    ##                 message 
+    ## "Visual Style applied."
+
+``` r
 #Set node dimensions as fixed sizes
 RCy3::lockNodeDimensions(TRUE, style.name="pathwayStyle")
 
 #Node shape mapping
 RCy3::setNodeShapeMapping('Type', c('GeneProduct', 'Protein', 'Metabolite'), c('ELLIPSE', 'ELLIPSE', 'RECTANGLE'), style.name = "pathwayStyle")
+```
+
+    ## NULL
+
+``` r
 #Change node height
 RCy3::setNodeHeightMapping('Type', c('GeneProduct', 'Protein', 'Metabolite'), c(23, 23, 25), mapping.type = "d", style.name = "pathwayStyle")
+```
+
+    ## NULL
+
+``` r
 #Change node width
 RCy3::setNodeWidthMapping('Type', c('GeneProduct', 'Protein', 'Metabolite'), c(60, 60, 100), mapping.type = "d", style.name = "pathwayStyle")
+```
 
+    ## NULL
+
+``` r
 #Set node color based on log2FC for both genes and metabolites
 node.colors <- c(rev(brewer.pal(3, "RdBu")))
 setNodeColorMapping("log2FC", c(-1, 0, 1), node.colors, default.color = "#D3D3D3", style.name = "pathwayStyle")
+```
 
+    ## NULL
+
+``` r
 #Set node border width and color based on p-value
 #First we need to get all p-values from node table
 pvalues <- getTableColumns(table = 'node', columns = 'pvalue')
@@ -292,21 +375,23 @@ significant_pvalues.colors <- rep("#2e9d1d", length(significant_pvalues))
 not.significant_pvalues.colors <- rep("#FFFFFF", length(not.significant_pvalues))
 
 setNodeBorderWidthMapping('pvalue', table.column.values = NULL , c(6, 6) , mapping.type = "c", style.name = "pathwayStyle")
+```
+
+    ## NULL
+
+``` r
 setNodeBorderColorMapping('pvalue', c(significant_pvalues, not.significant_pvalues), 
                           c(significant_pvalues.colors, not.significant_pvalues.colors), default.color = "#AAAAAA", mapping.type = "d", style.name = "pathwayStyle")
+```
 
+    ## NULL
+
+``` r
 #Save output 
 filename_multiomics <- paste0("results/", pathway.id, "_", names_of_dataframes, "_omics_visualization.png")
 png.file <- file.path(getwd(), filename_multiomics)
 exportImage(png.file, 'PNG', zoom = 500)
 ```
 
-```{r writing_to_notebooks, warning = FALSE, message = FALSE, include = FALSE}
-#Jupyter Notebook file
-# if(!"devtools" %in% installed.packages()) BiocManager::install("devtools")
-# if(!"rmd2jupyter" %in% installed.packages()) devtools::install_github("mkearney/rmd2jupyter", force=TRUE)
-# library(devtools)
-# library(rmd2jupyter)
-# setwd(dirname(rstudioapi::getSourceEditorContext()$path))
-# rmd2jupyter("multi_omics_visualization.Rmd")
-```
+    ##                                                                                                                                         file 
+    ## "D:\\bridgeDb\\BridgeDbDemoBioSB2022\\scripts\\5-multi_omics_visualization\\results\\WP4726_Combine_rectum_UC_multi_omics_visualization.png"

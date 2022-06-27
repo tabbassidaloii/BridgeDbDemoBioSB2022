@@ -1,0 +1,8 @@
+pathwayRes	pathway	pathwayTitle	TotalMetabolitesinPW	BiomarkersInPWs	probabilities_metabolomics	TotalGenesinPW	GenesInPWs	probabilities_transcriptome
+<https://identifiers.org/wikipathways/WP2431_r120812>	WP2431	Spinal cord injury	9	1	1.05898677540015e-10	117	20	1.01891988685662e-128
+<https://identifiers.org/wikipathways/WP4341_r122900>	WP4341	Non-genomic actions of 1,25 dihydroxyvitamin D3	5	1	2.24628744841963e-06	93	17	9.93491207012078e-108
+<https://identifiers.org/wikipathways/WP706_r117178>	WP706	Sudden infant death syndrome (SIDS) susceptibility pathways	14	3	5.27212836668335e-12	166	16	1.04017101466848e-184
+<https://identifiers.org/wikipathways/WP3925_r117062>	WP3925	Amino acid metabolism	108	7	4.65352778242892e-44	94	7	2.67871157765457e-129
+<https://identifiers.org/wikipathways/WP241_r120901>	WP241	One-carbon metabolism	25	2	2.66949702200039e-21	29	2	6.96672860713736e-54
+<https://identifiers.org/wikipathways/WP4726_r120323>	WP4726	Sphingolipid metabolism: integrated pathway	67	5	1.49000750112981e-35	26	1	1.04533087150073e-51
+<https://identifiers.org/wikipathways/WP4288_r120407>	WP4288	MTHFR deficiency	23	1	9.43222281106804e-22	27	1	2.20155487757565e-53

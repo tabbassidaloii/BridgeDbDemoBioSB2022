@@ -171,7 +171,7 @@ rm(list = setdiff(ls(), grep ("dataset_UC|dataset_CD|sig.genes", ls(), value = T
 ```{r pathway_retrieval,warning=FALSE, message=FALSE}
 #Connect to Endpoint WikiPathways
 endpointwp <- "https://sparql.wikipathways.org/sparql"
-#1. Query metadata:
+#Query metadata
 queryMetadata <-
 "SELECT DISTINCT ?dataset (str(?titleLit) as ?title) ?date ?license 
 WHERE {
