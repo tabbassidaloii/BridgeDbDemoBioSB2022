@@ -212,24 +212,26 @@ order <- c("#unique HMDB IDs in CD dataset\n(primary IDs for PrimaryID-nBridgeDb
 
 MappingStats_toPlot <- MappingStats %>%
   reshape2::melt() %>%
-  mutate(order=order[match(stats,names(order))])
+  mutate(order=order[match(stats,names(order))],
+         rescale = scales::rescale(value))
 
-ggplot(MappingStats_toPlot, aes(x = variable, y = reorder(stats, -order), fill = value)) +
-  geom_tile(color = "white",
-            lwd = 1.5,
-            linetype = 1) +
-  coord_fixed() +
-  scale_fill_gradient(low = "white", high = "orange") +
+
+(plot <- ggplot(MappingStats_toPlot, aes(x = variable, y = reorder(stats, -order))) +
+      geom_tile(aes(fill = rescale), colour = "white",
+                lwd = 1.5,
+              linetype = 1) +
+    coord_fixed() +
+    scale_fill_gradient(low = "white", high = "orange") +
     theme_bw() +
+    labs(y = NULL, x = NULL) +
+    geom_text(aes(label = value), color = "black", size = 1) +
+    scale_x_discrete(position = "top", 
+                     labels = c("BridgeDb", "PrimaryID\nBridgeDb")) + 
+    theme(axis.text.x.top = element_text(vjust = 0.5, size = 4, face = "bold"),
+          axis.text.y = element_text(size = 5, hjust = 0),
+          legend.position = "none"))
 
-  labs(y = NULL, x = NULL) +
-  geom_text(aes(label = value), color = "black", size = 4) +
-  scale_x_discrete(position = "top", 
-                   labels = c("BridgeDb", "PrimaryID\nBridgeDb")) + 
-  theme(axis.text.x.top = element_text(vjust = 0.5, size = 16, face = "bold"),
-        axis.text.y = element_text(size = 16),
-        legend.position = "none") 
-
+# ggsave(plot, device = "jpeg", units = "cm", width = 7, height = 6, filename = "figures/MappingStats_metabolomics.jpeg")
 ```
 
 ##Save data, print session info, and citation

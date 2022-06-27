@@ -378,12 +378,12 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 ##Mapping stats:
 ```{r mappingStats, warning = FALSE, message = FALSE, echo = FALSE, fig.height = 10, fig.width = 10}
-MappingStats <- data.table(stats =  c("#HGNC Symbol in the transcriptomics dataset",
+MappingStats <- data.table(stats =  c("#HGNC Symbol in the dataset",
                                      "#unique Entrez IDs",
-                                     "#missing mappings for HGNC Symbol to Entrez IDs",
+                                     "#missing mappings for HGNC Symbol\nto Entrez IDs",
                                      "#one-to-many mappings for Entrez IDs",
                                      "#unique Ensembl IDs",
-                                     "#missing mappings for HGNC Symbol to Ensembl IDs",
+                                     "#missing mappings for HGNC Symbol\nto Ensembl IDs",
                                      "#one-to-many mappings for Ensembl IDs"),
                            org.Hs = c(nrow(dataset_CD),
                                       sum(!is.na(dataset_CD$ENTREZ.ID_org.Hs)), 
@@ -410,33 +410,35 @@ MappingStats <- data.table(stats =  c("#HGNC Symbol in the transcriptomics datas
 kable(MappingStats)
 
 #ID mapping visualization
-order <- c("#HGNC Symbol in the transcriptomics dataset" = 1,
+order <- c("#HGNC Symbol in the dataset" = 1,
            "#unique Entrez IDs" = 2,
-           "#missing mappings for HGNC Symbol to Entrez IDs" = 3, 
+           "#missing mappings for HGNC Symbol\nto Entrez IDs" = 3, 
            "#one-to-many mappings for Entrez IDs" = 4,
            "#unique Ensembl IDs" = 5, 
-           "#missing mappings for HGNC Symbol to Ensembl IDs" = 6, 
+           "#missing mappings for HGNC Symbol\nto Ensembl IDs" = 6, 
            "#one-to-many mappings for Ensembl IDs" = 7)
 
 MappingStats_toPlot <- MappingStats %>%
   reshape2::melt() %>%
-  mutate(order=order[match(stats,names(order))])
+  mutate(order=order[match(stats,names(order))],
+         rescale = scales::rescale(value))
 
-ggplot(MappingStats_toPlot, aes(x = variable, y = reorder(stats, -order), fill = value)) +
-  geom_tile(color = "white",
-            lwd = 1.5,
-            linetype = 1) +
-  coord_fixed() +
-  scale_fill_gradient(low = "white", high = "lightblue") +
+(plot <- ggplot(MappingStats_toPlot, aes(x = variable, y = reorder(stats, -order))) +
+      geom_tile(aes(fill = rescale), colour = "white",
+              lwd = 1.5,
+              linetype = 1) +
+    coord_fixed() +
+    scale_fill_gradient(low = "white", high = "lightblue") +
     theme_bw() +
-
-  labs(y = NULL, x = NULL) +
-  geom_text(aes(label = value), color = "black", size = 4) +
-  scale_x_discrete(position = "top", 
+    labs(y = NULL, x = NULL) +
+    geom_text(aes(label = value), color = "black", size = 1) +
+    scale_x_discrete(position = "top", 
                    labels = c("org.Hs", "BridgeDb", "PrimaryID\nBridgeDb")) + 
-  theme(axis.text.x.top = element_text(vjust = 0.5, size = 16, face = "bold"),
-        axis.text.y = element_text(size = 16),
-        legend.position = "none") 
+    theme(axis.text.x.top = element_text(vjust = 0.5, size = 4, face = "bold"),
+          axis.text.y = element_text(size = 5, hjust = 0),
+          legend.position = "none"))
+
+# ggsave(plot, device = "jpeg", units = "cm", width = 7, height = 6, filename = "figures/MappingStats_transcriptomics.jpeg")
 ```
 
 ##Save data, print session info and remove datasets:
