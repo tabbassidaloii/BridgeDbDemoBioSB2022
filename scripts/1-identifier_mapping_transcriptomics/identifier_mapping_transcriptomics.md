@@ -15,9 +15,9 @@ BridgeDb \[<doi:10.18129/B9.bioc.BridgeDbR>\].
 ## R environment setup
 
 ``` r
-# empty the R environment
+#Empty the R environment
 rm (list = ls())
-# check if libraries are already installed, otherwise install it
+#Check if libraries are already installed, otherwise install it
 if(!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager")
 if(!"rstudioapi" %in% installed.packages()) BiocManager::install("rstudioapi")
 if(!"org.Hs.eg.db" %in% installed.packages()) BiocManager::install("org.Hs.eg.db")  
@@ -26,10 +26,10 @@ if(!"BridgeDbR" %in% installed.packages()) BiocManager::install("BridgeDbR")
 
 #Unload the existing BridgeDb package, and install the developers version:
 # detach("package:BridgeDbR", unload=TRUE)
-# ### Remotes and devtools packages helps install packages from GitHub
+# #Remotes and devtools packages helps install packages from GitHub
 # if(!"devtools" %in% installed.packages())install.packages("devtools")
 # if(!"remotes" %in% installed.packages())install.packages("remotes")
-# ##Download BridgeDbR package update from GitHub
+# #Download BridgeDbR package update from GitHub
 # remotes::install_github('bridgedb/BridgeDbR')
 # packageVersion("BridgeDbR") #Required >v.2.7.2
 
@@ -41,11 +41,11 @@ if(!"downloader" %in% installed.packages())install.packages("downloader")
 if(!"reshape2" %in% installed.packages()) install.packages("reshape2")
 if(!"ggplot2" %in% installed.packages()) install.packages("ggplot2")
 
-#load installed libraries
+#Load installed libraries
 suppressPackageStartupMessages({
-  library(rstudioapi) # interface for interacting with RStudio IDE with R code.
+  library(rstudioapi) #Interface for interacting with RStudio IDE with R code.
   library(org.Hs.eg.db) #This is the organism annotation package ("org") for Homo sapiens ("Hs"), organized as an AnnotationDbi   package ("db"), using Entrez Gene IDs ("eg") as primary key.
-  library(AnnotationDbi) # for connecting and querying annotation databases
+  library(AnnotationDbi) #For connecting and querying annotation databases
   library(BridgeDbR) #This is the BridgeDb annotation package containing multiple species, using Ensembl Gene IDs ("En") as primary key. Current release: v2.6.0
   library(dplyr)
   library(rmarkdown)
@@ -55,7 +55,7 @@ suppressPackageStartupMessages({
   library(ggplot2)
 })
 
-# set your working environment to the location where your current source file is saved into.
+#Set your working environment to the location where your current source file is saved into.
 setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 ```
 
@@ -64,114 +64,97 @@ setwd(dirname(rstudioapi::getSourceEditorContext()$path))
 The data will be read for the disease on two biopsy locations
 
 ``` r
-#we have four datasets, two different disorders and two different biopsy locations
-#Reading the files for CD disorder
-(filenames <- list.files("data", pattern = "CD", full.names = TRUE)) #Printing the file names
-```
+#We have four datasets: two different disorders and two different biopsy locations
+#Read the files for CD disorder
+filenames <- list.files("data", pattern = "CD", full.names = TRUE)
+dataset_CD <- lapply(filenames, read.delim) #Read the files
 
-    ## [1] "data/table_CD_Ileum_vs_nonIBD_Ileum.tab"  
-    ## [2] "data/table_CD_Rectum_vs_nonIBD_Rectum.tab"
-
-``` r
-dataset_CD <- lapply(filenames, read.delim) #Reading the files
-
-#filter out  unused columns, we select geneSymbol, log2FC and pvalue and
-#merge two dataset of two locations into one datafile
-dataset_CD <- merge(dataset_CD[[1]] %>% select("X", "FoldChange", "padj"), #Merging and sub-setting the columns required
+#Filter out  unused columns, we select geneSymbol, log2FC and pvalue
+#Merge two locations into one dataset
+dataset_CD <- merge(dataset_CD[[1]] %>% select("X", "FoldChange", "padj"), #Merge and subset the columns required
                     dataset_CD[[2]] %>% select("X", "FoldChange", "padj"), 
                     by = "X", all = TRUE)
 
-#Reading the files for UC disorder
-(filenames <- list.files("data", pattern = "UC", full.names = TRUE)) #Printing the file names
-```
+#Read the files for UC disorder
+filenames <- list.files("data", pattern = "UC", full.names = TRUE)
+dataset_UC <- lapply(filenames, read.delim) #Read the files
 
-    ## [1] "data/table_UC_Ileum_vs_nonIBD_Ileum.tab"  
-    ## [2] "data/table_UC_Rectum_vs_nonIBD_Rectum.tab"
-
-``` r
-dataset_UC <- lapply(filenames, read.delim) #Reading the files
-
-#filter out  unused columns, we select geneSymbol, log2FC and pvalue and
-#merge two dataset of two locations into one datafile per disorder
-dataset_UC <- merge(dataset_UC[[1]] %>% select("X", "FoldChange", "padj"), #Merging and sub-setting the columns required
+#Filter out  unused columns, we select geneSymbol, log2FC and pvalue
+#Merge two locations into one dataset
+dataset_UC <- merge(dataset_UC[[1]] %>% select("X", "FoldChange", "padj"), #Merge and subset the columns required
                     dataset_UC[[2]] %>% select("X", "FoldChange", "padj"), 
                     by = "X", all = TRUE)
 
-#change column names
+#Change column names
 colnames(dataset_CD) <- colnames(dataset_UC) <- c("GeneSymbol", "log2FC_ileum", "pvalue_ileum", "log2FC_rectum", "pvalue_rectum")
 
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD"))) #Remove objects that are not required
 ```
 
 ## Converting hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (org.Hs.eg.db)
 
 ``` r
-#converting gene symbols to entrez ID since these are required for the enrichR function
+#Convert gene symbols to entrez ID since these are required for the enrichR function
 hs <- org.Hs.eg.db #This object is a simple mapping of Entrez Gene identifier
 
-# check if all the gene symbols are the same in both datasets
-all(dataset_CD$GeneSymbol == dataset_UC$GeneSymbol) 
-```
+#Check if all the gene symbols are the same in both datasets
+if (all(dataset_CD$GeneSymbol == dataset_UC$GeneSymbol))
+  #Same gene symbols, so mapping based on one of the files 
+  entrezID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol, 
+                                    columns = c("ENTREZID", "SYMBOL"), 
+                                    keytype = "SYMBOL")
 
-    ## [1] TRUE
-
-``` r
-##same gene symbols, so mapping based on one of the files 
-entrezID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol, 
-            columns = c("ENTREZID", "SYMBOL"), 
-            keytype = "SYMBOL")
-
-# checking the one-to-multiple mappings
+#Checking the one-to-multiple mappings
 if(!all(table(entrezID$SYMBOL) == 1)) print ("There are one-to-multiple mappings")
 ```
 
     ## [1] "There are one-to-multiple mappings"
 
 ``` r
-#store one-to-multiple mapping info
+#Store one-to-multiple mapping info
 entrezID_doubles_Hs <- length(table(entrezID$SYMBOL) [table(entrezID$SYMBOL) > 1])
-##run the two lines below if you want to check which genes have multiple Entrez (NCBI) gene IDs
+#Run the two lines below if you want to check which genes have multiple Entrez (NCBI) gene IDs
 # entrezID_doubles_Hs <- names(table(entrezID$SYMBOL)[table(entrezID$SYMBOL) > 1])
 # entrezID [entrezID$SYMBOL %in% entrezID_doubles_Hs, ]
 
-#filter out double identifiers because there are one-to-many relationship
+#Filter out double identifiers because there are one-to-many relationship
 entrezID <- entrezID %>% distinct(entrezID$SYMBOL, .keep_all = TRUE)
 
-# add entrezIDs for each gene symbol in the dataset
+#Add entrezIDs for each gene symbol in the dataset
 dataset_CD$ENTREZ.ID_org.Hs <- entrezID$ENTREZID [match(dataset_CD$GeneSymbol, entrezID$SYMBOL)] 
 dataset_UC$ENTREZ.ID_org.Hs <- entrezID$ENTREZID [match(dataset_UC$GeneSymbol, entrezID$SYMBOL)] 
 
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "hs"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "hs"))) #Remove objects that are not required
 ```
 
 ## Converting hgnc gene symbols to the corresponding Ensembl IDs (org.Hs.eg.db)
 
 ``` r
-#converting gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
+#Convert gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
 ensemblID <- AnnotationDbi::select(hs, keys = dataset_CD$GeneSymbol, 
             columns = c("ENSEMBL", "SYMBOL"), 
             keytype = "SYMBOL")
 
-# checking the one-to-multiple mappings
+#Check the one-to-multiple mappings
 if(!all(table(ensemblID$SYMBOL) == 1)) print ("There are one-to-multiple mappings")
 ```
 
     ## [1] "There are one-to-multiple mappings"
 
 ``` r
-#store one-to-multiple mapping info
+#Store one-to-multiple mapping info
 ensemblID_doubles_Hs <- length(table(ensemblID$SYMBOL)[table(ensemblID$SYMBOL) > 1])
-##run the two lines below if you want to check which genes have multiple Ensembl IDs
+#Run the two lines below if you want to check which genes have multiple Ensembl IDs
 # ensemblID_doubles_Hs <- names(table(ensemblID$SYMBOL)[table(ensemblID$SYMBOL) > 1])
 # ensemblID %>% filter(SYMBOL %in% ensemblID_doubles_Hs) %>% arrange(SYMBOL)
 
-#filter out double identifiers because there are one-to-many relationship
+#Filter out double identifiers because there are one-to-many relationship
 ensemblID <- ensemblID %>% distinct(ensemblID$SYMBOL, .keep_all = TRUE)
-# add entrezIDs for each gene symbol in the dataset
+#Add entrezIDs for each gene symbol in the dataset
 dataset_CD$Ensembl.ID_org.Hs <- ensemblID$ENSEMBL [match(dataset_CD$GeneSymbol, ensemblID$SYMBOL)] 
 dataset_UC$Ensembl.ID_org.Hs <- ensemblID$ENSEMBL [match(dataset_UC$GeneSymbol, ensemblID$SYMBOL)] 
 
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs"))) #Remove objects that are not required
 ```
 
 ## Converting hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
@@ -222,7 +205,7 @@ dataset_UC$ENTREZ.ID_BridgeDb <- entrezID$mapping [match(dataset_UC$GeneSymbol, 
 ## Converting hgnc gene symbols to the corresponding Ensembl IDs (BridgeDb)
 
 ``` r
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb"))) #Remove objects that are not required
 #Convert gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
 #Obtain the System codes for Ensembl (intended output database)
 code_mappingTo <- getSystemCode("Ensembl")
@@ -263,7 +246,7 @@ gene symbols challenging.
 `Here We assumed when a hgnc gene symbol has a hgnc ID, it is primary and we only map those without a hgnc ID.`
 
 ``` r
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "mapper", "input", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) #Remove objects that are not required
 #Convert gene symbols to hgnc ID 
 #Obtain the System codes for HGNC Accession number (intended output database)
 code_mappingTo <- getSystemCode("HGNC Accession number")
@@ -290,11 +273,11 @@ Note that this step might require re strating your R-session (select
 Okay from the pop-up menu if requested).
 
 ``` r
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb"))) #Remove objects that are not required
 #Download the secondary to primary mapping file (if it doesn't exist locally yet):
 checkfile <- paste0(getwd(), '/' ,"data/hgnc_secondaryToPrimaryIDs.bridge")
 if (!file.exists(checkfile)) {
-  #Download and load the human secondary derby database for BridgeDb
+  #Download the human secondary derby database for BridgeDb
   fileUrl <- "https://zenodo.org/record/6759136/files/hgnc_secondaryToPrimaryIDs.bridge?download=1"
   require(downloader)
   download(fileUrl, "data/hgnc_primaryToSecondaryIDs.bridge", mode = "wb")
@@ -307,23 +290,23 @@ code_mapping <- getSystemCode("HGNC")
 
 #Subset hgnc gene symbols with no hgnc ID
 input <- dataset_CD$GeneSymbol [is.na(dataset_CD$HGNC.ID_BridgeDb)] 
-## Create a data frame with the mappings and the correct SystemCode
+#Create a data frame with the mappings and the correct SystemCode
 input <- data.frame(source = rep(code_mapping, length(input)),
                     identifier = input)
-#converting secondary gene symbols to primary gene symbols 
+#Convert secondary gene symbols to primary gene symbols 
 hgnc <- maps(mapper = mapper, input, target = code_mapping) %>% 
-    filter(isPrimary == "T") # Keeping only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
+    filter(isPrimary == "T") #Keep only rows where the mapping is annotated as primary id (defined in BridgeDb java library when creating the derby database)
 
-# checking the one-to-multiple mappings
+#Check the one-to-multiple mappings
 if(!all(table(hgnc$identifier) == 1)) print ("There are one-to-multiple mappings")
 ```
 
     ## [1] "There are one-to-multiple mappings"
 
 ``` r
-#store one-to-multiple mapping info
+#Store one-to-multiple mapping info
 hgnc_doubles_PriID_BridgeDb <- length(table(hgnc$identifier) [table(hgnc$identifier) > 1])
-##run the two lines below if you want to check which genes have multiple mapping
+#Run the two lines below if you want to check which genes have multiple mapping
 # hgnc_doubles_PriID_BridgeDb <- names(table(hgnc$identifier)[table(hgnc$identifier) > 1])
 # hgnc [hgnc$identifier %in% hgnc_doubles_PriID_BridgeDb, ] 
 ```
@@ -373,10 +356,10 @@ dataset.
 if (!all(!hgnc$mapping %in% dataset_CD$GeneSymbol))
     hgnc <- hgnc [!hgnc$mapping %in% dataset_CD$GeneSymbol,] 
     
-#filter out double gene symbols
+#Filter out double gene symbols
 hgnc <- hgnc %>% distinct(hgnc$identifier, .keep_all = TRUE)
 
-# add primary (current) hgnc gene symbol each gene symbol in the dataset
+#Add primary (current) hgnc gene symbol each gene symbol in the dataset
 dataset_CD$Current_GeneSymbol <- hgnc$mapping[match(dataset_CD$GeneSymbol, hgnc$identifier)]
 dataset_CD$Current_GeneSymbol [is.na(dataset_CD$Current_GeneSymbol)] = dataset_CD$GeneSymbol [is.na(dataset_CD$Current_GeneSymbol)]
 
@@ -387,7 +370,7 @@ dataset_UC$Current_GeneSymbol [is.na(dataset_UC$Current_GeneSymbol)] = dataset_U
 ## Converting `primary` hgnc gene symbols to the corresponding Entrez (NCBI) gene IDs (BridgeDb)
 
 ``` r
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb"))) #Remove objects that are not required
 #Load the regular human derby database again:
 location <- paste0(getwd(), '/data/Hs_Derby_Ensembl_105.bridge')
 mapper <- loadDatabase(location)
@@ -426,7 +409,7 @@ dataset_UC$ENTREZ.ID_PriID_BridgeDb <- entrezID$mapping [match(dataset_UC$Curren
 ## Converting `primary` hgnc gene symbols to the corresponding Ensembl IDs (BridgeDb)
 
 ``` r
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb", "entrezID_doubles_PriID_BridgeDb", "input", "mapper"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb", "entrezID_doubles_PriID_BridgeDb", "input", "mapper"))) #Remove objects that are not required
 #Convert gene symbols to Ensembl ID since these are required for the Cytoscape multiomics visualization
 #Obtain the System codes for Ensembl (intended output database)
 code_mappingTo <- getSystemCode("Ensembl")
@@ -453,10 +436,10 @@ ensemblID <- ensemblID %>% distinct(ensemblID$identifier, .keep_all = TRUE)
 dataset_CD$Ensembl.ID_PriID_BridgeDb <- ensemblID$mapping [match(dataset_CD$Current_GeneSymbol, ensemblID$identifier)] 
 dataset_UC$Ensembl.ID_PriID_BridgeDb <- ensemblID$mapping [match(dataset_UC$Current_GeneSymbol, ensemblID$identifier)] 
 
-rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb", "entrezID_doubles_PriID_BridgeDb", "ensemblID_doubles_PriID_BridgeDb"))) # removing variables that are not required
+rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "ensemblID_doubles_Hs", "entrezID_doubles_BridgeDb", "ensemblID_doubles_BridgeDb", "hgnc_doubles_PriID_BridgeDb", "entrezID_doubles_PriID_BridgeDb", "ensemblID_doubles_PriID_BridgeDb"))) #Remove objects that are not required
 ```
 
-##Mapping stats:
+## Mapping stats:
 
 | stats                                            | org.Hs | BridgeDb | PrimaryID_BridgeDb |
 |:----------------------------------------|------:|--------:|----------------:|
@@ -470,7 +453,7 @@ rm(list = setdiff(ls(), c("dataset_UC", "dataset_CD", "entrezID_doubles_Hs", "en
 
 ![](identifier_mapping_transcriptomics_files/figure-markdown_github/mappingStats-1.png)
 
-##Saving data, printing session info and removing datasets:
+## Saving data, printing session info and removing datasets:
 
     ## Warning in citation("org.Hs.eg.db"): no date field in DESCRIPTION file of
     ## package 'org.Hs.eg.db'
